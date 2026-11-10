@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#1a1208"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Gold Tracker"/>
 <title>Gold Portfolio Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -448,6 +453,190 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 body,input,select,textarea,button{font-family:Calibri,Carlito,'Segoe UI',Arial,sans-serif;}
 body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 .tp .v{font-size:18px;font-weight:700;}.tp.hi .v{font-size:22px;}.stat-value{font-size:21px;}.val-main,.gain-main{font-size:14.5px;}.l1{font-size:13px;}.l2{font-size:11.5px;}.cost-lines div{font-size:12px;}
+
+/* ══ MOBILE / TOUCH ═════════════════════════════════════════════ */
+html{-webkit-text-size-adjust:100%;}
+button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit-tap-highlight-color:rgba(212,160,23,.15);}
+.only-m,.fab,.det-btn,.filter-toggle,.sn-short,.sm{display:none;}
+
+@media(max-width:700px){
+  body{font-size:16px;padding-bottom:84px;}
+  .main{padding:12px 12px 24px;}
+
+  /* header: one slim row */
+  .site-header{padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));}
+  .header-inner{flex-wrap:nowrap;gap:10px;}
+  .brand-icon{width:34px;height:34px;font-size:16px;border-radius:9px;}
+  .header-brand{gap:10px;min-width:0;}
+  .brand-text h1{font-size:18px;line-height:1.1;white-space:nowrap;}
+  .brand-text p{display:none;}
+  .header-actions .btn-ghost{display:none;}
+  .btn-hdr{padding:9px 14px;font-size:14px;min-height:40px;}
+
+  /* backup strip: one line */
+  .storage-notice{padding:6px 12px;}
+  .storage-notice-inner{flex-wrap:nowrap;gap:8px;}
+  .storage-notice-inner>span,.sn-text{display:none;}
+  .sn-short{display:inline;font-size:13px;color:#a8f0c0;}
+  .storage-notice-right{margin-left:auto;gap:6px;}
+  .btn-export-json,.btn-import-json{font-size:13px;padding:7px 12px;min-height:34px;}
+  .lg{display:none;}.sm{display:inline;}
+
+  /* tabs stick to the top while scrolling */
+  .nav-tabs{position:sticky;top:0;z-index:60;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .nav-inner{width:100%;}
+  .nav-tab{flex:1;justify-content:center;padding:12px 6px;font-size:15px;}
+
+  /* key figures first, tighter */
+  .summary-bar{padding:0;}
+  .summary-inner{grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+  .stat-card{background:var(--white);border:none!important;padding:10px 12px;min-width:0;}
+  .stat-card:nth-child(4){order:1;}.stat-card:nth-child(5){order:2;}.stat-card:nth-child(3){order:3;}
+  .stat-card:nth-child(2){order:4;}.stat-card:nth-child(1){order:5;}.stat-card:nth-child(6){order:6;}
+  .stat-label{font-size:11px;}
+  .stat-value{font-size:19px;}
+  .stat-card:nth-child(4) .stat-value,.stat-card:nth-child(5) .stat-value{font-size:21px;}
+  .stat-sub{font-size:11px;}
+
+  /* gold rates: 2×2 */
+  .rates-bar{padding:10px 12px;}
+  .rates-inner{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .rates-title{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;font-size:17px;}
+  .rates-title small{font-size:11px;}
+  .rate-field{padding:2px 10px;min-height:46px;}
+  .rate-field b{font-size:14px;}
+  .rate-field input{font-size:18px;width:100%;min-width:0;padding:8px 0;}
+  .rate-field span{display:none;}
+  .rates-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;}
+  .rates-meta{width:100%;font-size:12px;}
+  .btn-mini{font-size:13px;padding:9px 12px;min-height:40px;flex:1;}
+
+  /* filters: search always visible, the rest behind a button */
+  .section-title{font-size:19px;}
+  .filter-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+  .filter-bar>label{display:none;}
+  .filter-bar #filter-search{grid-column:1/4;grid-row:1;min-width:0!important;width:100%;}
+  .filter-bar .filter-toggle{grid-column:4;grid-row:1;display:inline-block;padding:8px 4px;font-size:15px;}
+  .filter-bar select{display:none;grid-column:span 2;min-width:0;width:100%;}
+  .filter-bar.open select{display:block;}
+  .filter-bar .record-count{grid-column:1/-1;margin-left:0;}
+  .filter-bar select,.filter-bar input[type=text]{font-size:16px;min-height:44px;padding:8px 12px;}
+  .filter-toggle{min-height:44px;border-radius:8px;border:1.5px solid var(--gold-mid);background:var(--white);color:var(--gold-deep);font-weight:700;font-family:inherit;}
+
+  /* entry cards */
+  .ptable tbody tr{grid-template-columns:1fr 1fr;gap:8px 12px;padding:12px;margin-bottom:12px;}
+  .ptable td::before{font-size:11px;}
+  .l1{font-size:15px;}
+  .l2{font-size:13px;}
+  .only-m{display:inline;}
+  .item-wrap .item-photo-thumb{width:46px;height:46px;}
+  .ptable td.c-d{display:none;order:3;}
+  .ptable td.c-item{order:0;}.ptable td.c-owner,.ptable td.c-loc{order:1;}
+  .ptable td.c-val,.ptable td.c-gain{order:2;}.ptable td.c-act{order:4;}
+  .ptable tr.open td.c-d{display:block;}
+  .ptable tr.open td.c-d{padding-top:8px;border-top:1px dashed var(--border);}
+  .ptable tr.open td.c-cost{padding-top:8px;}
+  .c-item+.c-loc{grid-column:1/-1;}
+  .ptable td.c-val,.ptable td.c-gain{background:var(--gold-pale);border-radius:10px;padding:9px 11px;}
+  .c-val .val-main,.c-gain .gain-main{font-size:20px;}
+  .cost-lines div{font-size:14px;}
+  .cost-lines div.cost-total{font-size:15px;}
+  .act-col{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;}
+  .act-col .sell-btn,.act-col .edit-btn,.act-col .det-btn{display:block;width:100%;min-height:44px;padding:8px 6px;font-size:15px;white-space:nowrap;}
+  .act-col .det-btn{border:1.5px solid var(--border-mid);background:var(--white);color:var(--ink-mid);border-radius:8px;font-weight:600;font-family:inherit;cursor:pointer;}
+  .ptable tr .act-col:has(.det-btn):not(:has(.sell-btn)){grid-template-columns:1fr 1.2fr;}
+  .status-sold,.status-pending{font-size:12px;}
+
+  /* totals */
+  .totals-panel{grid-template-columns:1fr 1fr;}
+  .tp{padding:10px 12px;}
+  .tp .l{font-size:11px;}
+  .tp .v{font-size:19px;}
+  .tp.hi .v{font-size:22px;}
+  .tp .s{font-size:12px;}
+  .tp.hi{grid-column:1/-1;}
+
+  /* owner dashboard */
+  .owner-grid{grid-template-columns:1fr;gap:12px;}
+  .owner-stat-label{font-size:11px;}
+  .owner-stat-value{font-size:17px;}
+  .owner-item-count{font-size:13px;}
+  .owner-detail-head{padding:14px;}
+  .owner-detail-avatar{width:42px;height:42px;}
+  .owner-detail-info h2{font-size:20px;}
+  .owner-summary-row{grid-template-columns:1fr 1fr;gap:8px;}
+  .owner-summary-row .owner-sum-card:last-child{grid-column:1/-1;}
+  .owner-sum-card .lbl{font-size:11px;}
+  .owner-sum-card .val{font-size:19px;}
+  .btn-back{padding:10px 12px;font-size:14px;min-height:40px;}
+
+  /* add form = full-screen sheet */
+  body.form-open{overflow:hidden;}
+  .form-panel.open{position:fixed;inset:0;z-index:1100;margin:0;border:none;border-radius:0;display:flex;flex-direction:column;}
+  .form-panel-header{padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top));flex-shrink:0;}
+  .form-panel-header h3{font-size:19px;}
+  .form-close{font-size:15px;padding:9px 14px;min-height:40px;}
+  .form-panel .form-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 0;}
+  .form-footer{position:sticky;bottom:0;background:var(--white);margin:0 -14px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 12px rgba(0,0,0,.08);}
+  .form-footer .btn-cancel,.form-footer .btn-save{flex:1;min-height:48px;font-size:16px;}
+  .form-section-label span{font-size:11px;padding:3px 11px;}
+  .form-group label{font-size:14px;}
+  .form-group input,.form-group select,.form-group textarea{font-size:16px!important;min-height:46px;padding:10px 12px;}
+  .form-hint{font-size:12px;}
+  .form-group:has(#f-purity){display:none;}
+  .pb-row.c3,.pb-row.c4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .form-group,.pb-row>*{min-width:0;}
+  .form-group input,.form-group select{width:100%;min-width:0;}
+  .pb-row.c3 .form-group:last-child:nth-child(odd){grid-column:1/-1;}
+  .pb-tag{font-size:11px;}
+  .pb-preview{font-size:14px;}
+  .photo-upload-area{padding:14px;}
+  .photo-upload-text{font-size:14px;}.photo-upload-sub{font-size:12px;}
+  .camera-btn{width:100%;min-height:46px;font-size:15px;}
+  .bill-chip{font-size:13px;padding:6px 8px;}
+  .bill-chip button,.photo-remove{width:28px;height:28px;font-size:14px;}
+  .bill-chip img,.bill-ico{width:40px;height:40px;}
+
+  /* modals = bottom sheets */
+  .modal-overlay{align-items:flex-end;}
+  .modal-box{width:100%!important;max-width:100%!important;max-height:94dvh;border-radius:18px 18px 0 0;display:flex;flex-direction:column;animation:sheetIn .22s ease;}
+  @keyframes sheetIn{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+  .modal-head h3{font-size:20px;}
+  .modal-head p{font-size:13px;}
+  .modal-body{flex:1;overflow-y:auto!important;max-height:none!important;-webkit-overflow-scrolling:touch;padding:14px!important;}
+  .modal-footer{display:flex;gap:10px;padding:10px 14px calc(12px + env(safe-area-inset-bottom))!important;box-shadow:0 -4px 12px rgba(0,0,0,.08);}
+  .modal-footer button{flex:1;min-height:48px;font-size:16px;}
+  .modal-info-row{font-size:14px;}
+  #editModal .form-grid,#editModal .form-grid-2,#editModal .form-grid-3,#editModal [style*="grid-template-columns"]{grid-template-columns:1fr!important;}
+  #mi-tentative{font-size:14px;}
+  #sell-price-input{font-size:18px;min-height:48px;}
+  .sell-preview{font-size:15px;}
+  #cameraModal .modal-box{max-height:100dvh;}
+  .bill-row{gap:10px;}
+  .bill-thumb{width:56px;height:56px;}
+  .bill-row .btn-mini{flex:none;min-width:70px;}
+  .img-viewer-btn{min-height:46px;font-size:15px;padding:0 16px;}
+
+  /* floating add button */
+  .fab{display:flex;align-items:center;gap:6px;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;height:54px;padding:0 20px 0 16px;border:none;border-radius:27px;background:linear-gradient(135deg,var(--gold-bright),var(--gold-mid));color:#1a1208;font-size:26px;font-weight:700;line-height:1;box-shadow:0 6px 20px rgba(122,92,30,.45);font-family:inherit;cursor:pointer;}
+  .fab span{font-size:17px;}
+  body.form-open .fab{display:none;}
+
+  #toast{bottom:84px!important;font-size:14px!important;}
+
+  /* lock screen */
+  .lock-input{font-size:18px;}
+}
+
+/* tablets (701–1099): cards, 2-column grid already; keep tap targets generous */
+@media(min-width:701px) and (max-width:1099px){
+  .act-col .sell-btn,.act-col .edit-btn,.act-col .det-btn{min-height:40px;}
+  .ptable td.c-d{display:block;}
+  .det-btn{display:none!important;}
+  .ptable tbody tr{grid-template-columns:repeat(3,1fr);}
+  .form-grid{grid-template-columns:repeat(2,1fr);}
+}
+
 </style>
 </head>
 <body>
@@ -493,10 +682,10 @@ body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 <div class="storage-notice">
   <div class="storage-notice-inner">
     <span>💾</span>
-    <span>Data stored locally in this browser. For permanent backup, save to: <span class="storage-path">C:\AI\Tracker Gold\</span></span>
+    <span class="sn-text">Data stored locally in this browser. For permanent backup, save to: <span class="storage-path">C:\AI\Tracker Gold\</span></span><b class="sn-short">Backup</b>
     <div class="storage-notice-right">
-      <button class="btn-export-json" onclick="exportToFolder()">⬇ Save to C:\AI\Tracker Gold</button>
-      <button class="btn-import-json" onclick="document.getElementById('import-file-input').click()">⬆ Load Backup</button>
+      <button class="btn-export-json" onclick="exportToFolder()">⬇ <span class="lg">Save to C:\AI\Tracker Gold</span><span class="sm">Save</span></button>
+      <button class="btn-import-json" onclick="document.getElementById('import-file-input').click()">⬆ <span class="lg">Load Backup</span><span class="sm">Load</span></button>
       <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importFromFile(event)"/>
     </div>
   </div>
@@ -537,6 +726,8 @@ body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
     </div>
   </div>
 </div>
+
+<button class="fab" id="fab" type="button" onclick="toggleForm()" aria-label="Add new item">＋<span>Add</span></button>
 
 <!-- MAIN -->
 <main class="main">
@@ -607,11 +798,12 @@ body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
     <div class="filter-bar">
       <label>Owner:</label><select id="filter-owner" onchange="renderTable()"><option value="">All Owners</option></select>
       <label>Karat:</label>
-      <select id="filter-karat" onchange="renderTable()"><option value="">All</option><option value="24">24K</option><option value="22">22K</option><option value="21">21K</option><option value="18">18K</option></select>
+      <select id="filter-karat" onchange="renderTable()"><option value="">All karats</option><option value="24">24K</option><option value="22">22K</option><option value="21">21K</option><option value="18">18K</option></select>
       <label>Location:</label>
       <select id="filter-location" onchange="renderTable()"><option value="">All Locations</option><option value="UAE">🇦🇪 UAE</option><option value="India">🇮🇳 India</option><option value="UK">🇬🇧 UK</option><option value="USA">🇺🇸 USA</option><option value="Other">🌍 Other</option><option value="Sold">🏷️ Sold</option></select>
       <label>Status:</label>
-      <select id="filter-status" onchange="renderTable()"><option value="">All</option><option value="pending">Pending Sale</option><option value="sold">Sold</option></select>
+      <select id="filter-status" onchange="renderTable()"><option value="">All statuses</option><option value="pending">Pending Sale</option><option value="sold">Sold</option></select>
+      <button class="filter-toggle" type="button" onclick="toggleFilters(this)">⚙ Filters</button>
       <input type="text" id="filter-search" placeholder="🔍 Search…" style="min-width:180px" oninput="renderTable()"/>
       <div class="record-count" id="rec-count">— records</div>
     </div>
@@ -1036,21 +1228,21 @@ function itemRow(item,idx,showOwner){
   if(g===null)gainCell=`<span class="status-pending">Pending</span>`;
   else gainCell=`<div class="gain-main ${g>=0?'status-gain':'status-loss'}">${gainTxt(g)}</div><div class="l2">${tc?((g/tc*100).toFixed(1)+'%'):'—'} · ${sold?'realised':'unrealised'}</div>`;
   return`<tr>
-    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span></div>${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
-    ${showOwner?`<td data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
-    <td data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
-    <td data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
-    <td data-label="Gold"><div class="l1">${fmtNum(item.weight)} g</div><div class="l2">${PURITY_MAP[item.karat]||'—'}% purity</div><div class="l2">@ ${fmtNum(item.priceG)}/g</div></td>
-    <td data-label="Diamond">${dia?`<div class="l1">${(+item.diamondCarat||0).toFixed(2)} ct</div><div class="l2">${fmtNum(diamondCost(item))}</div>${+item.diamondPpc>0?`<div class="l2">@ ${fmtNum(item.diamondPpc)}/ct</div>`:''}`:'<span class="muted">—</span>'}</td>
-    <td class="c-cost" data-label="Cost breakdown (AED)"><div class="cost-lines">
+    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span><span class="only-m"> · ${fmtNum(item.weight)} g</span></div>${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
+    ${showOwner?`<td class="c-owner" data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
+    <td class="c-d" data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
+    <td class="c-loc" data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
+    <td class="c-d" data-label="Gold"><div class="l1">${fmtNum(item.weight)} g</div><div class="l2">${PURITY_MAP[item.karat]||'—'}% purity</div><div class="l2">@ ${fmtNum(item.priceG)}/g</div></td>
+    <td class="c-d" data-label="Diamond">${dia?`<div class="l1">${(+item.diamondCarat||0).toFixed(2)} ct</div><div class="l2">${fmtNum(diamondCost(item))}</div>${+item.diamondPpc>0?`<div class="l2">@ ${fmtNum(item.diamondPpc)}/ct</div>`:''}`:'<span class="muted">—</span>'}</td>
+    <td class="c-cost c-d" data-label="Cost breakdown (AED)"><div class="cost-lines">
       <div><span>Gold</span><span>${fmtNum(goldCost(item))}</span></div>
       ${dia?`<div><span>Diamond</span><span>${fmtNum(diamondCost(item))}</span></div>`:''}
       <div><span>Making</span><span>${fmtNum(item.making)}</span></div>
       ${showVat?`<div><span>VAT${+item.vatRate>0?' '+(+item.vatRate)+'%':''}</span><span>${fmtNum(item.vat)}</span></div>`:''}
       <div class="cost-total"><span>Total</span><span>${fmtNum(tc)}</span></div></div></td>
-    <td data-label="Current value (AED)">${valCell}</td>
-    <td data-label="Gain / (Loss)">${gainCell}</td>
-    <td class="c-act" data-label=""><div class="act-col"><button class="edit-btn" onclick="openEditModal(${item.id})" title="Edit item">✏ Edit</button>${sold?'':`<button class="sell-btn" onclick="openSellModal(${item.id})" title="Record sale">Sell</button>`}</div></td>
+    <td class="c-val" data-label="Current value (AED)">${valCell}</td>
+    <td class="c-gain" data-label="Gain / (Loss)">${gainCell}</td>
+    <td class="c-act" data-label=""><div class="act-col"><button class="edit-btn" onclick="openEditModal(${item.id})" title="Edit item">✏ Edit</button><button class="det-btn" type="button" onclick="toggleDetails(this)">Details ▾</button>${sold?'':`<button class="sell-btn" onclick="openSellModal(${item.id})" title="Record sale">Sell</button>`}</div></td>
   </tr>`;
 }
 
@@ -1095,6 +1287,14 @@ function renderTable(){
   $('rec-count').textContent=rows.length+' record'+(rows.length!==1?'s':'');
   $('portfolio-host').innerHTML=buildTable(rows,true);
   $('portfolio-totals').innerHTML=totalsPanel(calcTotals(rows),'Items');
+}
+
+function toggleDetails(btn){
+  const tr=btn.closest('tr');tr.classList.toggle('open');
+  btn.textContent=tr.classList.contains('open')?'Hide ▴':'Details ▾';
+}
+function toggleFilters(btn){
+  const bar=btn.closest('.filter-bar');bar.classList.toggle('open');
 }
 
 // ── OWNER DASHBOARD ───────────────────────────────────────────────────────────
@@ -1438,10 +1638,12 @@ function resetAddForm(){
 function toggleForm(){
   const p=$('formPanel');
   p.classList.toggle('open');
+  document.body.classList.toggle('form-open',p.classList.contains('open'));
   if(p.classList.contains('open')){
     calcPurity();
     if(!$('f-date').value)$('f-date').value=new Date().toISOString().slice(0,10);
-    p.scrollIntoView({behavior:'smooth',block:'start'});
+    if(window.innerWidth<=700){const fb=p.querySelector('.form-body');if(fb)fb.scrollTop=0;}
+    else p.scrollIntoView({behavior:'smooth',block:'start'});
   }
 }
 function calcPurity(){const k=+$('f-karat').value;$('f-purity').value=(PURITY_MAP[k]||'')+'%';}
