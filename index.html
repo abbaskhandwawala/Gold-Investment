@@ -425,6 +425,26 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 .totals-panel{grid-template-columns:repeat(5,1fr);}
 @media(max-width:1099px){.totals-panel{grid-template-columns:repeat(2,1fr);}}
 
+/* ── PHOTOS & BILLS ── */
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.media-col .photo-upload-area{padding:12px;}
+.bill-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.bill-chip{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border-mid);border-radius:8px;padding:4px 6px;font-size:11px;}
+.bill-chip img,.bill-ico{width:34px;height:34px;border-radius:5px;object-fit:cover;flex-shrink:0;}
+.bill-ico{display:flex;align-items:center;justify-content:center;background:#fbe9e7;color:#b3261e;font-weight:700;font-size:9px;}
+.bill-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-mid);}
+.bill-chip button{background:rgba(139,26,26,.85);color:#fff;border:none;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:10px;flex-shrink:0;}
+.bill-link{display:inline-block;margin-top:3px;background:var(--gold-pale);border:1px solid var(--border-mid);color:var(--gold-deep);font-size:10px;font-weight:600;padding:1px 8px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bill-link:hover{background:var(--gold-bright);color:#fff;}
+.bill-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+.bill-row:last-child{border-bottom:none;}
+.bill-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);}
+.bill-thumb.pdf{display:flex;align-items:center;justify-content:center;background:#fbe9e7;color:#b3261e;font-weight:700;font-size:12px;}
+.bill-meta{flex:1;min-width:0;overflow-wrap:anywhere;}
+#cameraModal,#billsModal{z-index:1500;}
+.img-viewer-overlay{z-index:2000;}
+@media(max-width:700px){.media-grid{grid-template-columns:1fr;}}
+
 </style>
 </head>
 <body>
@@ -568,19 +588,8 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
       <div id="f-pricing"></div>
       <div class="form-group sell-row"><label>Selling Price (AED) <em style="font-weight:300;font-size:10px">optional — only if already sold</em></label><input type="number" id="f-sell" step="0.01" placeholder="Leave blank if unsold"/></div>
 
-      <p class="form-section-label"><span class="lbl-photo">Item Photos</span></p>
-      <div class="form-grid-2" style="display:grid;gap:12px;margin-bottom:16px;">
-        <div>
-          <div class="photo-upload-area" id="dropZone" onclick="document.getElementById('f-photos').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="this.classList.remove('drag-over')">
-            <div class="photo-upload-icon">📷</div>
-            <div class="photo-upload-text">Click to upload or drag &amp; drop photos</div>
-            <div class="photo-upload-sub">JPG, PNG, WEBP • Multiple allowed • Images saved with item record</div>
-            <input type="file" id="f-photos" accept="image/*" multiple style="display:none" onchange="handlePhotoSelect(event)"/>
-          </div>
-          <button class="camera-btn" onclick="openCamera()" type="button">📸 Take Photo with Camera</button>
-        </div>
-        <div id="photo-previews-container" class="photo-previews"></div>
-      </div>
+      <p class="form-section-label"><span class="lbl-photo">Photos &amp; Bills</span></p>
+      <div id="f-media"></div>
 
       <div class="form-footer">
         <button class="btn-cancel" onclick="toggleForm()">Cancel</button>
@@ -697,6 +706,15 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 </div>
 
 
+<!-- BILLS MODAL -->
+<div class="modal-overlay" id="billsModal">
+  <div class="modal-box" style="max-width:560px;">
+    <div class="modal-head"><h3>📄 Bills &amp; Invoices</h3><p id="bills-sub">—</p></div>
+    <div class="modal-body" id="bills-list" style="padding:16px;"></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeBills()">Close</button></div>
+  </div>
+</div>
+
 <!-- EDIT ITEM MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal-box" style="width:760px;max-width:96vw;">
@@ -748,6 +766,9 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
       <div id="e-pricing"></div>
       <div class="form-group sell-row"><label>Selling Price (AED)</label><input type="number" id="e-sell" step="0.01" placeholder="blank = unsold"/></div>
 
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Photos &amp; Bills</div>
+      <div id="e-media"></div>
+
     </div>
     <div class="modal-footer" style="padding:14px 20px 20px;border-top:1px solid var(--border);">
       <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
@@ -797,7 +818,7 @@ const $=id=>document.getElementById(id);
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 // Older saved records lack the diamond / VAT fields — fill them with zeros so nothing changes for them.
-const normItem=i=>({location:'UAE',locationNotes:'',photos:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i});
+const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i});
 
 function loadData(){
   try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r).map(normItem);}catch(e){}
@@ -823,7 +844,6 @@ let editTargetId=null;
 let currentView='portfolio';
 let currentOwner=null;
 let galleryPhotos=[];
-let pendingPhotos=[];
 let cameraStream=null;
 let viewerImages=[];
 let viewerIdx=0;
@@ -1013,7 +1033,7 @@ function itemRow(item,idx,showOwner){
   if(g===null)gainCell=`<span class="status-pending">Pending</span>`;
   else gainCell=`<div class="gain-main ${g>=0?'status-gain':'status-loss'}">${gainTxt(g)}</div><div class="l2">${tc?((g/tc*100).toFixed(1)+'%'):'—'} · ${sold?'realised':'unrealised'}</div>`;
   return`<tr>
-    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span></div></div></div></td>
+    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span></div>${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
     ${showOwner?`<td data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
     <td data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
     <td data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
@@ -1189,28 +1209,6 @@ function viewerNext(){viewerIdx=(viewerIdx+1)%viewerImages.length;showViewerFram
 function closeViewer(){document.getElementById('imgViewer').classList.remove('open');viewerImages=[];viewerIdx=0;}
 document.getElementById('imgViewer').addEventListener('click',function(e){if(e.target===this)closeViewer();});
 
-// ── PHOTO UPLOAD ──────────────────────────────────────────────────────────────
-function handleDragOver(e){e.preventDefault();document.getElementById('dropZone').classList.add('drag-over');}
-function handleDrop(e){
-  e.preventDefault();document.getElementById('dropZone').classList.remove('drag-over');
-  const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
-  files.forEach(readPhotoFile);
-}
-function handlePhotoSelect(e){[...e.target.files].forEach(readPhotoFile);}
-function readPhotoFile(file){
-  const reader=new FileReader();
-  reader.onload=ev=>{pendingPhotos.push(ev.target.result);renderPendingPreviews();};
-  reader.readAsDataURL(file);
-}
-function renderPendingPreviews(){
-  document.getElementById('photo-previews-container').innerHTML=pendingPhotos.map((src,i)=>`
-    <div class="photo-preview-item">
-      <img src="${src}" alt="Photo ${i+1}"/>
-      <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
-    </div>`).join('');
-}
-function removePhoto(idx){pendingPhotos.splice(idx,1);renderPendingPreviews();}
-
 // ── CAMERA ────────────────────────────────────────────────────────────────────
 async function openCamera(){
   try{
@@ -1225,7 +1223,7 @@ function capturePhoto(){
   canvas.width=video.videoWidth;canvas.height=video.videoHeight;
   canvas.getContext('2d').drawImage(video,0,0);
   const dataUrl=canvas.toDataURL('image/jpeg',0.85);
-  pendingPhotos.push(dataUrl);renderPendingPreviews();
+  addCaptured(dataUrl);
   closeCamera();
 }
 function closeCamera(){
@@ -1233,6 +1231,105 @@ function closeCamera(){
   document.getElementById('cameraModal').classList.remove('open');
 }
 
+
+
+// ── PHOTOS & BILLS (shared by Add form 'f' and Edit modal 'e') ────────────────
+const media={f:{photos:[],bills:[]},e:{photos:[],bills:[]}};
+let cameraTarget=null;
+const MAX_PDF=2*1024*1024;
+const readAsDataURL=file=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});
+// Shrinks big phone photos (often 4-8 MB) so many records fit in browser storage.
+function shrinkImage(dataUrl,maxDim,q){
+  return new Promise(res=>{
+    const im=new Image();
+    im.onload=()=>{
+      const s=Math.min(1,maxDim/Math.max(im.width,im.height));
+      const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));
+      const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+      res(c.toDataURL('image/jpeg',q));
+    };
+    im.onerror=()=>res(dataUrl);
+    im.src=dataUrl;
+  });
+}
+async function addFiles(p,kind,files){
+  for(const f of files){
+    try{
+      if(f.type==='application/pdf'){
+        if(kind==='photos'){showToast('Photos must be images — add PDFs under Bills.');continue;}
+        if(f.size>MAX_PDF){showToast('"'+f.name+'" is over 2 MB. Compress it, or photograph the bill instead.');continue;}
+        media[p].bills.push({name:f.name,type:'pdf',data:await readAsDataURL(f)});
+      }else if(f.type.startsWith('image/')){
+        const d=await shrinkImage(await readAsDataURL(f),kind==='bills'?1600:1280,0.72);
+        if(kind==='bills')media[p].bills.push({name:f.name||'Bill',type:'image',data:d});else media[p].photos.push(d);
+      }else showToast('Unsupported file: '+f.name);
+    }catch(e){showToast('Could not read '+f.name);}
+  }
+  renderMedia(p);
+}
+async function addCaptured(dataUrl){
+  const t=cameraTarget||{p:'f',kind:'photos'};
+  const out=await shrinkImage(dataUrl,t.kind==='bills'?1600:1280,0.72);
+  if(t.kind==='bills')media[t.p].bills.push({name:'Bill '+new Date().toLocaleString('en-GB'),type:'image',data:out});
+  else media[t.p].photos.push(out);
+  renderMedia(t.p);
+}
+function cameraFor(p,kind){cameraTarget={p,kind};openCamera();}
+function removeMedia(p,kind,i){media[p][kind].splice(i,1);renderMedia(p);}
+function dropFiles(ev,p,kind){ev.preventDefault();ev.currentTarget.classList.remove('drag-over');addFiles(p,kind,[...ev.dataTransfer.files]);}
+function renderMedia(p){
+  const ph=$(p+'-photo-prev'),bl=$(p+'-bill-prev');
+  if(!ph||!bl)return;
+  ph.innerHTML=media[p].photos.map((s,i)=>`<div class="photo-preview-item"><img src="${s}" alt="Photo ${i+1}"/><button class="photo-remove" type="button" onclick="removeMedia('${p}','photos',${i})">✕</button></div>`).join('');
+  bl.innerHTML=media[p].bills.map((b,i)=>`<div class="bill-chip">${b.type==='pdf'?'<span class="bill-ico">PDF</span>':`<img src="${b.data}" alt=""/>`}<span class="bill-name">${esc(b.name)}</span><button type="button" onclick="removeMedia('${p}','bills',${i})" title="Remove">✕</button></div>`).join('');
+}
+function mediaBlock(p){
+  const zone=(kind,icon,title,sub,accept)=>`
+    <div class="media-col">
+      <div class="photo-upload-area" onclick="document.getElementById('${p}-${kind}-file').click()" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropFiles(event,'${p}','${kind}')">
+        <div class="photo-upload-icon">${icon}</div>
+        <div class="photo-upload-text">${title}</div>
+        <div class="photo-upload-sub">${sub}</div>
+        <input type="file" id="${p}-${kind}-file" accept="${accept}" multiple style="display:none" onchange="addFiles('${p}','${kind}',[...this.files]);this.value=''"/>
+      </div>
+      <button class="camera-btn" type="button" onclick="cameraFor('${p}','${kind}')">📸 ${kind==='bills'?'Scan Bill with Camera':'Take Photo with Camera'}</button>
+      <div id="${p}-${kind==='bills'?'bill':'photo'}-prev" class="${kind==='bills'?'bill-list':'photo-previews'}"></div>
+    </div>`;
+  return`<div class="media-grid">
+    ${zone('photos','📷','Item photos','JPG, PNG, WEBP · resized automatically','image/*')}
+    ${zone('bills','🧾','Bills / invoices','Photo or PDF (up to 2 MB each)','image/*,application/pdf')}
+  </div>`;
+}
+
+// ── VIEW BILLS ────────────────────────────────────────────────────────────────
+let billsItemId=null;
+function openBills(id){
+  const item=portfolio.find(i=>i.id===id);if(!item||!(item.bills||[]).length)return;
+  billsItemId=id;
+  $('bills-sub').textContent=item.name+' · '+item.owner+(item.invoice?' · '+item.invoice:'');
+  $('bills-list').innerHTML=item.bills.map((b,i)=>`<div class="bill-row">
+    ${b.type==='pdf'?'<div class="bill-thumb pdf">PDF</div>':`<img class="bill-thumb" src="${b.data}" alt=""/>`}
+    <div class="bill-meta"><div class="l1">${esc(b.name)}</div><div class="l2">${b.type==='pdf'?'PDF document':'Image'} · ${Math.round(b.data.length*0.75/1024)} KB</div></div>
+    <button class="btn-mini" type="button" onclick="viewBill(${i})">View</button>
+  </div>`).join('');
+  $('billsModal').classList.add('open');
+}
+function closeBills(){$('billsModal').classList.remove('open');billsItemId=null;}
+function viewBill(i){
+  const item=portfolio.find(x=>x.id===billsItemId);if(!item)return;
+  const b=item.bills[i];
+  if(b.type==='pdf'){
+    const bin=atob(b.data.split(',')[1]),arr=new Uint8Array(bin.length);
+    for(let k=0;k<bin.length;k++)arr[k]=bin.charCodeAt(k);
+    window.open(URL.createObjectURL(new Blob([arr],{type:'application/pdf'})),'_blank');
+  }else openViewerFromArr([{src:b.data,label:b.name}],0);
+}
+$('billsModal').addEventListener('click',function(e){if(e.target===this)closeBills();});
+
+function storageInfo(){
+  try{let n=0;for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);n+=k.length+localStorage.getItem(k).length;}
+    return 'Storage used: '+(n/1e6).toFixed(1)+' of ~5 MB.';}catch(e){return '';}
+}
 
 // ── PRICING BLOCK (shared by Add form 'f' and Edit modal 'e') ─────────────────
 function fld(p,id,label,trigger,o){
@@ -1333,7 +1430,7 @@ function resetAddForm(){
   $('f-vat-rate').value=VAT_DEFAULT;
   vatManual.f=false;
   $('f-preview').style.display='none';
-  pendingPhotos=[];renderPendingPreviews();
+  media.f={photos:[],bills:[]};renderMedia('f');
 }
 function toggleForm(){
   const p=$('formPanel');
@@ -1361,7 +1458,7 @@ function saveItem(){
     ...pr,
     location:sold?'Sold':$('f-location').value,
     locationNotes:$('f-location-notes').value.trim(),
-    photos:[...pendingPhotos],
+    photos:[...media.f.photos],bills:[...media.f.bills],
     sellPrice:sold?+sell:null,
   });
   portfolio.push(item);
@@ -1370,7 +1467,7 @@ function saveItem(){
   toggleForm();
   $('f-date').value='';
   renderAll();
-  showToast('✓ Item added.');
+  showToast('✓ Item added. '+storageInfo());
 }
 
 // ── EDIT MODAL ────────────────────────────────────────────────────────────────
@@ -1390,6 +1487,7 @@ function openEditModal(id){
   $('e-location').value=locOf(item);
   $('e-location-notes').value=item.locationNotes||'';
   $('e-sell').value=isSold(item)?item.sellPrice:'';
+  media.e={photos:[...(item.photos||[])],bills:[...(item.bills||[])]};renderMedia('e');
   $p('e','weight').value=item.weight;
   $p('e','price-g').value=item.priceG;
   $p('e','dia-carat').value=+item.diamondCarat>0?item.diamondCarat:'';
@@ -1421,10 +1519,11 @@ function saveEdit(){
     karat:+$('e-karat').value,
     ...pr,
     location:loc,locationNotes:$('e-location-notes').value.trim(),
+    photos:[...media.e.photos],bills:[...media.e.bills],
     sellPrice:sold?+sell:null,
   };
   saveData();renderAll();closeEditModal();
-  showToast('✓ Item updated successfully.');
+  showToast('✓ Item updated. '+storageInfo());
 }
 function closeEditModal(){$('editModal').classList.remove('open');editTargetId=null;}
 $('editModal').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
@@ -1538,6 +1637,8 @@ function exportPDF(){
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 $('f-pricing').innerHTML=pricingBlock('f');
+$('f-media').innerHTML=mediaBlock('f');
+$('e-media').innerHTML=mediaBlock('e');
 $('e-pricing').innerHTML=pricingBlock('e');
 initRates();
 calcPurity();
