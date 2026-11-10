@@ -298,6 +298,133 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 .lock-hint{margin-top:20px;font-size:10px;color:rgba(240,208,112,.25);letter-spacing:.06em;}
 .lock-attempts{font-size:10px;color:rgba(240,208,112,.35);margin-top:6px;}
 #app-content{display:none;}
+
+/* ══ v4 ADDITIONS ══════════════════════════════════════════════ */
+
+/* wider, tighter page so tables fit without sideways sliding */
+.site-header,.storage-notice,.nav-tabs,.summary-bar,.rates-bar,.main{padding-left:24px;padding-right:24px;}
+.header-inner,.storage-notice-inner,.nav-inner,.summary-inner,.rates-inner{max-width:1600px;}
+.main{max-width:1648px;}
+.summary-inner{grid-template-columns:repeat(6,1fr);}
+.stat-value{font-size:19px;}
+.stat-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ── GOLD RATES BAR ── */
+.rates-bar{background:linear-gradient(180deg,#fffaf0,#fdf3d6);border-bottom:1px solid var(--border-mid);padding-top:10px;padding-bottom:10px;}
+.rates-inner{margin:0 auto;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;}
+.rates-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-deep);display:flex;flex-direction:column;line-height:1.15;margin-right:4px;}
+.rates-title small{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;color:var(--ink-soft);}
+.rate-field{display:flex;align-items:center;gap:6px;background:var(--white);border:1.5px solid var(--border-mid);border-radius:9px;padding:4px 10px;transition:border-color .2s,box-shadow .2s;}
+.rate-field:focus-within{border-color:var(--gold-bright);box-shadow:0 0 0 3px rgba(212,160,23,.14);}
+.rate-field b{font-size:12px;color:var(--gold-deep);min-width:26px;}
+.rate-field input{width:86px;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--ink);text-align:right;}
+.rate-field input::placeholder{font-weight:400;font-size:11px;color:var(--ink-soft);}
+.rate-field span{font-size:10px;color:var(--ink-soft);}
+.rates-actions{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap;}
+.rates-meta{font-size:10.5px;color:var(--ink-soft);}
+.btn-mini{padding:5px 11px;border-radius:7px;border:1px solid var(--gold-mid);background:transparent;color:var(--gold-deep);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.btn-mini:hover{background:var(--gold-bright);color:#fff;border-color:var(--gold-bright);}
+.btn-mini.plain{border-color:var(--border-mid);color:var(--ink-soft);}
+.btn-mini.plain:hover{background:var(--gold-pale);color:var(--ink);border-color:var(--border-mid);}
+
+/* ── PRICING BLOCK (add + edit) ── */
+.pricing-box{background:linear-gradient(135deg,#fef9e8,#fdf3cc);border:1.5px solid var(--border-mid);border-radius:12px;padding:14px 16px 12px;margin-bottom:14px;}
+.pb-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);background:rgba(212,160,23,.16);padding:2px 10px;border-radius:20px;margin:0 0 8px;}
+.pb-row{display:grid;gap:10px 14px;margin-bottom:12px;}
+.pb-row.c3{grid-template-columns:repeat(3,1fr);}
+.pb-row.c4{grid-template-columns:repeat(4,1fr);}
+.pb-row .form-group input.dual{border-color:var(--gold-mid);background:var(--white);}
+.pb-row .form-group input.dual:focus{box-shadow:0 0 0 3px rgba(212,160,23,.2);}
+.pb-note{font-size:10px;color:var(--gold-deep);margin:-4px 0 10px;opacity:.85;}
+.pb-preview{display:none;font-size:11.5px;color:var(--gold-deep);background:rgba(255,255,255,.6);border:1px dashed var(--border-mid);border-radius:8px;padding:7px 11px;line-height:1.6;}
+.pb-preview .warn{color:var(--red-loss);font-weight:600;}
+.sell-row{max-width:320px;margin-bottom:16px;}
+
+/* ── PORTFOLIO TABLE — fits the page, no sideways scroll ── */
+.table-scroll{overflow-x:visible;}
+.ptable{width:100%;table-layout:fixed;border-collapse:collapse;min-width:0;font-size:12px;}
+.ptable thead{background:linear-gradient(180deg,#faf4e4 0%,#f5eccc 100%);}
+.ptable th{padding:9px 8px;text-align:left;font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-mid);border-bottom:2px solid var(--gold-bright);white-space:normal;}
+.ptable th.r{text-align:right;}
+.ptable td{padding:10px 8px;white-space:normal;vertical-align:top;overflow-wrap:anywhere;}
+.ptable tbody tr{border-bottom:1px solid #f0eadc;}
+.ptable td.r{text-align:right;}
+.item-wrap{display:flex;gap:8px;align-items:flex-start;}
+.item-wrap .item-photo-thumb{margin:0;width:38px;height:38px;flex-shrink:0;}
+.idx{font-size:10px;color:var(--ink-soft);font-weight:600;margin-right:3px;}
+.l1{font-size:12px;font-weight:600;color:var(--ink);line-height:1.35;}
+.l2{font-size:10.5px;color:var(--ink-soft);line-height:1.45;}
+.muted{color:var(--border-mid);}
+.cost-lines div{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:var(--ink-soft);line-height:1.55;font-variant-numeric:tabular-nums;}
+.cost-lines div.cost-total{border-top:1px solid var(--border-mid);margin-top:3px;padding-top:3px;font-weight:700;font-size:12px;color:var(--ink);}
+.val-main{font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+.gain-main{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;}
+.status-sold{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#f0ede6;color:#5a4a3a;padding:1px 7px;border-radius:10px;}
+.act-col{display:flex;flex-direction:column;gap:5px;align-items:stretch;}
+.act-col .sell-btn,.act-col .edit-btn{width:100%;text-align:center;}
+.empty-state{padding:34px 16px;text-align:center;font-size:13px;color:var(--ink-soft);}
+
+/* ── TOTALS PANEL ── */
+.totals-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:1px;background:var(--border-mid);border:1px solid var(--border-mid);border-radius:12px;overflow:hidden;margin-top:14px;}
+.tp{background:linear-gradient(180deg,#faf4e4,#f5eccc);padding:10px 13px;}
+.tp .l{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px;}
+.tp .v{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+.tp .s{font-size:10px;color:var(--ink-soft);margin-top:1px;}
+.tp.hi{background:linear-gradient(135deg,var(--gold-deep),var(--gold-mid));}
+.tp.hi .l,.tp.hi .s{color:rgba(255,248,230,.78);}
+.tp.hi .v{color:#fff8e7;font-size:20px;}
+.tp.hi .v.gain{color:#b6f5cc;}
+.tp.hi .v.loss{color:#ffc2c2;}
+
+/* ── SELL MODAL extras ── */
+#mi-tentative{display:none;margin:0 0 12px;font-size:12px;color:var(--green-gain);background:var(--green-bg);border:1px solid #b8d8b0;border-radius:8px;padding:8px 12px;}
+.link-btn{background:none;border:none;color:var(--gold-deep);font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;margin-left:6px;}
+
+/* ── MID-SIZE SCREENS ── */
+@media(max-width:1350px){
+  .ptable{font-size:11.5px;}
+  .ptable td{padding:9px 6px;}
+  .ptable th{padding:9px 6px;font-size:9px;letter-spacing:.04em;}
+  .l1{font-size:11.5px;}
+}
+
+/* ── TABLET / PHONE: each entry becomes a card ── */
+@media(max-width:1099px){
+  .table-wrap{background:transparent;border:none;box-shadow:none;border-radius:0;}
+  .ptable,.ptable tbody{display:block;width:100%;}
+  .ptable thead,.ptable colgroup{display:none;}
+  .ptable tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;padding:13px 14px;margin-bottom:10px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-soft);}
+  .ptable td{display:block;padding:0;}
+  .ptable td::before{content:attr(data-label);display:block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px;}
+  .ptable td.c-item,.ptable td.c-cost,.ptable td.c-act{grid-column:1/-1;}
+  .ptable td.c-item::before,.ptable td.c-act::before{display:none;}
+  .ptable td.r{text-align:left;}
+  .act-col{flex-direction:row;}
+  .act-col .sell-btn,.act-col .edit-btn{width:auto;padding:6px 16px;font-size:12px;}
+  .pb-row.c4{grid-template-columns:repeat(2,1fr);}
+  .pb-row.c3{grid-template-columns:repeat(2,1fr);}
+  .rates-actions{margin-left:0;}
+  .summary-inner{grid-template-columns:repeat(3,1fr);}
+  .stat-card:nth-child(3n){border-right:none;}
+  .stat-card{border-bottom:1px solid var(--border);}
+}
+@media(max-width:600px){
+  .site-header,.storage-notice,.nav-tabs,.summary-bar,.rates-bar,.main{padding-left:12px;padding-right:12px;}
+  .header-inner{flex-wrap:wrap;}
+  .storage-notice-inner{flex-wrap:wrap;}
+  .storage-notice-right{margin-left:0;}
+  .summary-inner{grid-template-columns:repeat(2,1fr);}
+  .stat-card:nth-child(3n){border-right:1px solid var(--border);}
+  .stat-card:nth-child(2n){border-right:none;}
+  .pb-row.c3,.pb-row.c4,.form-grid,.form-grid-3,.form-grid-2{grid-template-columns:1fr;}
+  .rate-field{flex:1 1 42%;}
+  .rate-field input{width:100%;min-width:0;}
+}
+
+.act-col .sell-btn,.act-col .edit-btn{white-space:nowrap;padding:6px 4px;}
+.totals-panel{grid-template-columns:repeat(5,1fr);}
+@media(max-width:1099px){.totals-panel{grid-template-columns:repeat(2,1fr);}}
+
 </style>
 </head>
 <body>
@@ -355,8 +482,8 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 <!-- NAV TABS -->
 <div class="nav-tabs">
   <div class="nav-inner">
-    <button class="nav-tab active" onclick="switchView('portfolio',this)">📋 Portfolio <span class="tab-badge" id="tab-badge-portfolio">16</span></button>
-    <button class="nav-tab" onclick="switchView('dashboard',this)">👤 Owner Dashboard <span class="tab-badge" id="tab-badge-owners">4</span></button>
+    <button class="nav-tab active" onclick="switchView('portfolio',this)">📋 Portfolio <span class="tab-badge" id="tab-badge-portfolio">0</span></button>
+    <button class="nav-tab" onclick="switchView('dashboard',this)">👤 Owner Dashboard <span class="tab-badge" id="tab-badge-owners">0</span></button>
   </div>
 </div>
 
@@ -364,11 +491,27 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 <div class="summary-bar">
   <div class="summary-inner">
     <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="s-items">—</div><div class="stat-sub">in portfolio</div></div>
-    <div class="stat-card"><div class="stat-label">Total Weight</div><div class="stat-value" id="s-weight">—</div><div class="stat-sub">grams</div></div>
-    <div class="stat-card"><div class="stat-label">Total Cost</div><div class="stat-value" id="s-cost">—</div><div class="stat-sub">AED invested</div></div>
-    <div class="stat-card"><div class="stat-label">Realised Gain/Loss</div><div class="stat-value" id="s-real">—</div><div class="stat-sub" id="s-real-sub">items sold</div></div>
-    <div class="stat-card"><div class="stat-label">Items Sold</div><div class="stat-value" id="s-sold">—</div><div class="stat-sub">of total</div></div>
-    <div class="stat-card"><div class="stat-label">Owners</div><div class="stat-value" id="s-owners">—</div><div class="stat-sub">registered</div></div>
+    <div class="stat-card"><div class="stat-label">Total Weight</div><div class="stat-value" id="s-weight">—</div><div class="stat-sub" id="s-weight-sub">gold</div></div>
+    <div class="stat-card"><div class="stat-label">Total Cost</div><div class="stat-value" id="s-cost">—</div><div class="stat-sub">incl. diamond, making &amp; VAT</div></div>
+    <div class="stat-card"><div class="stat-label">Expected Value</div><div class="stat-value" id="s-expected">—</div><div class="stat-sub" id="s-expected-sub">at current gold rates</div></div>
+    <div class="stat-card"><div class="stat-label">Gain / (Loss)</div><div class="stat-value" id="s-gain">—</div><div class="stat-sub" id="s-gain-sub">vs total cost</div></div>
+    <div class="stat-card"><div class="stat-label">Items Sold</div><div class="stat-value" id="s-sold">—</div><div class="stat-sub" id="s-sold-sub">of total</div></div>
+  </div>
+</div>
+
+<!-- GOLD RATES BAR -->
+<div class="rates-bar">
+  <div class="rates-inner">
+    <div class="rates-title">Today's Gold Rate<small>AED per gram · drives current value</small></div>
+    <label class="rate-field"><b>24K</b><input type="number" inputmode="decimal" step="0.01" min="0" id="rate-24" placeholder="0.00" oninput="onRateInput()"/><span>AED/g</span></label>
+    <label class="rate-field"><b>22K</b><input type="number" inputmode="decimal" step="0.01" min="0" id="rate-22" placeholder="0.00" oninput="onRateInput()"/><span>AED/g</span></label>
+    <label class="rate-field"><b>21K</b><input type="number" inputmode="decimal" step="0.01" min="0" id="rate-21" placeholder="0.00" oninput="onRateInput()"/><span>AED/g</span></label>
+    <label class="rate-field"><b>18K</b><input type="number" inputmode="decimal" step="0.01" min="0" id="rate-18" placeholder="0.00" oninput="onRateInput()"/><span>AED/g</span></label>
+    <div class="rates-actions">
+      <span class="rates-meta" id="rates-meta"></span>
+      <button class="btn-mini" onclick="estimateRates()" title="Fills 22K, 21K and 18K from the 24K rate">Estimate others from 24K</button>
+      <button class="btn-mini plain" onclick="clearRates()">Clear</button>
+    </div>
   </div>
 </div>
 
@@ -383,10 +526,9 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
     </div>
     <div class="form-body">
 
-      <!-- Item Details -->
       <p class="form-section-label"><span class="lbl-item">Item Details</span></p>
       <div class="form-grid">
-        <div class="form-group"><label>Item Name *</label><input type="text" id="f-name" placeholder="e.g. Gold Bangles"/></div>
+        <div class="form-group"><label>Item Name *</label><input type="text" id="f-name" placeholder="e.g. Diamond Necklace"/></div>
         <div class="form-group"><label>Item Type</label>
           <select id="f-type"><option>Bangles</option><option>Ring</option><option>Necklace</option><option>Chain</option><option>Earrings</option><option>Bracelet</option><option>Pendant</option><option>Gold Coin</option><option>Gold Bar</option><option>Other</option></select></div>
         <div class="form-group"><label>Purity (Karat) *</label>
@@ -394,14 +536,12 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         <div class="form-group"><label>Purity %</label><input type="text" id="f-purity" class="auto-fill" readonly/><span class="form-hint">Auto-filled from Karat</span></div>
       </div>
 
-      <!-- Owner Details -->
       <p class="form-section-label"><span class="lbl-owner">Owner Details</span></p>
       <div class="form-grid form-grid-3">
         <div class="form-group"><label>Owner Name *</label><input type="text" id="f-owner" list="owner-list" placeholder="Full name"/><datalist id="owner-list"></datalist></div>
         <div class="form-group"><label>Owner ID / Notes</label><input type="text" id="f-owner-id" placeholder="Emirates ID / Passport / Notes"/></div>
       </div>
 
-      <!-- Purchase Source -->
       <p class="form-section-label"><span class="lbl-source">Purchase Source</span></p>
       <div class="form-grid">
         <div class="form-group"><label>Purchase Date *</label><input type="date" id="f-date"/></div>
@@ -410,7 +550,6 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         <div class="form-group"><label>Receipt / Invoice #</label><input type="text" id="f-invoice" placeholder="e.g. INV-2025-001"/></div>
       </div>
 
-      <!-- Location -->
       <p class="form-section-label"><span class="lbl-loc">Current Location</span></p>
       <div class="form-grid form-grid-2">
         <div class="form-group"><label>Country / Location *</label>
@@ -425,37 +564,10 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         <div class="form-group"><label>Location Notes</label><input type="text" id="f-location-notes" placeholder="e.g. Bank locker, Home safe, With relative"/></div>
       </div>
 
-      <!-- Pricing -->
-      <p class="form-section-label"><span class="lbl-price">Pricing</span></p>
-      <!-- Row 1: weight + price/g → gold cost (auto) -->
-      <div class="form-grid" style="margin-bottom:0">
-        <div class="form-group"><label>Weight (grams) *</label><input type="number" id="f-weight" placeholder="0.00" step="0.01" oninput="calcCosts('making')"/></div>
-        <div class="form-group"><label>Purchase Price (AED/g) *</label><input type="number" id="f-price-g" placeholder="0.00" step="0.01" oninput="calcCosts('making')"/></div>
-        <div class="form-group"><label>Gold Cost (AED)</label><input type="number" id="f-gold-cost" class="auto-fill" readonly tabindex="-1"/><span class="form-hint">Auto: Weight × Price/g</span></div>
-        <div class="form-group"><label>Selling Price (AED) <em style="font-weight:300;font-size:10px">optional</em></label><input type="number" id="f-sell" placeholder="Leave blank if unsold" step="0.01"/></div>
-      </div>
-      <!-- Bidirectional: Making ↔ Total Cost -->
-      <div style="background:linear-gradient(135deg,#fef9e8,#fdf3cc);border:1.5px solid var(--border-mid);border-radius:10px;padding:14px 16px;margin:10px 0 16px;position:relative;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-          <span>⇄</span> Enter either field — the other calculates automatically
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:end;gap:10px;">
-          <div class="form-group" style="margin:0">
-            <label>Making Charges (AED)</label>
-            <input type="number" id="f-making" placeholder="0.00" step="0.01" oninput="calcCosts('making')" style="border-color:var(--gold-mid);background:var(--white);"/>
-            <span class="form-hint">→ Total Cost auto-fills</span>
-          </div>
-          <div style="text-align:center;padding-bottom:22px;font-size:18px;color:var(--gold-mid);font-weight:700;line-height:1;">⇄</div>
-          <div class="form-group" style="margin:0">
-            <label>Total Cost (AED)</label>
-            <input type="number" id="f-total-cost" placeholder="0.00" step="0.01" oninput="calcCosts('total')" style="border-color:var(--gold-mid);background:var(--white);"/>
-            <span class="form-hint">→ Making Charges auto-fills</span>
-          </div>
-        </div>
-        <div id="cost-breakdown-preview" style="margin-top:10px;font-size:11px;color:var(--gold-deep);background:rgba(212,160,23,0.08);border-radius:6px;padding:6px 10px;display:none;"></div>
-      </div>
+      <p class="form-section-label"><span class="lbl-price">Pricing — Gold, Diamond, Making &amp; VAT</span></p>
+      <div id="f-pricing"></div>
+      <div class="form-group sell-row"><label>Selling Price (AED) <em style="font-weight:300;font-size:10px">optional — only if already sold</em></label><input type="number" id="f-sell" step="0.01" placeholder="Leave blank if unsold"/></div>
 
-      <!-- Photos -->
       <p class="form-section-label"><span class="lbl-photo">Item Photos</span></p>
       <div class="form-grid-2" style="display:grid;gap:12px;margin-bottom:16px;">
         <div>
@@ -485,46 +597,14 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
       <label>Karat:</label>
       <select id="filter-karat" onchange="renderTable()"><option value="">All</option><option value="24">24K</option><option value="22">22K</option><option value="21">21K</option><option value="18">18K</option></select>
       <label>Location:</label>
-      <select id="filter-location" onchange="renderTable()"><option value="">All Locations</option><option value="UAE">🇦🇪 UAE</option><option value="India">🇮🇳 India</option><option value="UK">🇬🇧 UK</option><option value="USA">🇺🇸 USA</option><option value="Other">Other</option></select>
+      <select id="filter-location" onchange="renderTable()"><option value="">All Locations</option><option value="UAE">🇦🇪 UAE</option><option value="India">🇮🇳 India</option><option value="UK">🇬🇧 UK</option><option value="USA">🇺🇸 USA</option><option value="Other">🌍 Other</option><option value="Sold">🏷️ Sold</option></select>
       <label>Status:</label>
       <select id="filter-status" onchange="renderTable()"><option value="">All</option><option value="pending">Pending Sale</option><option value="sold">Sold</option></select>
       <input type="text" id="filter-search" placeholder="🔍 Search…" style="min-width:180px" oninput="renderTable()"/>
       <div class="record-count" id="rec-count">— records</div>
     </div>
-    <div class="table-wrap">
-      <div class="table-scroll">
-        <table id="mainTable">
-          <thead>
-            <tr class="th-group">
-              <th colspan="1" class="g-item">#</th>
-              <th colspan="1" class="g-item">Photo</th>
-              <th colspan="2" class="g-item">Item Details</th>
-              <th colspan="2" class="g-owner">Owner</th>
-              <th colspan="4" class="g-source">Purchase Source</th>
-              <th colspan="1" class="g-loc">Location</th>
-              <th colspan="2" class="g-purity">Purity &amp; Weight</th>
-              <th colspan="4" class="g-cost">Cost Breakdown</th>
-              <th colspan="2" class="g-appre">Appreciation</th>
-              <th colspan="1" class="g-item" style="border-bottom:2px solid var(--gold-bright)">Action</th>
-            </tr>
-            <tr class="th-fields">
-              <th class="center" style="width:34px">#</th>
-              <th class="center">📷</th>
-              <th>Item Name</th><th>Type</th>
-              <th>Owner</th><th>ID / Notes</th>
-              <th>Date</th><th>Purchased From</th><th>City</th><th>Invoice #</th>
-              <th class="center">Location</th>
-              <th class="center">Karat</th><th class="center">Weight (g)</th>
-              <th class="center">Price/g</th><th class="center">Gold Cost</th><th class="center">Making</th><th class="center">Total Cost</th>
-              <th class="center">Selling Price</th><th class="center">Gain / (Loss)</th>
-              <th class="center">✏</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-          <tfoot id="tableFoot"></tfoot>
-        </table>
-      </div>
-    </div>
+    <div class="table-wrap"><div class="table-scroll" id="portfolio-host"></div></div>
+    <div class="totals-panel" id="portfolio-totals"></div>
   </div>
 
   <!-- VIEW: OWNER DASHBOARD -->
@@ -546,40 +626,14 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         <div class="mini-chart-card"><h4>Item Type Breakdown</h4><div id="od-type-list"></div></div>
         <div class="mini-chart-card"><h4>Karat Distribution (by weight)</h4><div id="od-karat-bars"></div></div>
       </div>
-      <!-- location breakdown -->
       <div class="section-title" style="margin-top:2px">Item Locations</div>
       <div class="location-summary" id="od-locations"></div>
-      <!-- photo gallery -->
       <div class="section-title">Item Photos</div>
       <div class="gallery-grid" id="od-gallery"></div>
       <div style="margin-top:20px"></div>
       <div class="section-title">Items Owned</div>
-      <div class="table-wrap">
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr class="th-group">
-                <th colspan="2" class="g-item">Item</th>
-                <th colspan="1" class="g-loc">Location</th>
-                <th colspan="3" class="g-source">Purchase Source</th>
-                <th colspan="2" class="g-purity">Purity &amp; Weight</th>
-                <th colspan="3" class="g-cost">Cost Breakdown</th>
-                <th colspan="2" class="g-appre">Appreciation</th>
-              </tr>
-              <tr class="th-fields">
-                <th class="center">#</th><th>Item Name</th>
-                <th class="center">Location</th>
-                <th>Date</th><th>Purchased From</th><th>Invoice #</th>
-                <th class="center">Karat</th><th class="center">Weight (g)</th>
-                <th class="center">Price/g</th><th class="center">Making</th><th class="center">Total Cost</th>
-                <th class="center">Selling Price</th><th class="center">Gain / (Loss)</th>
-              </tr>
-            </thead>
-            <tbody id="od-table-body"></tbody>
-            <tfoot id="od-table-foot"></tfoot>
-          </table>
-        </div>
-      </div>
+      <div class="table-wrap"><div class="table-scroll" id="od-table"></div></div>
+      <div class="totals-panel" id="od-totals"></div>
     </div>
   </div>
 </main>
@@ -601,6 +655,7 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         </div>
       </div>
       <div class="modal-total-cost">Total Cost Paid: <strong id="mi-cost">AED —</strong></div>
+      <div id="mi-tentative"></div>
       <div class="sell-input-wrap">
         <label>Selling Price (AED)</label>
         <input type="number" id="sell-price-input" placeholder="Enter actual selling price" step="0.01" oninput="previewGain()"/>
@@ -641,18 +696,18 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
   </div>
 </div>
 
+
 <!-- EDIT ITEM MODAL -->
 <div class="modal-overlay" id="editModal">
-  <div class="modal-box" style="width:700px;max-width:96vw;">
+  <div class="modal-box" style="width:760px;max-width:96vw;">
     <div class="modal-head" style="background:linear-gradient(135deg,#2d3a6e,#1a2d8b);">
       <h3 style="color:#e0e8ff;">✏ Edit Item</h3>
       <p id="edit-modal-sub" style="color:rgba(220,230,255,.65);">—</p>
     </div>
     <div class="modal-body" style="max-height:75vh;overflow-y:auto;">
 
-      <!-- Item details -->
-      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">Item Details</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Item Details</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px;">
         <div class="form-group"><label>Item Name *</label><input type="text" id="e-name"/></div>
         <div class="form-group"><label>Item Type</label>
           <select id="e-type"><option>Bangles</option><option>Ring</option><option>Necklace</option><option>Chain</option><option>Earrings</option><option>Bracelet</option><option>Pendant</option><option>Gold Coin</option><option>Gold Bar</option><option>Other</option></select></div>
@@ -660,25 +715,22 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
           <select id="e-karat"><option value="24">24K</option><option value="22">22K</option><option value="21">21K</option><option value="18">18K</option></select></div>
       </div>
 
-      <!-- Owner -->
-      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">Owner</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Owner</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px;">
         <div class="form-group"><label>Owner Name *</label><input type="text" id="e-owner" list="owner-list"/></div>
         <div class="form-group"><label>Owner ID / Notes</label><input type="text" id="e-owner-id"/></div>
       </div>
 
-      <!-- Purchase Source -->
-      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">Purchase Source</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Purchase Source</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px;">
         <div class="form-group"><label>Purchase Date</label><input type="date" id="e-date"/></div>
         <div class="form-group"><label>Purchased From</label><input type="text" id="e-store"/></div>
         <div class="form-group"><label>City</label><input type="text" id="e-city"/></div>
         <div class="form-group"><label>Invoice #</label><input type="text" id="e-invoice"/></div>
       </div>
 
-      <!-- Location -->
-      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">Current Location</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Current Location</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px;">
         <div class="form-group"><label>Country / Location *</label>
           <select id="e-location">
             <option value="UAE">🇦🇪 UAE</option>
@@ -692,36 +744,24 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
         <div class="form-group"><label>Location Notes</label><input type="text" id="e-location-notes" placeholder="e.g. Bank locker, Home safe…"/></div>
       </div>
 
-      <!-- Pricing -->
-      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">Pricing</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-        <div class="form-group"><label>Weight (g)</label><input type="number" id="e-weight" step="0.01" oninput="editCalcCosts('making')"/></div>
-        <div class="form-group"><label>Price/g (AED)</label><input type="number" id="e-price-g" step="0.01" oninput="editCalcCosts('making')"/></div>
-        <div class="form-group"><label>Gold Cost (AED)</label><input type="number" id="e-gold-cost" class="auto-fill" readonly tabindex="-1"/></div>
-        <div class="form-group"><label>Selling Price (AED)</label><input type="number" id="e-sell" step="0.01" placeholder="blank = unsold"/></div>
-      </div>
-      <div style="background:linear-gradient(135deg,#fef9e8,#fdf3cc);border:1.5px solid var(--border-mid);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">⇄ Making Charges ↔ Total Cost</div>
-        <div style="display:grid;grid-template-columns:1fr 36px 1fr;align-items:end;gap:8px;">
-          <div class="form-group" style="margin:0"><label>Making Charges (AED)</label><input type="number" id="e-making" step="0.01" oninput="editCalcCosts('making')" style="border-color:var(--gold-mid);background:var(--white);"/><span class="form-hint">→ Total auto-fills</span></div>
-          <div style="text-align:center;padding-bottom:22px;font-size:16px;color:var(--gold-mid);font-weight:700;">⇄</div>
-          <div class="form-group" style="margin:0"><label>Total Cost (AED)</label><input type="number" id="e-total-cost" step="0.01" oninput="editCalcCosts('total')" style="border-color:var(--gold-mid);background:var(--white);"/><span class="form-hint">→ Making auto-fills</span></div>
-        </div>
-        <div id="edit-cost-preview" style="margin-top:8px;font-size:11px;color:var(--gold-deep);background:rgba(212,160,23,0.08);border-radius:6px;padding:5px 9px;display:none;"></div>
-      </div>
+      <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Pricing</div>
+      <div id="e-pricing"></div>
+      <div class="form-group sell-row"><label>Selling Price (AED)</label><input type="number" id="e-sell" step="0.01" placeholder="blank = unsold"/></div>
 
     </div>
-    <div class="modal-footer" style="padding:0 20px 20px;border-top:1px solid var(--border);padding-top:14px;">
+    <div class="modal-footer" style="padding:14px 20px 20px;border-top:1px solid var(--border);">
       <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save" style="background:linear-gradient(135deg,#3a52c8,#1a2d8b);" onclick="saveEdit()">✓ Save Changes</button>
+      <button class="btn-save" style="background:linear-gradient(135deg,#3a52c8,#1a2d8b);color:#fff" onclick="saveEdit()">✓ Save Changes</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
+// ── CONSTANTS ─────────────────────────────────────────────────────────────────
 const PURITY_MAP={24:99.9,22:91.6,21:87.5,18:75.0};
-const STORAGE_KEY='gold_portfolio_v3';
+const STORAGE_KEY='gold_portfolio_v3';     // unchanged, so existing saved records carry over
+const RATES_KEY='gold_rates_v1';
+const VAT_DEFAULT=5;                        // UAE standard VAT % pre-filled on new purchases
 const OWNER_COLORS=['#c0851a','#1a5c8b','#4a1a7a','#1a6b3a','#8b3a1a','#1a4a6b','#7a1a4a','#3a6b1a'];
 const TYPE_COLORS=['#d4a017','#1a6b3a','#1a3d6b','#7a1a4a','#4a1a7a','#8b3a1a','#1a5c8b','#c0851a'];
 const LOC_FLAGS={'UAE':'🇦🇪','India':'🇮🇳','UK':'🇬🇧','USA':'🇺🇸','Other':'🌍','Sold':'🏷️'};
@@ -745,43 +785,108 @@ const INITIAL_DATA=[
   {id:16,name:"Bangles",  type:"Bangles",  owner:"Fatema",  ownerId:"",date:"2024-04-28",store:"Al Saif",   city:"Dubai",invoice:"",                   karat:22,weight:2.82,  priceG:262.00,making:99.26,  location:"UAE",locationNotes:"",photos:[],sellPrice:null},
 ];
 
-function loadData(){try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r);}catch(e){}return JSON.parse(JSON.stringify(INITIAL_DATA));}
-function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));}
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const escapeAttr=esc;
+const r2=n=>Math.round((+n+Number.EPSILON)*100)/100;
+const fmtNum=n=>(+n).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtAED=n=>'AED '+fmtNum(n);
+const gainTxt=g=>g===null||g===undefined?'—':(g>=0?'+':'-')+fmtNum(Math.abs(g));
+const initials=name=>String(name).split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const $=id=>document.getElementById(id);
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+// Older saved records lack the diamond / VAT fields — fill them with zeros so nothing changes for them.
+const normItem=i=>({location:'UAE',locationNotes:'',photos:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i});
+
+function loadData(){
+  try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r).map(normItem);}catch(e){}
+  return JSON.parse(JSON.stringify(INITIAL_DATA)).map(normItem);
+}
+function saveData(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));return true;}
+  catch(e){showToast('⚠ Browser storage is full — save a backup and remove some photos.');return false;}
+}
+function loadRates(){
+  const base={24:'',22:'',21:'',18:'',updated:''};
+  try{const r=JSON.parse(localStorage.getItem(RATES_KEY));if(r)return {...base,...r};}catch(e){}
+  return base;
+}
+function saveRates(){try{localStorage.setItem(RATES_KEY,JSON.stringify(rates));}catch(e){}}
 
 let portfolio=loadData();
-// ensure old records have new fields
-portfolio=portfolio.map(i=>({location:'UAE',locationNotes:'',photos:[],...i}));
-
+let rates=loadRates();
 let nextId=portfolio.reduce((m,i)=>Math.max(m,i.id),0)+1;
 let sellTargetId=null;
+let sellSuggest=null;
 let editTargetId=null;
 let currentView='portfolio';
-let pendingPhotos=[]; // base64 strings for new item
+let currentOwner=null;
+let galleryPhotos=[];
+let pendingPhotos=[];
 let cameraStream=null;
 let viewerImages=[];
 let viewerIdx=0;
 
+// ── GOLD RATES → VALUATION ────────────────────────────────────────────────────
+// Exact karat rate if entered; otherwise estimated from the 24K rate (karat ÷ 24).
+function rateInfo(karat){
+  const direct=+rates[karat];
+  if(direct>0)return{rate:direct,est:false};
+  const r24=+rates[24];
+  if(r24>0)return{rate:r2(r24*karat/24),est:true};
+  return null;
+}
+const isSold=i=>i.sellPrice!==null&&i.sellPrice!==''&&i.sellPrice!==undefined;
+const locOf=i=>isSold(i)?'Sold':i.location;
+
 // ── COMPUTED ──────────────────────────────────────────────────────────────────
-const goldCost=i=>+(i.weight*i.priceG).toFixed(2);
-const totalCost=i=>+(goldCost(i)+i.making).toFixed(2);
-const appreciation=i=>(i.sellPrice===null||i.sellPrice==='')?null:+(i.sellPrice-totalCost(i)).toFixed(2);
+const goldCost=i=>r2((+i.weight||0)*(+i.priceG||0));
+const diamondCost=i=>r2(+i.diamondPrice||0);
+const totalCost=i=>r2(goldCost(i)+diamondCost(i)+(+i.making||0)+(+i.vat||0));
+function goldValueNow(i){const ri=rateInfo(i.karat);return ri?r2((+i.weight||0)*ri.rate):null;}
+// Sold → actual selling price. Unsold → today's gold value + diamond at purchase price. null → no rate entered.
+function currentValue(i){
+  if(isSold(i))return r2(i.sellPrice);
+  const g=goldValueNow(i);
+  return g===null?null:r2(g+diamondCost(i));
+}
+function gainOf(i){const v=currentValue(i);return v===null?null:r2(v-totalCost(i));}
 
-// ── FORMAT ────────────────────────────────────────────────────────────────────
-const fmtAED=n=>'AED '+(+n).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
-const fmtNum=n=>(+n).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
-const initials=name=>name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+function calcTotals(items){
+  const t={n:items.length,weight:0,diaCt:0,gold:0,dia:0,making:0,vat:0,cost:0,
+    soldN:0,soldCost:0,soldProceeds:0,openN:0,openCost:0,openValue:0,openMissing:0};
+  items.forEach(i=>{
+    t.weight+=+i.weight||0;t.diaCt+=+i.diamondCarat||0;
+    t.gold+=goldCost(i);t.dia+=diamondCost(i);t.making+=+i.making||0;t.vat+=+i.vat||0;
+    const tc=totalCost(i);t.cost+=tc;
+    if(isSold(i)){t.soldN++;t.soldCost+=tc;t.soldProceeds+=+i.sellPrice;}
+    else{
+      const v=currentValue(i);
+      if(v===null)t.openMissing++;
+      else{t.openN++;t.openCost+=tc;t.openValue+=v;}
+    }
+  });
+  t.expected=r2(t.soldProceeds+t.openValue);
+  t.valuedCost=r2(t.soldCost+t.openCost);
+  t.gain=r2(t.expected-t.valuedCost);
+  t.realised=r2(t.soldProceeds-t.soldCost);
+  t.unrealised=r2(t.openValue-t.openCost);
+  t.hasValue=(t.soldN+t.openN)>0;
+  ['weight','gold','dia','making','vat','cost'].forEach(k=>t[k]=r2(t[k]));
+  return t;
+}
 
-// ── SAVE/LOAD JSON ────────────────────────────────────────────────────────────
+// ── SAVE / LOAD BACKUP ────────────────────────────────────────────────────────
 function exportToFolder(){
-  const blob=new Blob([JSON.stringify(portfolio,null,2)],{type:'application/json'});
+  const payload={app:'gold-portfolio-tracker',version:4,exported:new Date().toISOString(),rates,items:portfolio};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;
-  const d=new Date().toISOString().slice(0,10);
-  a.download=`gold_tracker_backup_${d}.json`;
+  a.download=`gold_tracker_backup_${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  // instruction toast
   showToast('File downloaded! Move it to C:\\AI\\Tracker Gold\\ on your laptop to save permanently.');
 }
 function importFromFile(e){
@@ -790,11 +895,12 @@ function importFromFile(e){
   reader.onload=ev=>{
     try{
       const data=JSON.parse(ev.target.result);
-      if(!Array.isArray(data))throw new Error('Invalid format');
-      portfolio=data.map(i=>({location:'UAE',locationNotes:'',photos:[],...i}));
+      const items=Array.isArray(data)?data:data.items;          // accepts old (array) and new (object) backups
+      if(!Array.isArray(items))throw new Error('Invalid format');
+      portfolio=items.map(normItem);
+      if(!Array.isArray(data)&&data.rates){rates={24:'',22:'',21:'',18:'',updated:'',...data.rates};saveRates();initRates();}
       nextId=portfolio.reduce((m,i)=>Math.max(m,i.id),0)+1;
-      saveData();updateSummary();renderTable();
-      if(currentView==='dashboard')renderDashboard();
+      saveData();renderAll();
       showToast(`✓ Loaded ${portfolio.length} items from backup.`);
     }catch(err){alert('Could not import file: '+err.message);}
   };
@@ -802,269 +908,261 @@ function importFromFile(e){
   e.target.value='';
 }
 function showToast(msg){
-  let t=document.getElementById('toast');
-  if(!t){t=document.createElement('div');t.id='toast';Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:'#1a3a20',color:'#a8f0c0',padding:'10px 22px',borderRadius:'8px',fontSize:'12px',fontWeight:'600',zIndex:9999,boxShadow:'0 4px 20px rgba(0,0,0,.3)',transition:'opacity .3s',fontFamily:"'DM Sans',sans-serif"});document.body.appendChild(t);}
+  let t=$('toast');
+  if(!t){t=document.createElement('div');t.id='toast';Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:'#1a3a20',color:'#a8f0c0',padding:'10px 22px',borderRadius:'8px',fontSize:'12px',fontWeight:'600',zIndex:9999,boxShadow:'0 4px 20px rgba(0,0,0,.3)',transition:'opacity .3s',fontFamily:"'DM Sans',sans-serif",maxWidth:'92vw',textAlign:'center'});document.body.appendChild(t);}
   t.textContent=msg;t.style.opacity='1';
-  clearTimeout(t._to);t._to=setTimeout(()=>t.style.opacity='0',4000);
+  clearTimeout(t._to);t._to=setTimeout(()=>t.style.opacity='0',4200);
 }
 
-// ── VIEW SWITCHING ────────────────────────────────────────────────────────────
+// ── VIEW SWITCHING / RENDER ALL ───────────────────────────────────────────────
 function switchView(v,btn){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
+  $('view-'+v).classList.add('active');
   btn.classList.add('active');
   currentView=v;
   if(v==='dashboard')renderDashboard();
 }
+function renderAll(){
+  updateSummary();renderTable();
+  if(currentView==='dashboard'){
+    if(currentOwner&&portfolio.some(i=>i.owner===currentOwner))openOwnerDetail(currentOwner,true);
+    else renderDashboard();
+  }
+}
+
+// ── GOLD RATE BAR ─────────────────────────────────────────────────────────────
+function initRates(){
+  [24,22,21,18].forEach(k=>{$('rate-'+k).value=rates[k]||'';});
+  refreshRatesMeta();
+}
+function refreshRatesMeta(){
+  const r24=+rates[24];
+  [22,21,18].forEach(k=>{$('rate-'+k).placeholder=r24>0?'≈ '+(r24*k/24).toFixed(2):'0.00';});
+  const any=[24,22,21,18].some(k=>+rates[k]>0);
+  let txt='Enter today\u2019s rates to value your holdings';
+  if(any){
+    txt=rates.updated?('Updated '+new Date(rates.updated+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})):'Rates saved';
+    if(!(+rates[22]>0&&+rates[21]>0&&+rates[18]>0)&&r24>0)txt+=' · blank karats are estimated from 24K';
+  }
+  $('rates-meta').textContent=txt;
+}
+function onRateInput(){
+  [24,22,21,18].forEach(k=>{const v=parseFloat($('rate-'+k).value);rates[k]=v>0?v:'';});
+  rates.updated=new Date().toISOString().slice(0,10);
+  saveRates();refreshRatesMeta();renderAll();
+}
+function estimateRates(){
+  const r24=+rates[24];
+  if(!(r24>0)){showToast('Enter the 24K rate first.');return;}
+  [22,21,18].forEach(k=>{$('rate-'+k).value=r2(r24*k/24);});
+  onRateInput();
+  showToast('22K, 21K and 18K estimated from the 24K rate — overwrite any with the actual shop rate.');
+}
+function clearRates(){
+  rates={24:'',22:'',21:'',18:'',updated:''};
+  saveRates();initRates();renderAll();
+}
 
 // ── SUMMARY BAR ───────────────────────────────────────────────────────────────
+function setGainClass(el,g){el.className='stat-value'+(g===null?'':(g>=0?' gain':' loss'));}
 function updateSummary(){
-  const items=portfolio;
-  document.getElementById('s-items').textContent=items.length;
-  document.getElementById('s-weight').textContent=fmtNum(items.reduce((s,i)=>s+i.weight,0))+' g';
-  document.getElementById('s-cost').textContent=fmtAED(items.reduce((s,i)=>s+totalCost(i),0));
-  const sold=items.filter(i=>i.sellPrice!==null&&i.sellPrice!=='');
-  document.getElementById('s-sold').textContent=sold.length;
-  const realAmt=sold.reduce((s,i)=>s+appreciation(i),0);
-  const realEl=document.getElementById('s-real');
-  realEl.textContent=sold.length?fmtAED(realAmt):'—';
-  realEl.className='stat-value '+(realAmt>=0?'gain':'loss');
-  document.getElementById('s-real-sub').textContent=sold.length+' item'+(sold.length!==1?'s':'')+' sold';
+  const items=portfolio,t=calcTotals(items);
+  $('s-items').textContent=t.n;
+  $('s-weight').textContent=fmtNum(t.weight)+' g';
+  $('s-weight-sub').textContent=t.diaCt>0?('+ '+t.diaCt.toFixed(2)+' ct diamonds'):'gold';
+  $('s-cost').textContent=fmtAED(t.cost);
+  $('s-expected').textContent=t.hasValue?fmtAED(t.expected):'—';
+  $('s-expected-sub').textContent=t.openMissing>0?(t.openMissing+' item'+(t.openMissing>1?'s':'')+' need a gold rate'):(t.hasValue?'at current gold rates':'enter gold rates above');
+  const gEl=$('s-gain');
+  if(t.hasValue){
+    gEl.textContent=gainTxt(t.gain);setGainClass(gEl,t.gain);
+    $('s-gain-sub').textContent=(t.valuedCost>0?((t.gain/t.valuedCost*100).toFixed(1)+'% '):'')+'vs total cost';
+  }else{gEl.textContent='—';setGainClass(gEl,null);$('s-gain-sub').textContent='vs total cost';}
+  $('s-sold').textContent=t.soldN+' / '+t.n;
+  $('s-sold-sub').textContent=t.soldN?('Realised '+gainTxt(t.realised)):'none sold yet';
   const owners=[...new Set(items.map(i=>i.owner).filter(Boolean))];
-  document.getElementById('s-owners').textContent=owners.length;
-  document.getElementById('tab-badge-portfolio').textContent=items.length;
-  document.getElementById('tab-badge-owners').textContent=owners.length;
-  const fo=document.getElementById('filter-owner');
-  const cur=fo.value;
-  fo.innerHTML='<option value="">All Owners</option>'+owners.map(o=>`<option value="${o}">${o}</option>`).join('');
+  $('tab-badge-portfolio').textContent=t.n;
+  $('tab-badge-owners').textContent=owners.length;
+  const fo=$('filter-owner'),cur=fo.value;
+  fo.innerHTML='<option value="">All Owners</option>'+owners.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('');
   fo.value=cur;
-  document.getElementById('owner-list').innerHTML=owners.map(o=>`<option value="${o}">`).join('');
+  $('owner-list').innerHTML=owners.map(o=>`<option value="${esc(o)}">`).join('');
 }
 
-// ── PORTFOLIO TABLE ────────────────────────────────────────────────────────────
+// ── TABLE (shared by Portfolio + Owner detail) ────────────────────────────────
 function photoThumb(item){
-  if(item.photos&&item.photos.length>0){
-    return`<div class="item-photo-thumb" onclick="openViewer([${item.photos.map((_,i)=>i).join(',')}],'${escapeAttr(item.name)}',${item.id})"><img src="${item.photos[0]}" alt=""/></div>`;
-  }
+  if(item.photos&&item.photos.length>0)
+    return`<div class="item-photo-thumb" onclick="openViewer([],'${esc(item.name)}',${item.id})"><img src="${item.photos[0]}" alt=""/></div>`;
   return`<div class="item-photo-thumb"><span class="no-photo">○</span></div>`;
 }
-function escapeAttr(s){return String(s).replace(/'/g,"&#39;").replace(/"/g,'&quot;');}
 
-function renderTable(){
-  const ownerF=document.getElementById('filter-owner').value;
-  const karatF=document.getElementById('filter-karat').value;
-  const statusF=document.getElementById('filter-status').value;
-  const locF=document.getElementById('filter-location').value;
-  const searchF=document.getElementById('filter-search').value.toLowerCase();
-  let rows=portfolio.filter(item=>{
-    if(ownerF&&item.owner!==ownerF)return false;
-    if(karatF&&String(item.karat)!==karatF)return false;
-    if(statusF==='pending'&&(item.sellPrice!==null&&item.sellPrice!==''))return false;
-    if(statusF==='sold'&&(item.sellPrice===null||item.sellPrice===''))return false;
-    if(locF&&item.location!==locF)return false;
-    if(searchF&&![item.name,item.store,item.invoice,item.owner,item.city,item.location].join(' ').toLowerCase().includes(searchF))return false;
-    return true;
-  });
-  document.getElementById('rec-count').textContent=rows.length+' record'+(rows.length!==1?'s':'');
-  const tbody=document.getElementById('tableBody');
-  tbody.innerHTML=rows.map((item,idx)=>{
-    const gc=goldCost(item),tc=totalCost(item),appr=appreciation(item);
-    const isSold = item.sellPrice!==null && item.sellPrice!=='';
-    const locKey = isSold ? 'Sold' : item.location;
-    const flag=LOC_FLAGS[locKey]||'🌍';
-    const locStyle = isSold ? 'background:#f0ede6;color:#5a4a3a;border-color:#c8b890;' : '';
-    return`<tr>
-      <td class="center no-cell">${idx+1}</td>
-      <td class="center">${photoThumb(item)}</td>
-      <td><strong>${item.name}</strong></td>
-      <td style="font-size:11px;color:var(--ink-soft)">${item.type}</td>
-      <td><span class="badge-owner">${item.owner||'—'}</span></td>
-      <td style="font-size:10px;color:var(--ink-soft)">${item.ownerId||'—'}</td>
-      <td class="center">${item.date}</td>
-      <td>${item.store}</td>
-      <td class="center" style="font-size:10px">${item.city}</td>
-      <td class="invoice-code">${item.invoice||'—'}</td>
-      <td class="center"><span class="badge-location" style="${locStyle}" title="${item.locationNotes||''}">${flag} ${locKey}</span></td>
-      <td class="center"><span class="badge-karat">${item.karat}K</span><div class="purity-pct">${PURITY_MAP[item.karat]}%</div></td>
-      <td class="center">${fmtNum(item.weight)}</td>
-      <td class="num">${fmtNum(item.priceG)}</td>
-      <td class="num">${fmtAED(gc)}</td>
-      <td class="num">${fmtAED(item.making)}</td>
-      <td class="num"><strong>${fmtAED(tc)}</strong></td>
-      <td class="center">${isSold
-        ?`<span style="font-size:11px;font-weight:600">${fmtAED(item.sellPrice)}</span>`
-        :`<button class="sell-btn" onclick="openSellModal(${item.id})">+ Record Sale</button>`}</td>
-      <td class="center">${appr===null
-        ?'<span class="status-pending">Pending</span>'
-        :`<span class="${appr>=0?'status-gain':'status-loss'}">${appr>=0?'+':''}${fmtAED(appr)}</span>`}</td>
-      <td class="center"><button class="edit-btn" onclick="openEditModal(${item.id})" title="Edit item">✏</button></td>
-    </tr>`;
-  }).join('');
-  const tfoot=document.getElementById('tableFoot');
-  const totW=rows.reduce((s,i)=>s+i.weight,0);
-  const totGC=rows.reduce((s,i)=>s+goldCost(i),0);
-  const totM=rows.reduce((s,i)=>s+i.making,0);
-  const totTC=rows.reduce((s,i)=>s+totalCost(i),0);
-  const soldR=rows.filter(i=>i.sellPrice!==null&&i.sellPrice!=='');
-  const totSell=soldR.reduce((s,i)=>s+ +i.sellPrice,0);
-  const totAppr=soldR.reduce((s,i)=>s+appreciation(i),0);
-  tfoot.innerHTML=`<tr class="totals-row">
-    <td colspan="12" style="text-align:right;letter-spacing:.04em">TOTALS (${rows.length} items)</td>
-    <td class="center">${fmtNum(totW)} g</td><td></td>
-    <td class="num">${fmtAED(totGC)}</td><td class="num">${fmtAED(totM)}</td><td class="num">${fmtAED(totTC)}</td>
-    <td class="center">${soldR.length?fmtAED(totSell):'—'}</td>
-    <td class="center ${totAppr>=0?'status-gain':'status-loss'}">${soldR.length?(totAppr>=0?'+':'')+fmtAED(totAppr):'—'}</td>
-    <td></td>
+function itemRow(item,idx,showOwner){
+  const sold=isSold(item),cv=currentValue(item),g=gainOf(item),tc=totalCost(item);
+  const lk=locOf(item),flag=LOC_FLAGS[lk]||'🌍';
+  const locStyle=sold?'background:#f0ede6;color:#5a4a3a;border-color:#c8b890;':'';
+  const dia=(+item.diamondCarat>0||+item.diamondPrice>0);
+  const showVat=(+item.vat>0||+item.vatRate>0);
+  let valCell;
+  if(sold)valCell=`<div class="val-main">${fmtNum(item.sellPrice)}</div><div class="l2"><span class="status-sold">Sold</span></div>`;
+  else if(cv!==null){
+    const ri=rateInfo(item.karat);
+    valCell=`<div class="val-main">${fmtNum(cv)}</div><div class="l2">Tentative · ${item.karat}K @ ${fmtNum(ri.rate)}/g${ri.est?' (est.)':''}</div>`;
+  }else valCell=`<span class="status-pending">Set gold rate</span>`;
+  let gainCell;
+  if(g===null)gainCell=`<span class="status-pending">Pending</span>`;
+  else gainCell=`<div class="gain-main ${g>=0?'status-gain':'status-loss'}">${gainTxt(g)}</div><div class="l2">${tc?((g/tc*100).toFixed(1)+'%'):'—'} · ${sold?'realised':'unrealised'}</div>`;
+  return`<tr>
+    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span></div></div></div></td>
+    ${showOwner?`<td data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
+    <td data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
+    <td data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
+    <td data-label="Gold"><div class="l1">${fmtNum(item.weight)} g</div><div class="l2">${PURITY_MAP[item.karat]||'—'}% purity</div><div class="l2">@ ${fmtNum(item.priceG)}/g</div></td>
+    <td data-label="Diamond">${dia?`<div class="l1">${(+item.diamondCarat||0).toFixed(2)} ct</div><div class="l2">${fmtNum(diamondCost(item))}</div>${+item.diamondPpc>0?`<div class="l2">@ ${fmtNum(item.diamondPpc)}/ct</div>`:''}`:'<span class="muted">—</span>'}</td>
+    <td class="c-cost" data-label="Cost breakdown (AED)"><div class="cost-lines">
+      <div><span>Gold</span><span>${fmtNum(goldCost(item))}</span></div>
+      ${dia?`<div><span>Diamond</span><span>${fmtNum(diamondCost(item))}</span></div>`:''}
+      <div><span>Making</span><span>${fmtNum(item.making)}</span></div>
+      ${showVat?`<div><span>VAT${+item.vatRate>0?' '+(+item.vatRate)+'%':''}</span><span>${fmtNum(item.vat)}</span></div>`:''}
+      <div class="cost-total"><span>Total</span><span>${fmtNum(tc)}</span></div></div></td>
+    <td data-label="Current value (AED)">${valCell}</td>
+    <td data-label="Gain / (Loss)">${gainCell}</td>
+    <td class="c-act" data-label=""><div class="act-col"><button class="edit-btn" onclick="openEditModal(${item.id})" title="Edit item">✏ Edit</button>${sold?'':`<button class="sell-btn" onclick="openSellModal(${item.id})" title="Record sale">Sell</button>`}</div></td>
   </tr>`;
 }
 
-// ── OWNER DASHBOARD ────────────────────────────────────────────────────────────
+function buildTable(items,showOwner){
+  if(!items.length)return`<div class="empty-state">No items match.</div>`;
+  const widths=showOwner?[16,8,12,8,9,8,15,10,9,5]:[18,13,9,10,9,16,11,9,5];
+  const heads=showOwner
+    ?['Item','Owner','Purchase','Location','Gold','Diamond','Cost breakdown (AED)','Current value (AED)','Gain / (Loss)','']
+    :['Item','Purchase','Location','Gold','Diamond','Cost breakdown (AED)','Current value (AED)','Gain / (Loss)',''];
+  return`<table class="ptable"><colgroup>${widths.map(w=>`<col style="width:${w}%">`).join('')}</colgroup>
+    <thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${items.map((it,i)=>itemRow(it,i,showOwner)).join('')}</tbody></table>`;
+}
+
+function totalsPanel(t,label){
+  const pct=t.valuedCost>0?(t.gain/t.valuedCost*100).toFixed(1)+'% vs cost':'';
+  return`
+    <div class="tp"><div class="l">${label}</div><div class="v">${t.n}</div><div class="s">${t.soldN} sold · ${t.n-t.soldN} held</div></div>
+    <div class="tp"><div class="l">Weight</div><div class="v">${fmtNum(t.weight)} g</div>${t.diaCt>0?`<div class="s">+ ${t.diaCt.toFixed(2)} ct diamonds</div>`:''}</div>
+    <div class="tp"><div class="l">Gold cost</div><div class="v">${fmtNum(t.gold)}</div></div>
+    <div class="tp"><div class="l">Diamond</div><div class="v">${fmtNum(t.dia)}</div></div>
+    <div class="tp"><div class="l">Making</div><div class="v">${fmtNum(t.making)}</div></div>
+    <div class="tp"><div class="l">VAT</div><div class="v">${fmtNum(t.vat)}</div></div>
+    <div class="tp"><div class="l">Total cost (AED)</div><div class="v">${fmtNum(t.cost)}</div></div>
+    <div class="tp hi"><div class="l">Total expected value</div><div class="v">${t.hasValue?fmtNum(t.expected):'—'}</div><div class="s">${t.openMissing>0?t.openMissing+' item(s) need a gold rate':(t.hasValue?'held at current rates + sold actuals':'enter gold rates above')}</div></div>
+    <div class="tp hi"><div class="l">Gain / (Loss)</div><div class="v ${t.hasValue?(t.gain>=0?'gain':'loss'):''}">${t.hasValue?gainTxt(t.gain):'—'}</div><div class="s">${pct}</div></div>
+    <div class="tp"><div class="l">Realised (sold)</div><div class="v">${t.soldN?gainTxt(t.realised):'—'}</div><div class="s">Unrealised ${t.openN?gainTxt(t.unrealised):'—'}</div></div>`;
+}
+
+function renderTable(){
+  const ownerF=$('filter-owner').value,karatF=$('filter-karat').value,statusF=$('filter-status').value,locF=$('filter-location').value;
+  const searchF=$('filter-search').value.toLowerCase();
+  const rows=portfolio.filter(item=>{
+    if(ownerF&&item.owner!==ownerF)return false;
+    if(karatF&&String(item.karat)!==karatF)return false;
+    if(statusF==='pending'&&isSold(item))return false;
+    if(statusF==='sold'&&!isSold(item))return false;
+    if(locF&&locOf(item)!==locF)return false;
+    if(searchF&&![item.name,item.type,item.store,item.invoice,item.owner,item.city,locOf(item)].join(' ').toLowerCase().includes(searchF))return false;
+    return true;
+  });
+  $('rec-count').textContent=rows.length+' record'+(rows.length!==1?'s':'');
+  $('portfolio-host').innerHTML=buildTable(rows,true);
+  $('portfolio-totals').innerHTML=totalsPanel(calcTotals(rows),'Items');
+}
+
+// ── OWNER DASHBOARD ───────────────────────────────────────────────────────────
 function getOwners(){
   const names=[...new Set(portfolio.map(i=>i.owner).filter(Boolean))];
   return names.map((name,idx)=>{
     const items=portfolio.filter(i=>i.owner===name);
-    const sold=items.filter(i=>i.sellPrice!==null&&i.sellPrice!=='');
-    const totWeight=items.reduce((s,i)=>s+i.weight,0);
-    const totCost=items.reduce((s,i)=>s+totalCost(i),0);
-    const totAppr=sold.reduce((s,i)=>s+appreciation(i),0);
-    const types=[...new Set(items.map(i=>i.type))];
-    const locations=[...new Set(items.map(i=>i.location))];
-    return{name,idx,items,sold,totWeight,totCost,totAppr,types,locations,color:OWNER_COLORS[idx%OWNER_COLORS.length]};
+    const t=calcTotals(items);
+    return{name,idx,items,t,
+      types:[...new Set(items.map(i=>i.type))],
+      locations:[...new Set(items.map(i=>locOf(i)))],
+      color:OWNER_COLORS[idx%OWNER_COLORS.length]};
   });
 }
 
 function renderDashboard(){
   closeOwnerDetail();
-  const owners=getOwners();
-  document.getElementById('ownerGrid').innerHTML=owners.map(o=>`
-    <div class="owner-card" onclick="openOwnerDetail('${escapeAttr(o.name)}')">
+  $('ownerGrid').innerHTML=getOwners().map(o=>{
+    const t=o.t;
+    return`<div class="owner-card" data-owner="${esc(o.name)}" onclick="openOwnerDetail(this.dataset.owner)">
       <div class="owner-card-head" style="background:linear-gradient(135deg,${o.color}18,${o.color}08)">
-        <div class="owner-avatar" style="background:${o.color}">${initials(o.name)}</div>
-        <div class="owner-name">${o.name}</div>
-        <div class="owner-item-count">${o.items.length} item${o.items.length!==1?'s':''} · ${fmtNum(o.totWeight)} g</div>
+        <div class="owner-avatar" style="background:${o.color}">${esc(initials(o.name))}</div>
+        <div class="owner-name">${esc(o.name)}</div>
+        <div class="owner-item-count">${t.n} item${t.n!==1?'s':''} · ${fmtNum(t.weight)} g</div>
       </div>
       <div class="owner-card-stats">
-        <div class="owner-stat"><div class="owner-stat-label">Total Cost</div><div class="owner-stat-value">${fmtAED(o.totCost)}</div></div>
-        <div class="owner-stat"><div class="owner-stat-label">Total Weight</div><div class="owner-stat-value">${fmtNum(o.totWeight)} g</div></div>
-        <div class="owner-stat"><div class="owner-stat-label">Sold Items</div><div class="owner-stat-value">${o.sold.length} / ${o.items.length}</div></div>
-        <div class="owner-stat"><div class="owner-stat-label">Gain / (Loss)</div><div class="owner-stat-value ${o.totAppr>=0?'gain':'loss'}">${o.sold.length?(o.totAppr>=0?'+':'')+fmtAED(o.totAppr):'—'}</div></div>
+        <div class="owner-stat"><div class="owner-stat-label">Total Cost</div><div class="owner-stat-value">${fmtAED(t.cost)}</div></div>
+        <div class="owner-stat"><div class="owner-stat-label">Expected Value</div><div class="owner-stat-value">${t.hasValue?fmtAED(t.expected):'—'}</div></div>
+        <div class="owner-stat"><div class="owner-stat-label">Gain / (Loss)</div><div class="owner-stat-value ${t.hasValue?(t.gain>=0?'gain':'loss'):''}">${t.hasValue?gainTxt(t.gain):'—'}</div></div>
+        <div class="owner-stat"><div class="owner-stat-label">Sold Items</div><div class="owner-stat-value">${t.soldN} / ${t.n}</div></div>
       </div>
       <div class="owner-card-footer">
-        ${o.types.map(t=>`<span class="item-type-pill">${t}</span>`).join('')}
-        ${o.locations.map(l=>`<span class="location-pill">${LOC_FLAGS[l]||'🌍'} ${l}</span>`).join('')}
+        ${o.types.map(x=>`<span class="item-type-pill">${esc(x)}</span>`).join('')}
+        ${o.locations.map(l=>`<span class="location-pill">${LOC_FLAGS[l]||'🌍'} ${esc(l)}</span>`).join('')}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-function openOwnerDetail(ownerName){
-  const o=getOwners().find(o=>o.name===ownerName);if(!o)return;
-  document.getElementById('ownerCardsSection').style.display='none';
-  const detail=document.getElementById('ownerDetail');
-  detail.classList.add('open');
-  document.getElementById('od-avatar').textContent=initials(o.name);
-  document.getElementById('od-avatar').style.background=o.color;
-  document.getElementById('od-name').textContent=o.name;
-  document.getElementById('od-sub').textContent=`${o.items.length} item${o.items.length!==1?'s':''} · ${fmtNum(o.totWeight)} g`;
+function openOwnerDetail(ownerName,noScroll){
+  const o=getOwners().find(x=>x.name===ownerName);if(!o)return;
+  currentOwner=o.name;
+  const t=o.t;
+  $('ownerCardsSection').style.display='none';
+  const detail=$('ownerDetail');detail.classList.add('open');
+  $('od-avatar').textContent=initials(o.name);
+  $('od-avatar').style.background=o.color;
+  $('od-name').textContent=o.name;
+  $('od-sub').textContent=`${t.n} item${t.n!==1?'s':''} · ${fmtNum(t.weight)} g`;
 
-  // stats
-  const pending=o.items.filter(i=>i.sellPrice===null||i.sellPrice==='');
-  document.getElementById('od-stats').innerHTML=`
-    <div class="owner-sum-card"><div class="lbl">Total Items</div><div class="val">${o.items.length}</div></div>
-    <div class="owner-sum-card"><div class="lbl">Total Weight</div><div class="val">${fmtNum(o.totWeight)} g</div></div>
-    <div class="owner-sum-card"><div class="lbl">Total Cost</div><div class="val">${fmtAED(o.totCost)}</div></div>
-    <div class="owner-sum-card"><div class="lbl">Pending Sale</div><div class="val">${pending.length} items</div></div>
-    <div class="owner-sum-card"><div class="lbl">Realised Gain/(Loss)</div><div class="val ${o.totAppr>=0?'gain':'loss'}">${o.sold.length?(o.totAppr>=0?'+':'')+fmtAED(o.totAppr):'—'}</div></div>`;
+  $('od-stats').innerHTML=`
+    <div class="owner-sum-card"><div class="lbl">Total Items</div><div class="val">${t.n}</div></div>
+    <div class="owner-sum-card"><div class="lbl">Total Weight</div><div class="val">${fmtNum(t.weight)} g</div></div>
+    <div class="owner-sum-card"><div class="lbl">Total Cost</div><div class="val">${fmtAED(t.cost)}</div></div>
+    <div class="owner-sum-card"><div class="lbl">Expected Value</div><div class="val">${t.hasValue?fmtAED(t.expected):'—'}</div></div>
+    <div class="owner-sum-card"><div class="lbl">Gain / (Loss)</div><div class="val ${t.hasValue?(t.gain>=0?'gain':'loss'):''}">${t.hasValue?gainTxt(t.gain):'—'}</div></div>`;
 
-  // type list
   const typeCounts={};o.items.forEach(i=>{typeCounts[i.type]=(typeCounts[i.type]||0)+1;});
-  document.getElementById('od-type-list').innerHTML=Object.entries(typeCounts).map(([t,c],ci)=>`
-    <div class="type-list-row">
-      <div class="type-dot" style="background:${TYPE_COLORS[ci%TYPE_COLORS.length]}"></div>
-      <div class="type-name">${t}</div><div class="type-val">${c}</div>
-    </div>`).join('');
+  $('od-type-list').innerHTML=Object.entries(typeCounts).map(([k,c],ci)=>`
+    <div class="type-list-row"><div class="type-dot" style="background:${TYPE_COLORS[ci%TYPE_COLORS.length]}"></div>
+    <div class="type-name">${esc(k)}</div><div class="type-val">${c}</div></div>`).join('');
 
-  // karat bars
   const kw={};o.items.forEach(i=>{kw[i.karat]=(kw[i.karat]||0)+i.weight;});
   const maxKW=Math.max(...Object.values(kw));
-  document.getElementById('od-karat-bars').innerHTML=Object.entries(kw).sort((a,b)=>b[0]-a[0]).map(([k,w])=>`
-    <div class="karat-bar-row">
-      <div class="karat-bar-label">${k}K</div>
-      <div class="karat-bar-track"><div class="karat-bar-fill" style="width:${(w/maxKW*100).toFixed(1)}%"></div></div>
-      <div class="karat-bar-val">${fmtNum(w)} g</div>
-    </div>`).join('');
+  $('od-karat-bars').innerHTML=Object.entries(kw).sort((a,b)=>b[0]-a[0]).map(([k,w])=>`
+    <div class="karat-bar-row"><div class="karat-bar-label">${k}K</div>
+    <div class="karat-bar-track"><div class="karat-bar-fill" style="width:${(w/maxKW*100).toFixed(1)}%"></div></div>
+    <div class="karat-bar-val">${fmtNum(w)} g</div></div>`).join('');
 
-  // location breakdown
   const locMap={};
-  o.items.forEach(i=>{
-    if(!locMap[i.location])locMap[i.location]={count:0,weight:0};
-    locMap[i.location].count++;locMap[i.location].weight+=i.weight;
-  });
-  document.getElementById('od-locations').innerHTML=Object.entries(locMap).map(([loc,d])=>`
-    <div class="loc-card">
-      <div class="loc-flag">${LOC_FLAGS[loc]||'🌍'}</div>
-      <div class="loc-info">
-        <div class="loc-name">${loc}</div>
-        <div class="loc-count">${d.count} item${d.count!==1?'s':''}</div>
-        <div class="loc-weight">${fmtNum(d.weight)} g</div>
-      </div>
-    </div>`).join('');
+  o.items.forEach(i=>{const l=locOf(i);if(!locMap[l])locMap[l]={count:0,weight:0};locMap[l].count++;locMap[l].weight+=i.weight;});
+  $('od-locations').innerHTML=Object.entries(locMap).map(([loc,d])=>`
+    <div class="loc-card"><div class="loc-flag">${LOC_FLAGS[loc]||'🌍'}</div><div class="loc-info">
+    <div class="loc-name">${esc(loc)}</div><div class="loc-count">${d.count} item${d.count!==1?'s':''}</div>
+    <div class="loc-weight">${fmtNum(d.weight)} g</div></div></div>`).join('');
 
-  // gallery
-  const allPhotos=[];
-  o.items.forEach(item=>{(item.photos||[]).forEach(p=>allPhotos.push({src:p,label:item.name}));});
-  const gallery=document.getElementById('od-gallery');
-  if(allPhotos.length===0){
-    gallery.innerHTML=`<div style="color:var(--ink-soft);font-size:12px;grid-column:1/-1;padding:10px 0">No photos uploaded yet. Add photos when adding new items.</div>`;
-  }else{
-    gallery.innerHTML=allPhotos.map((p,i)=>`
-      <div class="gallery-thumb" onclick="openViewerFromArr(${JSON.stringify(allPhotos).replace(/"/g,'&quot;')},${i})">
-        <img src="${p.src}" alt="${p.label}"/>
-        <div class="gallery-thumb-label">${p.label}</div>
-      </div>`).join('');
-  }
+  galleryPhotos=[];
+  o.items.forEach(item=>(item.photos||[]).forEach(p=>galleryPhotos.push({src:p,label:item.name})));
+  $('od-gallery').innerHTML=galleryPhotos.length===0
+    ?`<div style="color:var(--ink-soft);font-size:12px;grid-column:1/-1;padding:10px 0">No photos uploaded yet. Add photos when adding new items.</div>`
+    :galleryPhotos.map((p,i)=>`<div class="gallery-thumb" onclick="openViewerFromArr(galleryPhotos,${i})"><img src="${p.src}" alt="${esc(p.label)}"/><div class="gallery-thumb-label">${esc(p.label)}</div></div>`).join('');
 
-  // items table
-  const tbody=document.getElementById('od-table-body');
-  tbody.innerHTML=o.items.map((item,idx)=>{
-    const tc=totalCost(item),appr=appreciation(item);
-    const flag=LOC_FLAGS[item.location]||'🌍';
-    return`<tr>
-      <td class="center no-cell">${idx+1}</td>
-      <td><strong>${item.name}</strong></td>
-      <td class="center"><span class="badge-location">${flag} ${item.location}</span></td>
-      <td class="center">${item.date}</td><td>${item.store}</td>
-      <td class="invoice-code">${item.invoice||'—'}</td>
-      <td class="center"><span class="badge-karat">${item.karat}K</span></td>
-      <td class="center">${fmtNum(item.weight)}</td>
-      <td class="num">${fmtNum(item.priceG)}</td>
-      <td class="num">${fmtAED(item.making)}</td>
-      <td class="num"><strong>${fmtAED(tc)}</strong></td>
-      <td class="center">${(item.sellPrice!==null&&item.sellPrice!=='')
-        ?`<span style="font-size:11px;font-weight:600">${fmtAED(item.sellPrice)}</span>`
-        :`<button class="sell-btn" onclick="openSellModal(${item.id})">+ Record Sale</button>`}</td>
-      <td class="center">${appr===null
-        ?'<span class="status-pending">Pending</span>'
-        :`<span class="${appr>=0?'status-gain':'status-loss'}">${appr>=0?'+':''}${fmtAED(appr)}</span>`}</td>
-    </tr>`;
-  }).join('');
-  const tfoot=document.getElementById('od-table-foot');
-  const soldR=o.items.filter(i=>i.sellPrice!==null&&i.sellPrice!=='');
-  const totAppr=soldR.reduce((s,i)=>s+appreciation(i),0);
-  tfoot.innerHTML=`<tr class="totals-row">
-    <td colspan="7" style="text-align:right">TOTALS</td>
-    <td class="center">${fmtNum(o.totWeight)} g</td>
-    <td></td><td class="num">${fmtAED(o.items.reduce((s,i)=>s+i.making,0))}</td>
-    <td class="num">${fmtAED(o.totCost)}</td>
-    <td class="center">${soldR.length?fmtAED(soldR.reduce((s,i)=>s+ +i.sellPrice,0)):'—'}</td>
-    <td class="center ${totAppr>=0?'status-gain':'status-loss'}">${soldR.length?(totAppr>=0?'+':'')+fmtAED(totAppr):'—'}</td>
-  </tr>`;
-  detail.scrollIntoView({behavior:'smooth',block:'start'});
+  $('od-table').innerHTML=buildTable(o.items,false);
+  $('od-totals').innerHTML=totalsPanel(t,'Items');
+  if(!noScroll)detail.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function closeOwnerDetail(){
-  document.getElementById('ownerCardsSection').style.display='';
-  document.getElementById('ownerDetail').classList.remove('open');
+  currentOwner=null;
+  $('ownerCardsSection').style.display='';
+  $('ownerDetail').classList.remove('open');
 }
 
 // ── IMAGE VIEWER ──────────────────────────────────────────────────────────────
@@ -1135,265 +1233,323 @@ function closeCamera(){
   document.getElementById('cameraModal').classList.remove('open');
 }
 
+
+// ── PRICING BLOCK (shared by Add form 'f' and Edit modal 'e') ─────────────────
+function fld(p,id,label,trigger,o){
+  o=o||{};
+  const ev=trigger?`oninput="calcPricing('${p}','${trigger}')"`:'';
+  const cls=o.ro?'auto-fill':(o.cls||'');
+  return`<div class="form-group"><label>${label}</label><input type="number" inputmode="decimal" id="${p}-${id}" step="${o.step||'0.01'}" ${o.ro?'readonly tabindex="-1"':''} ${cls?`class="${cls}"`:''} placeholder="${o.ph||'0.00'}" ${ev}/>${o.hint?`<span class="form-hint">${o.hint}</span>`:''}</div>`;
+}
+function pricingBlock(p){
+  return`<div class="pricing-box">
+    <div class="pb-tag">Gold</div>
+    <div class="pb-row c3">
+      ${fld(p,'weight','Gold Weight (g) *','weight')}
+      ${fld(p,'price-g','Gold Price (AED/g) *','price-g')}
+      ${fld(p,'gold-cost','Gold Value (AED)',null,{ro:1,hint:'Weight × price/g'})}
+    </div>
+    <div class="pb-tag">Diamond <span style="font-weight:500;letter-spacing:0;text-transform:none">(leave blank if none)</span></div>
+    <div class="pb-row c3">
+      ${fld(p,'dia-carat','Total Carat (ct)','dia-carat',{step:'0.001',ph:'0.000'})}
+      ${fld(p,'dia-ppc','Price per Carat (AED)','dia-ppc')}
+      ${fld(p,'dia-price','Diamond Price (AED)','dia-total',{cls:'dual',hint:'Carat × price/ct — or enter the total'})}
+    </div>
+    <div class="pb-tag">Making Charges, VAT &amp; Total</div>
+    <div class="pb-row c4">
+      ${fld(p,'making','Making Charges (AED)','making',{cls:'dual',hint:'Enter manually, or fill the Total'})}
+      ${fld(p,'vat-rate','VAT Rate (%)','vat-rate',{step:'0.1',ph:'5'})}
+      ${fld(p,'vat','VAT Amount (AED)','vat',{cls:'dual',hint:'Auto from rate · editable'})}
+      ${fld(p,'total-cost','Total Cost (AED)','total',{cls:'dual',hint:'Enter total → making auto-fills'})}
+    </div>
+    <div class="pb-preview" id="${p}-preview"></div>
+  </div>`;
+}
+
+const vatManual={f:false,e:false};
+const $p=(p,id)=>$(p+'-'+id);
+const nv=(p,id)=>{const v=parseFloat($p(p,id).value);return isFinite(v)?v:0;};
+const hasv=(p,id)=>$p(p,id).value!=='';
+const setv=(p,id,v,d)=>{$p(p,id).value=(v===null||v===undefined||!isFinite(v))?'':(+v).toFixed(d===undefined?2:d);};
+
+// trigger = which field the user just edited; the others are recalculated from it.
+function calcPricing(p,trigger){
+  const G=r2(nv(p,'weight')*nv(p,'price-g'));
+  const ct=nv(p,'dia-carat');
+
+  // diamond: carat × price/ct ⇄ total diamond price
+  let D;
+  if(trigger==='dia-total'){
+    D=r2(nv(p,'dia-price'));
+    if(ct>0&&D>0)setv(p,'dia-ppc',D/ct);
+  }else if(trigger==='dia-carat'||trigger==='dia-ppc'){
+    const ppc=nv(p,'dia-ppc');
+    if(ct>0&&ppc>0){D=r2(ct*ppc);setv(p,'dia-price',D);}
+    else if(trigger==='dia-carat'&&ct>0&&nv(p,'dia-price')>0){D=r2(nv(p,'dia-price'));setv(p,'dia-ppc',D/ct);}
+    else D=r2(nv(p,'dia-price'));
+  }else D=r2(nv(p,'dia-price'));
+
+  // VAT: follows the rate unless the amount was typed by hand
+  if(trigger==='vat-rate')vatManual[p]=false;
+  if(trigger==='vat')vatManual[p]=hasv(p,'vat');
+  const rate=nv(p,'vat-rate')/100;
+
+  let M,V,T;
+  if(trigger==='total'&&hasv(p,'total-cost')){
+    // total typed → making charges = total − VAT − gold − diamond
+    T=r2(nv(p,'total-cost'));
+    if(vatManual[p]){V=r2(nv(p,'vat'));}
+    else{V=r2(T/(1+rate)*rate);setv(p,'vat',V);}
+    M=r2(T-V-G-D);
+    setv(p,'making',M);
+  }else{
+    // otherwise total = gold + diamond + making + VAT
+    M=r2(nv(p,'making'));
+    const S=r2(G+D+M);
+    V=vatManual[p]?r2(nv(p,'vat')):r2(S*rate);
+    if(!vatManual[p])setv(p,'vat',S!==0?V:null);
+    T=r2(S+V);
+    if(trigger!=='total')setv(p,'total-cost',(S!==0||V!==0)?T:null);
+  }
+  setv(p,'gold-cost',G>0?G:null);
+
+  const prev=$p(p,'preview');
+  if(G+D>0||T>0){
+    prev.style.display='block';
+    prev.innerHTML=`Gold <b>${fmtNum(G)}</b> + Diamond <b>${fmtNum(D)}</b> + Making <b>${fmtNum(M)}</b>${G>0?` (${(M/G*100).toFixed(1)}% of gold)`:''} + VAT <b>${fmtNum(V)}</b> = Total <b>AED ${fmtNum(T)}</b>`
+      +(M<0?'<br><span class="warn">Making charges are negative — check the total, gold price or diamond price.</span>':'');
+  }else prev.style.display='none';
+}
+function readPricing(p){
+  return{weight:nv(p,'weight'),priceG:nv(p,'price-g'),
+    diamondCarat:nv(p,'dia-carat'),diamondPpc:r2(nv(p,'dia-ppc')),diamondPrice:r2(nv(p,'dia-price')),
+    making:r2(nv(p,'making')),vatRate:nv(p,'vat-rate'),vat:r2(nv(p,'vat'))};
+}
+
 // ── ADD FORM ──────────────────────────────────────────────────────────────────
-function toggleForm(){
-  const p=document.getElementById('formPanel');
-  p.classList.toggle('open');
-  if(p.classList.contains('open')){calcPurity();document.getElementById('f-date').value=new Date().toISOString().slice(0,10);p.scrollIntoView({behavior:'smooth',block:'start'});}
-}
-function calcPurity(){const k=+document.getElementById('f-karat').value;document.getElementById('f-purity').value=(PURITY_MAP[k]||'')+'%';}
-function calcCosts(trigger){
-  const w   = +document.getElementById('f-weight').value    || 0;
-  const p   = +document.getElementById('f-price-g').value   || 0;
-  const gc  = w * p;                              // gold cost is always derived
-  const mEl = document.getElementById('f-making');
-  const tEl = document.getElementById('f-total-cost');
-  const gcEl= document.getElementById('f-gold-cost');
-  const prev= document.getElementById('cost-breakdown-preview');
-
-  // always update the gold cost display
-  gcEl.value = gc ? gc.toFixed(2) : '';
-
-  if(trigger === 'making'){
-    // user typed making charges → compute total cost
-    const m = +mEl.value || 0;
-    tEl.value = gc ? (gc + m).toFixed(2) : (m ? m.toFixed(2) : '');
-  } else if(trigger === 'total'){
-    // user typed total cost → back-compute making charges
-    const tc = +tEl.value || 0;
-    const making = tc - gc;
-    mEl.value = (tc && gc) ? making.toFixed(2) : '';
-  }
-
-  // show a live breakdown preview when both values are present
-  const making = +mEl.value || 0;
-  const total  = +tEl.value || 0;
-  if(gc > 0 && total > 0){
-    const makingPct = gc > 0 ? ((making / gc) * 100).toFixed(1) : 0;
-    prev.style.display = 'block';
-    prev.innerHTML = `Gold Cost <strong>AED ${gc.toFixed(2)}</strong> &nbsp;+&nbsp; Making <strong>AED ${making.toFixed(2)}</strong> (${makingPct}% of gold cost) &nbsp;=&nbsp; Total <strong>AED ${total.toFixed(2)}</strong>`;
-  } else {
-    prev.style.display = 'none';
-  }
-}
-function saveItem(){
-  const name=document.getElementById('f-name').value.trim();
-  const owner=document.getElementById('f-owner').value.trim();
-  const date=document.getElementById('f-date').value;
-  const store=document.getElementById('f-store').value.trim();
-  const wt=+document.getElementById('f-weight').value;
-  const pg=+document.getElementById('f-price-g').value;
-  if(!name||!owner||!date||!store||!wt||!pg){alert('Please fill all required fields (*)');return;}
-  const sell=document.getElementById('f-sell').value;
-  const item={
-    id:nextId++,name,type:document.getElementById('f-type').value,
-    owner,ownerId:document.getElementById('f-owner-id').value.trim(),
-    date,store,city:document.getElementById('f-city').value.trim(),
-    invoice:document.getElementById('f-invoice').value.trim(),
-    karat:+document.getElementById('f-karat').value,
-    weight:wt,priceG:pg,making:+document.getElementById('f-making').value||0,
-    location:document.getElementById('f-location').value,
-    locationNotes:document.getElementById('f-location-notes').value.trim(),
-    photos:[...pendingPhotos],
-    sellPrice:sell!==''?+sell:null,
-  };
-  portfolio.push(item);
-  saveData();updateSummary();renderTable();
-  if(currentView==='dashboard')renderDashboard();
-  toggleForm();
+function resetAddForm(){
+  ['f-name','f-owner','f-owner-id','f-store','f-invoice','f-location-notes','f-sell',
+   'f-weight','f-price-g','f-gold-cost','f-dia-carat','f-dia-ppc','f-dia-price','f-making','f-vat','f-total-cost'].forEach(id=>$(id).value='');
+  $('f-vat-rate').value=VAT_DEFAULT;
+  vatManual.f=false;
+  $('f-preview').style.display='none';
   pendingPhotos=[];renderPendingPreviews();
-  ['f-name','f-owner','f-owner-id','f-store','f-invoice','f-weight','f-price-g','f-making','f-gold-cost','f-total-cost','f-sell','f-location-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('cost-breakdown-preview').style.display='none';
+}
+function toggleForm(){
+  const p=$('formPanel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')){
+    calcPurity();
+    if(!$('f-date').value)$('f-date').value=new Date().toISOString().slice(0,10);
+    p.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+function calcPurity(){const k=+$('f-karat').value;$('f-purity').value=(PURITY_MAP[k]||'')+'%';}
+
+function saveItem(){
+  const name=$('f-name').value.trim(),owner=$('f-owner').value.trim(),date=$('f-date').value,store=$('f-store').value.trim();
+  const pr=readPricing('f');
+  if(!name||!owner||!date||!store||!pr.weight||!pr.priceG){alert('Please fill all required fields (*)');return;}
+  const sell=$('f-sell').value;
+  const sold=sell!==''&&+sell>0;
+  const item=normItem({
+    id:nextId++,name,type:$('f-type').value,
+    owner,ownerId:$('f-owner-id').value.trim(),
+    date,store,city:$('f-city').value.trim(),
+    invoice:$('f-invoice').value.trim(),
+    karat:+$('f-karat').value,
+    ...pr,
+    location:sold?'Sold':$('f-location').value,
+    locationNotes:$('f-location-notes').value.trim(),
+    photos:[...pendingPhotos],
+    sellPrice:sold?+sell:null,
+  });
+  portfolio.push(item);
+  if(!saveData()){/* toast already shown; keep item in memory for this session */}
+  resetAddForm();
+  toggleForm();
+  $('f-date').value='';
+  renderAll();
+  showToast('✓ Item added.');
 }
 
 // ── EDIT MODAL ────────────────────────────────────────────────────────────────
 function openEditModal(id){
   const item=portfolio.find(i=>i.id===id);if(!item)return;
   editTargetId=id;
-  document.getElementById('edit-modal-sub').textContent=`#${item.id} · ${item.name} · ${item.owner}`;
-  document.getElementById('e-name').value=item.name;
-  document.getElementById('e-type').value=item.type||item.name;
-  document.getElementById('e-karat').value=item.karat;
-  document.getElementById('e-owner').value=item.owner;
-  document.getElementById('e-owner-id').value=item.ownerId||'';
-  document.getElementById('e-date').value=item.date;
-  document.getElementById('e-store').value=item.store;
-  document.getElementById('e-city').value=item.city;
-  document.getElementById('e-invoice').value=item.invoice||'';
-  document.getElementById('e-location').value=item.location||'UAE';
-  document.getElementById('e-location-notes').value=item.locationNotes||'';
-  document.getElementById('e-weight').value=item.weight;
-  document.getElementById('e-price-g').value=item.priceG;
-  document.getElementById('e-making').value=item.making;
-  document.getElementById('e-sell').value=item.sellPrice!==null&&item.sellPrice!==''?item.sellPrice:'';
-  // compute derived fields
-  const gc=item.weight*item.priceG;
-  document.getElementById('e-gold-cost').value=gc.toFixed(2);
-  document.getElementById('e-total-cost').value=(gc+item.making).toFixed(2);
-  document.getElementById('edit-cost-preview').style.display='none';
-  document.getElementById('editModal').classList.add('open');
-}
-function editCalcCosts(trigger){
-  const w=+document.getElementById('e-weight').value||0;
-  const p=+document.getElementById('e-price-g').value||0;
-  const gc=w*p;
-  document.getElementById('e-gold-cost').value=gc?gc.toFixed(2):'';
-  const mEl=document.getElementById('e-making');
-  const tEl=document.getElementById('e-total-cost');
-  if(trigger==='making'){
-    const m=+mEl.value||0;
-    tEl.value=gc?(gc+m).toFixed(2):(m?m.toFixed(2):'');
-  } else if(trigger==='total'){
-    const tc=+tEl.value||0;
-    mEl.value=(tc&&gc)?(tc-gc).toFixed(2):'';
-  }
-  const making=+mEl.value||0;
-  const total=+tEl.value||0;
-  const prev=document.getElementById('edit-cost-preview');
-  if(gc>0&&total>0){
-    prev.style.display='block';
-    prev.innerHTML=`Gold Cost <strong>AED ${gc.toFixed(2)}</strong> + Making <strong>AED ${making.toFixed(2)}</strong> = Total <strong>AED ${total.toFixed(2)}</strong>`;
-  } else { prev.style.display='none'; }
+  $('edit-modal-sub').textContent=`#${item.id} · ${item.name} · ${item.owner}`;
+  $('e-name').value=item.name;
+  $('e-type').value=item.type||item.name;
+  $('e-karat').value=item.karat;
+  $('e-owner').value=item.owner;
+  $('e-owner-id').value=item.ownerId||'';
+  $('e-date').value=item.date;
+  $('e-store').value=item.store;
+  $('e-city').value=item.city;
+  $('e-invoice').value=item.invoice||'';
+  $('e-location').value=locOf(item);
+  $('e-location-notes').value=item.locationNotes||'';
+  $('e-sell').value=isSold(item)?item.sellPrice:'';
+  $p('e','weight').value=item.weight;
+  $p('e','price-g').value=item.priceG;
+  $p('e','dia-carat').value=+item.diamondCarat>0?item.diamondCarat:'';
+  $p('e','dia-ppc').value=+item.diamondPpc>0?item.diamondPpc:'';
+  $p('e','dia-price').value=+item.diamondPrice>0?item.diamondPrice:'';
+  $p('e','making').value=item.making;
+  $p('e','vat-rate').value=+item.vatRate||0;
+  $p('e','vat').value=+item.vat>0?item.vat:'';
+  const S=goldCost(item)+diamondCost(item)+(+item.making||0);
+  vatManual.e=Math.abs((+item.vat||0)-r2(S*(+item.vatRate||0)/100))>0.01;
+  calcPricing('e','making');
+  $('editModal').classList.add('open');
 }
 function saveEdit(){
-  const name=document.getElementById('e-name').value.trim();
-  const owner=document.getElementById('e-owner').value.trim();
+  const name=$('e-name').value.trim(),owner=$('e-owner').value.trim();
   if(!name||!owner){alert('Item Name and Owner are required.');return;}
   const idx=portfolio.findIndex(i=>i.id===editTargetId);if(idx===-1)return;
-  const sell=document.getElementById('e-sell').value;
-  const loc=document.getElementById('e-location').value;
+  const pr=readPricing('e');
+  if(!pr.weight||!pr.priceG){alert('Gold weight and gold price are required.');return;}
+  const sell=$('e-sell').value;
+  const sold=sell!==''&&+sell>0;
+  let loc=$('e-location').value;
+  if(sold)loc='Sold';
+  else if(loc==='Sold'){alert('No selling price is entered — choose where the item is now, or enter its selling price.');return;}
   portfolio[idx]={
     ...portfolio[idx],
-    name, type:document.getElementById('e-type').value,
-    owner, ownerId:document.getElementById('e-owner-id').value.trim(),
-    date:document.getElementById('e-date').value,
-    store:document.getElementById('e-store').value.trim(),
-    city:document.getElementById('e-city').value.trim(),
-    invoice:document.getElementById('e-invoice').value.trim(),
-    karat:+document.getElementById('e-karat').value,
-    weight:+document.getElementById('e-weight').value||portfolio[idx].weight,
-    priceG:+document.getElementById('e-price-g').value||portfolio[idx].priceG,
-    making:+document.getElementById('e-making').value||0,
-    location:loc,
-    locationNotes:document.getElementById('e-location-notes').value.trim(),
-    sellPrice:sell!==''&&sell!==null?+sell:null,
+    name,type:$('e-type').value,owner,ownerId:$('e-owner-id').value.trim(),
+    date:$('e-date').value,store:$('e-store').value.trim(),city:$('e-city').value.trim(),invoice:$('e-invoice').value.trim(),
+    karat:+$('e-karat').value,
+    ...pr,
+    location:loc,locationNotes:$('e-location-notes').value.trim(),
+    sellPrice:sold?+sell:null,
   };
-  saveData();updateSummary();renderTable();
-  if(currentView==='dashboard')renderDashboard();
-  closeEditModal();
+  saveData();renderAll();closeEditModal();
   showToast('✓ Item updated successfully.');
 }
-function closeEditModal(){document.getElementById('editModal').classList.remove('open');editTargetId=null;}
-document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
+function closeEditModal(){$('editModal').classList.remove('open');editTargetId=null;}
+$('editModal').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
 
 // ── SELL MODAL ────────────────────────────────────────────────────────────────
 function openSellModal(id){
   const item=portfolio.find(i=>i.id===id);if(!item)return;
   sellTargetId=id;
-  document.getElementById('modal-item-name').textContent=item.name+' — '+item.owner;
-  document.getElementById('mi-name').textContent=item.name;
-  document.getElementById('mi-owner').textContent=item.owner;
-  document.getElementById('mi-karat').textContent=item.karat+'K ('+(PURITY_MAP[item.karat]||'—')+'%)';
-  document.getElementById('mi-wt').textContent=fmtNum(item.weight)+' g';
-  document.getElementById('mi-loc').textContent=(LOC_FLAGS[item.location]||'🌍')+' '+item.location;
-  document.getElementById('mi-from').textContent=item.store;
-  document.getElementById('mi-inv').textContent=item.invoice||'—';
-  document.getElementById('mi-cost').textContent=fmtAED(totalCost(item));
-  document.getElementById('sell-price-input').value='';
-  document.getElementById('sell-preview-box').className='sell-preview';
-  document.getElementById('sell-preview-box').textContent='';
-  document.getElementById('sellModal').classList.add('open');
+  $('modal-item-name').textContent=item.name+' — '+item.owner;
+  $('mi-name').textContent=item.name;
+  $('mi-owner').textContent=item.owner;
+  $('mi-karat').textContent=item.karat+'K ('+(PURITY_MAP[item.karat]||'—')+'%)';
+  $('mi-wt').textContent=fmtNum(item.weight)+' g';
+  $('mi-loc').textContent=(LOC_FLAGS[item.location]||'🌍')+' '+item.location;
+  $('mi-from').textContent=item.store;
+  $('mi-inv').textContent=item.invoice||'—';
+  $('mi-cost').textContent=fmtAED(totalCost(item));
+  const cv=currentValue(item),tb=$('mi-tentative');
+  sellSuggest=cv;
+  if(cv!==null){tb.style.display='block';tb.innerHTML=`Tentative value at current gold rates: <strong>${fmtAED(cv)}</strong><button class="link-btn" type="button" onclick="useTentative()">Use this</button>`;}
+  else tb.style.display='none';
+  $('sell-price-input').value='';
+  $('sell-preview-box').className='sell-preview';
+  $('sell-preview-box').textContent='';
+  $('sellModal').classList.add('open');
 }
-function closeSellModal(){document.getElementById('sellModal').classList.remove('open');sellTargetId=null;}
+function useTentative(){if(sellSuggest===null)return;$('sell-price-input').value=sellSuggest.toFixed(2);previewGain();}
+function closeSellModal(){$('sellModal').classList.remove('open');sellTargetId=null;}
 function previewGain(){
   const item=portfolio.find(i=>i.id===sellTargetId);if(!item)return;
-  const sp=+document.getElementById('sell-price-input').value;
-  const box=document.getElementById('sell-preview-box');
+  const sp=+$('sell-price-input').value;
+  const box=$('sell-preview-box');
   if(!sp){box.className='sell-preview';box.textContent='';return;}
-  const diff=+(sp-totalCost(item)).toFixed(2);
-  const pct=((diff/totalCost(item))*100).toFixed(1);
+  const tc=totalCost(item),diff=r2(sp-tc);
+  const pct=tc?((diff/tc)*100).toFixed(1):'0.0';
   if(diff>=0){box.className='sell-preview gain';box.textContent=`✦ Appreciation: +${fmtAED(diff)} (+${pct}%)`;}
-  else{box.className='sell-preview loss';box.textContent=`▼ Loss: ${fmtAED(diff)} (${pct}%)`;}
+  else{box.className='sell-preview loss';box.textContent=`▼ Loss: -${fmtAED(Math.abs(diff))} (${pct}%)`;}
 }
 function confirmSell(){
-  const sp=+document.getElementById('sell-price-input').value;
+  const sp=+$('sell-price-input').value;
   if(!sp||sp<=0){alert('Please enter a valid selling price.');return;}
   const idx=portfolio.findIndex(i=>i.id===sellTargetId);if(idx===-1)return;
   portfolio[idx].sellPrice=sp;
-  portfolio[idx].location='Sold';   // auto-update location when item is sold
-  saveData();updateSummary();renderTable();
-  if(currentView==='dashboard')renderDashboard();
-  closeSellModal();
+  portfolio[idx].location='Sold';
+  saveData();renderAll();closeSellModal();
 }
-document.getElementById('sellModal').addEventListener('click',function(e){if(e.target===this)closeSellModal();});
+$('sellModal').addEventListener('click',function(e){if(e.target===this)closeSellModal();});
 
 // ── PDF EXPORT ────────────────────────────────────────────────────────────────
+function pdfRows(items){
+  return items.map((it,idx)=>{
+    const cv=currentValue(it),g=gainOf(it);
+    return[idx+1,it.name,it.owner,locOf(it),it.date,it.store,it.invoice||'-',it.karat+'K',
+      fmtNum(it.weight),fmtNum(it.priceG),fmtNum(goldCost(it)),
+      +it.diamondCarat>0?(+it.diamondCarat).toFixed(2):'-',diamondCost(it)>0?fmtNum(diamondCost(it)):'-',
+      fmtNum(it.making),+it.vat>0?fmtNum(it.vat):'-',fmtNum(totalCost(it)),
+      cv===null?'No rate':(isSold(it)?fmtNum(cv)+' (sold)':fmtNum(cv)),
+      g===null?'-':gainTxt(g)];
+  });
+}
+function pdfFoot(t){
+  return[['','TOTAL ('+t.n+')','','','','','','',fmtNum(t.weight),'',fmtNum(t.gold),t.diaCt>0?t.diaCt.toFixed(2):'-',fmtNum(t.dia),fmtNum(t.making),fmtNum(t.vat),fmtNum(t.cost),t.hasValue?fmtNum(t.expected):'-',t.hasValue?gainTxt(t.gain):'-']];
+}
+const PDF_HEAD=[['#','Item','Owner','Location','Date','Store','Invoice','Karat','Gold (g)','Gold/g','Gold cost','Dia ct','Diamond','Making','VAT','Total cost','Current value','Gain/(Loss)']];
+function pdfTable(doc,startY,items){
+  const numCols={};[8,9,10,11,12,13,14,15,16,17].forEach(c=>numCols[c]={halign:'right'});
+  doc.autoTable({
+    startY,head:PDF_HEAD,body:pdfRows(items),foot:pdfFoot(calcTotals(items)),showFoot:'lastPage',
+    theme:'grid',
+    headStyles:{fillColor:[180,140,20],textColor:255,fontStyle:'bold',fontSize:7},
+    footStyles:{fillColor:[245,236,204],textColor:[60,50,30],fontStyle:'bold',fontSize:7.5},
+    bodyStyles:{fontSize:7,cellPadding:1.6},
+    alternateRowStyles:{fillColor:[253,248,232]},
+    columnStyles:numCols,
+    didParseCell:d=>{
+      if(d.section==='body'&&d.column.index===17){const v=String(d.cell.raw);
+        if(v.startsWith('+'))d.cell.styles.textColor=[26,107,58];
+        else if(v.startsWith('-')&&v.length>1)d.cell.styles.textColor=[139,26,26];}
+    },
+  });
+}
 function exportPDF(){
+  if(!window.jspdf||!window.jspdf.jsPDF){alert('The PDF library could not load. Check your internet connection and try again.');return;}
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a3'});
-  const owners=getOwners();
-
-  // Page 1: full portfolio
+  const t=calcTotals(portfolio);
   doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(122,92,30);
-  doc.text('GOLD PORTFOLIO TRACKER',148.5,18,{align:'center'});
+  doc.text('GOLD PORTFOLIO TRACKER',210,16,{align:'center'});
   doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(100,90,70);
-  doc.text('Family Jewellery & Investment Registry',148.5,24,{align:'center'});
-  doc.text('Generated: '+new Date().toLocaleDateString('en-AE',{year:'numeric',month:'long',day:'numeric'}),148.5,30,{align:'center'});
-  const totW=portfolio.reduce((s,i)=>s+i.weight,0);
-  const totTC=portfolio.reduce((s,i)=>s+totalCost(i),0);
-  const sold=portfolio.filter(i=>i.sellPrice!==null&&i.sellPrice!=='');
-  const totApp=sold.reduce((s,i)=>s+appreciation(i),0);
+  doc.text('Family Jewellery & Investment Registry  |  Generated: '+new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}),210,22,{align:'center'});
   doc.setFontSize(9);doc.setTextColor(60,50,30);
-  doc.text(`Items: ${portfolio.length}  |  Weight: ${fmtNum(totW)} g  |  Cost: ${fmtAED(totTC)}  |  Sold: ${sold.length}  |  Gain/Loss: ${sold.length?fmtAED(totApp):'N/A'}`,148.5,36,{align:'center'});
-  doc.autoTable({
-    startY:42,
-    head:[['#','Item','Owner','Location','Date','Store','Invoice','Karat','Weight(g)','Price/g','Making','Total Cost','Sell Price','Gain/(Loss)']],
-    body:portfolio.map((item,idx)=>{
-      const tc=totalCost(item),appr=appreciation(item);
-      return[idx+1,item.name,item.owner,item.location,item.date,item.store,item.invoice||'—',item.karat+'K',fmtNum(item.weight),fmtNum(item.priceG),fmtAED(item.making),fmtAED(tc),item.sellPrice?fmtAED(item.sellPrice):'Pending',appr!==null?(appr>=0?'+':'')+fmtAED(appr):'Pending'];
-    }),
-    theme:'grid',
-    headStyles:{fillColor:[180,140,20],textColor:255,fontStyle:'bold',fontSize:8},
-    bodyStyles:{fontSize:7.5,cellPadding:2},
-    alternateRowStyles:{fillColor:[253,248,232]},
-    didParseCell:(d)=>{if(d.section==='body'&&d.column.index===13){const v=String(d.cell.raw);if(v.startsWith('+'))d.cell.styles.textColor=[26,107,58];else if(v.startsWith('-'))d.cell.styles.textColor=[139,26,26];else d.cell.styles.textColor=[120,110,90];}},
-  });
+  doc.text(`Items: ${t.n}  |  Weight: ${fmtNum(t.weight)} g  |  Total cost: ${fmtAED(t.cost)}  |  Expected value: ${t.hasValue?fmtAED(t.expected):'N/A'}  |  Gain/(Loss): ${t.hasValue?gainTxt(t.gain):'N/A'}  |  Sold: ${t.soldN}`,210,28,{align:'center'});
+  const rt=[24,22,21,18].filter(k=>+rates[k]>0).map(k=>`${k}K ${fmtNum(rates[k])}`).join('   ');
+  doc.text('Gold rates (AED/g): '+(rt||'not entered')+(rates.updated?'   (updated '+rates.updated+')':''),210,33,{align:'center'});
+  pdfTable(doc,38,portfolio);
+  doc.setFontSize(7.5);doc.setTextColor(120,110,90);
+  doc.text('Current value = gold weight x current rate + diamond at purchase price. Sold items show the actual selling price. Cost includes diamond, making charges and VAT.',14,doc.lastAutoTable.finalY+6);
 
-  // Per-owner pages
-  owners.forEach(o=>{
+  getOwners().forEach(o=>{
     doc.addPage();
     doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(122,92,30);
-    doc.text(`Owner Report: ${o.name}`,148.5,16,{align:'center'});
+    doc.text('Owner Report: '+o.name,210,16,{align:'center'});
     doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(80,70,50);
-    doc.text(`Items: ${o.items.length}  |  Weight: ${fmtNum(o.totWeight)} g  |  Cost: ${fmtAED(o.totCost)}  |  Locations: ${o.locations.join(', ')}  |  Gain/Loss: ${o.sold.length?(o.totAppr>=0?'+':'')+fmtAED(o.totAppr):'N/A'}`,148.5,23,{align:'center'});
-    doc.autoTable({
-      startY:28,
-      head:[['#','Item','Type','Location','Date','Store','Invoice','Karat','Weight(g)','Making','Total Cost','Sell Price','Gain/(Loss)']],
-      body:o.items.map((item,idx)=>{
-        const tc=totalCost(item),appr=appreciation(item);
-        return[idx+1,item.name,item.type,item.location,item.date,item.store,item.invoice||'—',item.karat+'K',fmtNum(item.weight),fmtAED(item.making),fmtAED(tc),item.sellPrice?fmtAED(item.sellPrice):'Pending',appr!==null?(appr>=0?'+':'')+fmtAED(appr):'Pending'];
-      }),
-      theme:'grid',
-      headStyles:{fillColor:[180,140,20],textColor:255,fontStyle:'bold',fontSize:8},
-      bodyStyles:{fontSize:7.5,cellPadding:2},
-      alternateRowStyles:{fillColor:[253,248,232]},
-    });
+    doc.text(`Items: ${o.t.n}  |  Weight: ${fmtNum(o.t.weight)} g  |  Cost: ${fmtAED(o.t.cost)}  |  Expected value: ${o.t.hasValue?fmtAED(o.t.expected):'N/A'}  |  Gain/(Loss): ${o.t.hasValue?gainTxt(o.t.gain):'N/A'}  |  Locations: ${o.locations.join(', ')}`,210,23,{align:'center'});
+    pdfTable(doc,28,o.items);
   });
-
   const pc=doc.internal.getNumberOfPages();
-  for(let p=1;p<=pc;p++){doc.setPage(p);doc.setFontSize(7.5);doc.setTextColor(150);doc.text(`Page ${p} of ${pc}`,285,198,{align:'right'});doc.text('Gold Portfolio Tracker — Confidential · C:\\AI\\Tracker Gold',14,198);}
+  for(let p=1;p<=pc;p++){doc.setPage(p);doc.setFontSize(7.5);doc.setTextColor(150);doc.text(`Page ${p} of ${pc}`,406,288,{align:'right'});doc.text('Gold Portfolio Tracker - Confidential - C:\\AI\\Tracker Gold',14,288);}
   doc.save('Gold_Portfolio_'+new Date().toISOString().slice(0,10)+'.pdf');
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+$('f-pricing').innerHTML=pricingBlock('f');
+$('e-pricing').innerHTML=pricingBlock('e');
+initRates();
 calcPurity();
+resetAddForm();
 updateSummary();
 renderTable();
+
 </script>
 
 <script>
 // Password is stored as a SHA-256 hash — the plain text never appears in code
-// Current password: GoldRecords2025  — change via: python3 -c "import hashlib; print(hashlib.sha256(b"NEWPASS").hexdigest())"
+// To change the password, replace this hash with the SHA-256 of the new password.
 const PASS_HASH = '2618d4f1d2a96994b68c1c578b07456bdf64b8adc57fea56d3cb37ef01e82c33';
 
 // Session: once unlocked, stays unlocked for this browser session
