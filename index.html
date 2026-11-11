@@ -517,6 +517,26 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 #syncModal .form-group{margin-bottom:10px;}
 #syncModal{z-index:1500;}
 
+/* ── Exchange of old gold ── */
+.pb-row.c2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.ex-box{background:linear-gradient(135deg,#eef6f1,#e2f0e8);border:1.5px solid #a9cdb8;border-radius:12px;padding:14px 16px 12px;margin-bottom:14px;}
+.ex-box .pb-tag{color:#1a5c3a;background:rgba(26,107,58,.12);}
+.ex-box .form-hint{display:block;margin:-4px 0 8px;}
+.ex-box .ex-sum{border-color:#a9cdb8;color:#1a5c3a;margin-top:2px;}
+.ex-box .ex-sum b.g{color:var(--green-gain);}
+.ex-box .ex-sum b.l{color:var(--red-loss);}
+.ex-box select{width:100%;min-width:0;}
+.ex-chip{display:inline-block;margin-top:3px;padding:1px 9px;border-radius:10px;font-size:10.5px;font-weight:700;background:#e2f0e8;color:#1a5c3a;border:1px solid #a9cdb8;line-height:1.5;}
+.ex-chip.out{background:#f0ede6;color:#5a4a3a;border-color:#c8b890;}
+.ex-tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#e2f0e8;color:#1a5c3a;padding:1px 7px;border-radius:10px;}
+.cost-lines div.cost-ex{color:#1a5c3a;font-weight:600;}
+@media (max-width:700px){
+  .pb-row.c2{grid-template-columns:1fr;}
+  .ex-chip{font-size:12px;padding:3px 10px;}
+  .ex-tag{font-size:12px;}
+  .cost-lines div.cost-ex{font-size:14px;}
+}
+
 body,input,select,textarea,button{font-family:Calibri,Carlito,'Segoe UI',Arial,sans-serif;}
 body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 .tp .v{font-size:18px;font-weight:700;}.tp.hi .v{font-size:22px;}.stat-value{font-size:21px;}.val-main,.gain-main{font-size:14.5px;}.l1{font-size:13px;}.l2{font-size:11.5px;}.cost-lines div{font-size:12px;}
@@ -800,7 +820,7 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
   <div class="summary-inner">
     <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="s-items">—</div><div class="stat-sub">in portfolio</div></div>
     <div class="stat-card"><div class="stat-label">Total Weight</div><div class="stat-value" id="s-weight">—</div><div class="stat-sub" id="s-weight-sub">gold</div></div>
-    <div class="stat-card"><div class="stat-label">Total Cost</div><div class="stat-value" id="s-cost">—</div><div class="stat-sub">incl. diamond, making &amp; VAT</div></div>
+    <div class="stat-card"><div class="stat-label">Total Cost</div><div class="stat-value" id="s-cost">—</div><div class="stat-sub" id="s-cost-sub">incl. diamond, making &amp; VAT</div></div>
     <div class="stat-card"><div class="stat-label">Expected Value</div><div class="stat-value" id="s-expected">—</div><div class="stat-sub" id="s-expected-sub">at current gold rates</div></div>
     <div class="stat-card"><div class="stat-label">Gain / (Loss)</div><div class="stat-value" id="s-gain">—</div><div class="stat-sub" id="s-gain-sub">vs total cost</div></div>
     <div class="stat-card"><div class="stat-label">Items Sold</div><div class="stat-value" id="s-sold">—</div><div class="stat-sub" id="s-sold-sub">of total</div></div>
@@ -876,6 +896,15 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
 
       <p class="form-section-label"><span class="lbl-price">Pricing — Gold, Diamond, Making &amp; VAT</span></p>
       <div id="f-pricing"></div>
+      <div class="ex-box" id="f-ex-box">
+        <div class="pb-tag">Exchange of old gold <span style="font-weight:500;letter-spacing:0;text-transform:none">(optional)</span></div>
+        <div class="pb-row c2">
+          <div class="form-group"><label>Old item traded in for this purchase</label><select id="f-ex-from" onchange="exPick('f')"></select></div>
+          <div class="form-group"><label>Value credited for old gold (AED)</label><input type="number" inputmode="decimal" step="0.01" id="f-ex-credit" placeholder="0.00" oninput="exUpdate('f')"/></div>
+        </div>
+        <div class="form-hint" id="f-ex-hint"></div>
+        <div class="pb-preview ex-sum" id="f-ex-sum"></div>
+      </div>
       <div class="form-group sell-row"><label>Selling Price (AED) <em style="font-weight:300;font-size:10px">optional — only if already sold</em></label><input type="number" id="f-sell" step="0.01" placeholder="Leave blank if unsold"/></div>
 
       <p class="form-section-label"><span class="lbl-photo">Photos &amp; Bills</span></p>
@@ -1090,7 +1119,16 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
 
       <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Pricing</div>
       <div id="e-pricing"></div>
-      <div class="form-group sell-row"><label>Selling Price (AED)</label><input type="number" id="e-sell" step="0.01" placeholder="blank = unsold"/></div>
+      <div class="ex-box" id="e-ex-box">
+        <div class="pb-tag">Exchange of old gold <span style="font-weight:500;letter-spacing:0;text-transform:none">(optional)</span></div>
+        <div class="pb-row c2">
+          <div class="form-group"><label>Old item traded in for this purchase</label><select id="e-ex-from" onchange="exPick('e')"></select></div>
+          <div class="form-group"><label>Value credited for old gold (AED)</label><input type="number" inputmode="decimal" step="0.01" id="e-ex-credit" placeholder="0.00" oninput="exUpdate('e')"/></div>
+        </div>
+        <div class="form-hint" id="e-ex-hint"></div>
+        <div class="pb-preview ex-sum" id="e-ex-sum"></div>
+      </div>
+      <div class="form-group sell-row"><label>Selling Price (AED)</label><input type="number" id="e-sell" step="0.01" placeholder="blank = unsold"/><span class="form-hint" id="e-sell-note"></span></div>
 
       <div class="pb-tag" style="background:#eef0fa;color:#2d3a6e">Photos &amp; Bills</div>
       <div id="e-media"></div>
@@ -1144,7 +1182,7 @@ const $=id=>document.getElementById(id);
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 // Older saved records lack the diamond / VAT fields — fill them with zeros so nothing changes for them.
-const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i,uid:i.uid||('u'+i.id),updated:i.updated||0});
+const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,exchangeFrom:'',exchangeCredit:0,prevLocation:'',...i,uid:i.uid||('u'+i.id),updated:i.updated||0});
 
 function loadData(){
   try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r).map(normItem);}catch(e){}
@@ -1194,21 +1232,25 @@ const goldCost=i=>r2((+i.weight||0)*(+i.priceG||0));
 const diamondCost=i=>r2(+i.diamondPrice||0);
 const totalCost=i=>r2(goldCost(i)+diamondCost(i)+(+i.making||0)+(+i.vat||0));
 function goldValueNow(i){const ri=rateInfo(i.karat);return ri?r2((+i.weight||0)*ri.rate):null;}
-// Sold → actual selling price. Unsold → today's gold value + diamond at purchase price. null → no rate entered.
+// Sold → actual selling price. Unsold → what the GOLD alone would fetch today (weight × karat rate).
+// Making charges, VAT and diamonds are not recovered on resale, so they are left out. null → no rate entered.
 function currentValue(i){
   if(isSold(i))return r2(i.sellPrice);
-  const g=goldValueNow(i);
-  return g===null?null:r2(g+diamondCost(i));
+  return goldValueNow(i);
 }
+// ── EXCHANGE (old gold traded in against a new purchase) ──────────────────────
+const exSrc=i=>i.exchangeFrom?portfolio.find(x=>x.uid===i.exchangeFrom)||null:null;   // old item this purchase was paid with
+const exDst=i=>portfolio.find(x=>x.exchangeFrom===i.uid)||null;                       // new purchase this item was traded into
+const exCredit=i=>i.exchangeFrom?r2(+i.exchangeCredit||0):0;
 function gainOf(i){const v=currentValue(i);return v===null?null:r2(v-totalCost(i));}
 
 function calcTotals(items){
   const t={n:items.length,weight:0,diaCt:0,gold:0,dia:0,making:0,vat:0,cost:0,
-    soldN:0,soldCost:0,soldProceeds:0,openN:0,openCost:0,openValue:0,openMissing:0};
+    soldN:0,soldCost:0,soldProceeds:0,openN:0,openCost:0,openValue:0,openMissing:0,exch:0};
   items.forEach(i=>{
     t.weight+=+i.weight||0;t.diaCt+=+i.diamondCarat||0;
     t.gold+=goldCost(i);t.dia+=diamondCost(i);t.making+=+i.making||0;t.vat+=+i.vat||0;
-    const tc=totalCost(i);t.cost+=tc;
+    const tc=totalCost(i);t.cost+=tc;t.exch+=exCredit(i);
     if(isSold(i)){t.soldN++;t.soldCost+=tc;t.soldProceeds+=+i.sellPrice;}
     else{
       const v=currentValue(i);
@@ -1222,7 +1264,7 @@ function calcTotals(items){
   t.realised=r2(t.soldProceeds-t.soldCost);
   t.unrealised=r2(t.openValue-t.openCost);
   t.hasValue=(t.soldN+t.openN)>0;
-  ['weight','gold','dia','making','vat','cost'].forEach(k=>t[k]=r2(t[k]));
+  ['weight','gold','dia','making','vat','cost','exch'].forEach(k=>t[k]=r2(t[k]));
   return t;
 }
 
@@ -1323,8 +1365,9 @@ function updateSummary(){
   $('s-weight').textContent=fmtNum(t.weight)+' g';
   $('s-weight-sub').textContent=t.diaCt>0?('+ '+t.diaCt.toFixed(2)+' ct diamonds'):'gold';
   $('s-cost').textContent=fmtAED(t.cost);
+  $('s-cost-sub').textContent=t.exch>0?('cash paid '+fmtNum(t.cost-t.exch)+' · exchange '+fmtNum(t.exch)):'incl. diamond, making & VAT';
   $('s-expected').textContent=t.hasValue?fmtAED(t.expected):'—';
-  $('s-expected-sub').textContent=t.openMissing>0?(t.openMissing+' item'+(t.openMissing>1?'s':'')+' need a gold rate'):(t.hasValue?'at current gold rates':'enter gold rates above');
+  $('s-expected-sub').textContent=t.openMissing>0?(t.openMissing+' item'+(t.openMissing>1?'s':'')+' need a gold rate'):(t.hasValue?'gold value only · sold items at actual':'enter gold rates above');
   const gEl=$('s-gain');
   if(t.hasValue){
     gEl.textContent=gainTxt(t.gain);setGainClass(gEl,t.gain);
@@ -1351,23 +1394,26 @@ function photoThumb(item){
 
 function itemRow(item,idx,showOwner){
   const sold=isSold(item),cv=currentValue(item),g=gainOf(item),tc=totalCost(item);
+  const src=exSrc(item),dst=exDst(item),xc=exCredit(item);
   const lk=locOf(item),flag=LOC_FLAGS[lk]||'🌍';
   const locStyle=sold?'background:#f0ede6;color:#5a4a3a;border-color:#c8b890;':'';
   const dia=(+item.diamondCarat>0||+item.diamondPrice>0);
   const showVat=(+item.vat>0||+item.vatRate>0);
   let valCell;
-  if(sold)valCell=`<div class="val-main">${fmtNum(item.sellPrice)}</div><div class="l2"><span class="status-sold">Sold</span></div>`;
+  if(sold)valCell=`<div class="val-main">${fmtNum(item.sellPrice)}</div><div class="l2"><span class="status-sold">Sold</span>${dst?` <span class="ex-tag">exchanged</span>`:''}</div>`;
   else if(cv!==null){
     const ri=rateInfo(item.karat);
-    valCell=`<div class="val-main">${fmtNum(cv)}</div><div class="l2">Tentative · ${item.karat}K @ ${fmtNum(ri.rate)}/g${ri.est?' (est.)':''}</div>`;
+    valCell=`<div class="val-main">${fmtNum(cv)}</div><div class="l2">Gold only · ${item.karat}K @ ${fmtNum(ri.rate)}/g${ri.est?' (est.)':''}</div>`;
   }else valCell=`<span class="status-pending">Set gold rate</span>`;
   let gainCell;
   if(g===null)gainCell=`<span class="status-pending">Pending</span>`;
   else gainCell=`<div class="gain-main ${g>=0?'status-gain':'status-loss'}">${gainTxt(g)}</div><div class="l2">${tc?((g/tc*100).toFixed(1)+'%'):'—'} · ${sold?'realised':'unrealised'}</div>`;
   const dl=(dupInfo.byId[item.id]||{}).level||0;
   const dchip=dl?`<button class="dup-chip lvl${dl}" type="button" onclick="openDup(${item.id})" title="Click to review">${dl===3?'⚠ Likely duplicate':dl===2?'⚠ Possible duplicate':'ℹ Same invoice no.'}</button>`:'';
+  const xchip=(item.exchangeFrom?`<div class="ex-chip">⇄ Paid with old #${src?src.id+' '+esc(src.name):'item'} · credit ${fmtNum(xc)}</div>`:'')
+    +(dst?`<div class="ex-chip out">⇄ Exchanged into #${dst.id} ${esc(dst.name)}</div>`:'');
   return`<tr class="${dl>=2?'dup-'+dl:''}">
-    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${item.id}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span><span class="only-m"> · ${fmtNum(item.weight)} g</span></div>${dchip}${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
+    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${item.id}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span><span class="only-m"> · ${fmtNum(item.weight)} g</span></div>${dchip}${xchip}${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
     ${showOwner?`<td class="c-owner" data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
     <td class="c-d" data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
     <td class="c-loc" data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
@@ -1378,7 +1424,8 @@ function itemRow(item,idx,showOwner){
       ${dia?`<div><span>Diamond</span><span>${fmtNum(diamondCost(item))}</span></div>`:''}
       <div><span>Making</span><span>${fmtNum(item.making)}</span></div>
       ${showVat?`<div><span>VAT${+item.vatRate>0?' '+(+item.vatRate)+'%':''}</span><span>${fmtNum(item.vat)}</span></div>`:''}
-      <div class="cost-total"><span>Total</span><span>${fmtNum(tc)}</span></div></div></td>
+      <div class="cost-total"><span>Total</span><span>${fmtNum(tc)}</span></div>
+      ${xc>0?`<div class="cost-ex"><span>Paid by old gold</span><span>−${fmtNum(xc)}</span></div><div class="cost-ex"><span>Cash paid</span><span>${fmtNum(r2(tc-xc))}</span></div>`:''}</div></td>
     <td class="c-val" data-label="Current value (AED)">${valCell}</td>
     <td class="c-gain" data-label="Gain / (Loss)">${gainCell}</td>
     <td class="c-act" data-label=""><div class="act-col"><button class="edit-btn" onclick="openEditModal(${item.id})" title="Edit item">✏ Edit</button><button class="det-btn" type="button" onclick="toggleDetails(this)">Details ▾</button>${sold?'':`<button class="sell-btn" onclick="openSellModal(${item.id})" title="Record sale">Sell</button>`}</div></td>
@@ -1410,8 +1457,8 @@ function totalsPanel(t,label){
     <div class="tp"><div class="l">Diamond</div><div class="v">${fmtNum(t.dia)}</div></div>
     <div class="tp"><div class="l">Making</div><div class="v">${fmtNum(t.making)}</div></div>
     <div class="tp"><div class="l">VAT</div><div class="v">${fmtNum(t.vat)}</div></div>
-    <div class="tp"><div class="l">Total cost (AED)</div><div class="v">${fmtNum(t.cost)}</div></div>
-    <div class="tp hi"><div class="l">Total expected value</div><div class="v">${t.hasValue?fmtNum(t.expected):'—'}</div><div class="s">${t.openMissing>0?t.openMissing+' item(s) need a gold rate':(t.hasValue?'held at current rates + sold actuals':'enter gold rates above')}</div></div>
+    <div class="tp"><div class="l">Total cost (AED)</div><div class="v">${fmtNum(t.cost)}</div>${t.exch>0?`<div class="s">Cash ${fmtNum(t.cost-t.exch)} · exchange ${fmtNum(t.exch)}</div>`:''}</div>
+    <div class="tp hi"><div class="l">Total expected value</div><div class="v">${t.hasValue?fmtNum(t.expected):'—'}</div><div class="s">${t.openMissing>0?t.openMissing+' item(s) need a gold rate':(t.hasValue?'gold value only (no making, VAT or diamond) + sold actuals':'enter gold rates above')}</div></div>
     <div class="tp hi"><div class="l">Gain / (Loss)</div><div class="v ${t.hasValue?(t.gain>=0?'gain':'loss'):''}">${t.hasValue?gainTxt(t.gain):'—'}</div><div class="s">${pct}</div></div>
     <div class="tp"><div class="l">Realised (sold)</div><div class="v">${t.soldN?gainTxt(t.realised):'—'}</div><div class="s">Unrealised ${t.openN?gainTxt(t.unrealised):'—'}</div></div>`;
 }
@@ -1445,6 +1492,7 @@ function advBlock(){
     ${rangeField('gainamt','Gain / loss amount (AED)')}
     ${sel('bills','Bills attached',[['','Any'],['with','With bills'],['without','Without bills']])}
     ${sel('photos','Photos attached',[['','Any'],['with','With photos'],['without','Without photos']])}
+    ${sel('exch','Exchange',[['','Any'],['with','Bought with old gold'],['from','Sold in an exchange']])}
     ${sel('dup','Duplicate check',[['','Any'],['flag','Likely + possible duplicates'],['likely','Likely duplicates only'],['note','Same-invoice notes']])}
     <div class="form-group"><label>Sort by</label><select id="af-sort" onchange="onSortSelect(this.value)">${SORT_OPTS.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>
     <div class="form-group adv-actions"><button class="btn-mini" type="button" onclick="clearFilters()">✕ Clear all filters</button></div>
@@ -1520,7 +1568,7 @@ function renderTable(){
   const ownerF=$('filter-owner').value,karatF=$('filter-karat').value,statusF=$('filter-status').value,locF=$('filter-location').value;
   const searchF=$('filter-search').value.toLowerCase().trim();
   const itemF=$('af-item').value.toLowerCase().trim(),typeF=$('af-type').value,srcF=$('af-source').value.toLowerCase().trim();
-  const dupF=$('af-dup').value,diaF=$('af-dia').value,gainF=$('af-gain').value,billsF=$('af-bills').value,photosF=$('af-photos').value;
+  const exF=$('af-exch').value,dupF=$('af-dup').value,diaF=$('af-dia').value,gainF=$('af-gain').value,billsF=$('af-bills').value,photosF=$('af-photos').value;
   const dMin=$('af-date-min').value,dMax=$('af-date-max').value;
   let rows=portfolio.filter(item=>{
     if(ownerF&&item.owner!==ownerF)return false;
@@ -1541,6 +1589,8 @@ function renderTable(){
     if(gainF==='gain'&&!(g!==null&&g>=0))return false;
     if(gainF==='loss'&&!(g!==null&&g<0))return false;
     if(gainF==='none'&&g!==null)return false;
+    if(exF==='with'&&!item.exchangeFrom)return false;
+    if(exF==='from'&&!exDst(item))return false;
     const dl=(dupInfo.byId[item.id]||{}).level||0;
     if(dupF==='flag'&&dl<2)return false;
     if(dupF==='likely'&&dl<3)return false;
@@ -1895,6 +1945,57 @@ function storageInfo(){
     return 'Storage used: '+(n/1e6).toFixed(1)+' of ~5 MB.';}catch(e){return '';}
 }
 
+// ── EXCHANGE UI + LINKING ─────────────────────────────────────────────────────
+// Choosing an old item marks it sold at the credited value; that credit counts as part payment of the new purchase.
+function linkExchange(nw,oldUid,credit){
+  const old=portfolio.find(x=>x.uid===oldUid);if(!old)return;
+  old.prevLocation=isSold(old)?(old.prevLocation||'UAE'):(old.location||'UAE');
+  old.sellPrice=credit;old.location='Sold';old.updated=Date.now();
+  nw.exchangeFrom=oldUid;nw.exchangeCredit=credit;nw.updated=Date.now();
+}
+function unlinkExchange(nw){
+  const old=exSrc(nw);
+  if(old){old.sellPrice=null;old.location=(old.prevLocation&&old.prevLocation!=='Sold')?old.prevLocation:'UAE';old.updated=Date.now();}
+  nw.exchangeFrom='';nw.exchangeCredit=0;nw.updated=Date.now();
+}
+function exFill(p,item){
+  const sel=$(p+'-ex-from');if(!sel)return;
+  const cur=item&&item.exchangeFrom?item.exchangeFrom:'';
+  const opts=portfolio.filter(x=>x!==item&&(!isSold(x)||x.uid===cur)).sort((a,b)=>b.id-a.id);
+  sel.innerHTML='<option value="">— None (normal purchase) —</option>'+opts.map(x=>`<option value="${esc(x.uid)}">#${x.id} ${esc(x.name)} · ${esc(x.owner)} · ${x.karat}K ${fmtNum(x.weight)} g</option>`).join('');
+  sel.value=cur;
+  $(p+'-ex-credit').value=cur&&item?item.exchangeCredit:'';
+  exUpdate(p);
+}
+function exPick(p){
+  const old=portfolio.find(x=>x.uid===$(p+'-ex-from').value);
+  const gv=old?goldValueNow(old):null;
+  $(p+'-ex-credit').value=gv!==null?gv.toFixed(2):'';
+  exUpdate(p);
+}
+function exUse(p){
+  const old=portfolio.find(x=>x.uid===$(p+'-ex-from').value);if(!old)return;
+  const gv=goldValueNow(old);if(gv===null)return;
+  $(p+'-ex-credit').value=gv.toFixed(2);exUpdate(p);
+}
+function exUpdate(p){
+  const sel=$(p+'-ex-from');if(!sel)return;
+  const old=sel.value?portfolio.find(x=>x.uid===sel.value):null;
+  const cEl=$(p+'-ex-credit'),hint=$(p+'-ex-hint'),sum=$(p+'-ex-sum');
+  cEl.disabled=!old;
+  if(!old){hint.innerHTML='Only if you traded in an old piece against this purchase.';sum.style.display='none';return;}
+  const gv=goldValueNow(old),cr=r2(+cEl.value||0),T=r2(nv(p,'total-cost')),oc=totalCost(old);
+  hint.innerHTML=gv!==null
+    ?`Gold value of the old item today: <b>${fmtNum(gv)}</b> (${old.karat}K × ${fmtNum(old.weight)} g)<button class="link-btn" type="button" onclick="exUse('${p}')">Use this</button>`
+    :'Enter the value the shop gave you for the old gold (set today\u2019s gold rates to get a suggestion).';
+  if(!(cr>0)){sum.style.display='none';return;}
+  sum.style.display='block';
+  const d=r2(cr-oc);
+  sum.innerHTML=`Old #${old.id} ${esc(old.name)}: cost ${fmtNum(oc)} → exchange value <b>${fmtNum(cr)}</b> = <b class="${d>=0?'g':'l'}">${gainTxt(d)}</b> on the old piece`
+    +(T>0?`<br>Paid by old gold <b>${fmtNum(cr)}</b> · Cash to pay <b>${fmtNum(T-cr)}</b> of total ${fmtNum(T)}`:'')
+    +(T>0&&cr>T?'<br><span class="warn">The credit is more than the new total — check the amount.</span>':'');
+}
+
 // ── PRICING BLOCK (shared by Add form 'f' and Edit modal 'e') ─────────────────
 function fld(p,id,label,trigger,o){
   o=o||{};
@@ -2001,6 +2102,7 @@ function calcPricing(p,trigger){
       +(M<0?'<br><span class="warn">Making charges are negative — check the total, gold price or diamond price.</span>':'')
       +(D<0?'<br><span class="warn">Diamond price is negative — the total is too low for the gold and making entered.</span>':'');
   }else prev.style.display='none';
+  exUpdate(p);
 }
 function readPricing(p){
   return{weight:nv(p,'weight'),priceG:nv(p,'price-g'),
@@ -2016,13 +2118,14 @@ function resetAddForm(){
   vatManual.f=false;pm.f={making:false,dia:false,total:false};
   $('f-preview').style.display='none';
   media.f={photos:[],bills:[]};renderMedia('f');
+  exFill('f');
 }
 function toggleForm(){
   const p=$('formPanel');
   p.classList.toggle('open');
   document.body.classList.toggle('form-open',p.classList.contains('open'));
   if(p.classList.contains('open')){
-    calcPurity();
+    calcPurity();exFill('f');
     if(!$('f-date').value)$('f-date').value=new Date().toISOString().slice(0,10);
     if(window.innerWidth<=700){const fb=p.querySelector('.form-body');if(fb)fb.scrollTop=0;}
     else p.scrollIntoView({behavior:'smooth',block:'start'});
@@ -2037,6 +2140,8 @@ function saveItem(){
   if(pr.diamondPrice<0){alert('Diamond price is negative — please check the total, gold or making charges.');return;}
   const sell=$('f-sell').value;
   const sold=sell!==''&&+sell>0;
+  const exFrom=$('f-ex-from').value,exCr=r2(+$('f-ex-credit').value||0);
+  if(exFrom&&!(exCr>0)){alert('Enter the value credited for the old gold you exchanged (or choose "None").');return;}
   const item=normItem({
     id:nextId++,uid:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),updated:Date.now(),name,type:$('f-type').value,
     owner,ownerId:$('f-owner-id').value.trim(),
@@ -2051,13 +2156,14 @@ function saveItem(){
   });
   const hits=dupAgainst(item);
   if(hits.length&&!confirm('This looks like a duplicate of an existing entry:\n\n'+hits.slice(0,3).map(h=>'• #'+h.o.id+' '+h.o.name+' ('+h.o.owner+', '+h.o.date+', '+fmtNum(h.o.weight)+' g) — '+h.k.reason).join('\n')+'\n\nSave it anyway?')){nextId--;return;}
+  if(exFrom)linkExchange(item,exFrom,exCr);
   portfolio.push(item);
   if(!saveData()){/* toast already shown; keep item in memory for this session */}
   resetAddForm();
   toggleForm();
   $('f-date').value='';
   renderAll();
-  showToast('✓ Item added. '+storageInfo());
+  showToast(exFrom?'✓ Item added; the old item is now marked as sold in exchange.':'✓ Item added. '+storageInfo());
 }
 
 // ── EDIT MODAL ────────────────────────────────────────────────────────────────
@@ -2090,6 +2196,10 @@ function openEditModal(id){
   pm.e={making:false,dia:+item.diamondPrice>0,total:false};
   vatManual.e=Math.abs((+item.vat||0)-r2(S*(+item.vatRate||0)/100))>0.01;
   calcPricing('e','init');
+  exFill('e',item);
+  const dst=exDst(item);
+  $('e-sell').disabled=!!dst;
+  $('e-sell-note').textContent=dst?('Exchanged into #'+dst.id+' '+dst.name+' — change the credit on that item to alter this value.'):'';
   $('editModal').classList.add('open');
 }
 function saveEdit(){
@@ -2101,6 +2211,8 @@ function saveEdit(){
   if(pr.diamondPrice<0){alert('Diamond price is negative — please check the total, gold or making charges.');return;}
   const sell=$('e-sell').value;
   const sold=sell!==''&&+sell>0;
+  const exFrom=$('e-ex-from').value,exCr=r2(+$('e-ex-credit').value||0);
+  if(exFrom&&!(exCr>0)){alert('Enter the value credited for the old gold you exchanged (or choose "None").');return;}
   let loc=$('e-location').value;
   if(sold)loc='Sold';
   else if(loc==='Sold'){alert('No selling price is entered — choose where the item is now, or enter its selling price.');return;}
@@ -2114,6 +2226,9 @@ function saveEdit(){
     photos:[...media.e.photos],bills:[...media.e.bills],
     sellPrice:sold?+sell:null,
   };
+  const me=portfolio[idx];
+  if(exFrom!==(me.exchangeFrom||'')){if(me.exchangeFrom)unlinkExchange(me);if(exFrom)linkExchange(me,exFrom,exCr);}
+  else if(exFrom&&exCr!==r2(me.exchangeCredit)){me.exchangeCredit=exCr;const o=exSrc(me);if(o){o.sellPrice=exCr;o.updated=Date.now();}}
   saveData();renderAll();closeEditModal();
   showToast('✓ Item updated. '+storageInfo());
 }
@@ -2135,7 +2250,7 @@ function openSellModal(id){
   $('mi-cost').textContent=fmtAED(totalCost(item));
   const cv=currentValue(item),tb=$('mi-tentative');
   sellSuggest=cv;
-  if(cv!==null){tb.style.display='block';tb.innerHTML=`Tentative value at current gold rates: <strong>${fmtAED(cv)}</strong><button class="link-btn" type="button" onclick="useTentative()">Use this</button>`;}
+  if(cv!==null){tb.style.display='block';tb.innerHTML=`Gold value at current rates: <strong>${fmtAED(cv)}</strong><button class="link-btn" type="button" onclick="useTentative()">Use this</button>`;}
   else tb.style.display='none';
   $('sell-price-input').value='';
   $('sell-preview-box').className='sell-preview';
@@ -2172,7 +2287,7 @@ function pdfRows(items){
       fmtNum(it.weight),fmtNum(it.priceG),fmtNum(goldCost(it)),
       +it.diamondCarat>0?(+it.diamondCarat).toFixed(2):'-',diamondCost(it)>0?fmtNum(diamondCost(it)):'-',
       fmtNum(it.making),+it.vat>0?fmtNum(it.vat):'-',fmtNum(totalCost(it)),
-      cv===null?'No rate':(isSold(it)?fmtNum(cv)+' (sold)':fmtNum(cv)),
+      cv===null?'No rate':(isSold(it)?fmtNum(cv)+(exDst(it)?' (exchanged)':' (sold)'):fmtNum(cv)),
       g===null?'-':gainTxt(g)];
   });
 }
