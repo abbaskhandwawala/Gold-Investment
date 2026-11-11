@@ -537,6 +537,8 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
   .cost-lines div.cost-ex{font-size:14px;}
 }
 
+.sync-perm{border-top:1px dashed var(--border-mid);margin-top:12px;padding-top:12px;}
+
 body,input,select,textarea,button{font-family:Calibri,Carlito,'Segoe UI',Arial,sans-serif;}
 body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 .tp .v{font-size:18px;font-weight:700;}.tp.hi .v{font-size:22px;}.stat-value{font-size:21px;}.val-main,.gain-main{font-size:14.5px;}.l1{font-size:13px;}.l2{font-size:11.5px;}.cost-lines div{font-size:12px;}
@@ -1047,6 +1049,12 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
       <div class="form-group"><label>Private repository name</label><input type="text" id="sy-repo" placeholder="e.g. gold-data" autocapitalize="off" autocorrect="off"/></div>
       <div class="form-group"><label>Access token</label><input type="password" id="sy-token" placeholder="github_pat_…" autocomplete="off"/></div>
       <div class="form-group"><label>File name <em style="font-weight:300">(leave as is)</em></label><input type="text" id="sy-path" value="gold-data.json" autocapitalize="off"/></div>
+      <div class="sync-perm" id="sync-perm" style="display:none">
+        <div class="pb-tag">Connect every browser automatically</div>
+        <p class="sync-note" style="margin-bottom:8px">Saves this connection, encrypted with your page password, in a small file next to the website. Upload it once to the <b>Gold-Investment</b> repository (Add file → Upload files). After that, any browser or phone connects by itself once you enter the password, with no token to type. Anyone who guesses the page password could open the file, so use a long password.</p>
+        <div class="form-group"><label>Page password</label><input type="password" id="sy-pwd" autocomplete="off" placeholder="The password you use to open this page"/></div>
+        <button class="btn-mini" type="button" onclick="makeConfigFile()">⬇ Create sync-config.json</button>
+      </div>
     </div>
     <div class="modal-footer"><button class="link-btn" id="sy-disconnect" type="button" onclick="disconnectSync()" style="margin-right:auto;display:none">Disconnect</button><button class="btn-cancel" onclick="closeSync()">Close</button><button class="btn-save" onclick="connectSync()">☁ Connect &amp; sync</button></div>
   </div>
@@ -1184,13 +1192,95 @@ const $=id=>document.getElementById(id);
 // Older saved records lack the diamond / VAT fields — fill them with zeros so nothing changes for them.
 const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,exchangeFrom:'',exchangeCredit:0,prevLocation:'',...i,uid:i.uid||('u'+i.id),updated:i.updated||0});
 
+
+// ── MEDIA STORE ───────────────────────────────────────────────────────────────
+// Photos and bills are big, so they live in IndexedDB (hundreds of MB) instead of the 5 MB localStorage,
+// and in the cloud they are stored as separate files (media/<id>) next to gold-data.json.
+// Each picture gets a content-based id, so the same picture has the same id on every device.
+const isData=s=>typeof s==='string'&&s.startsWith('data:');
+const mem=new Map();                 // media id → data URL, everything this device holds
+const inIdb=new Set();
+let idb=null,idbOk=false;
+function cyrb53(str){let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<str.length;i++){const ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+  return 4294967296*(2097151&h2)+(h1>>>0);}
+const idCache=new Map();
+function mediaId(d){
+  let id=idCache.get(d);if(id)return id;
+  const mime=d.slice(5,d.indexOf(';'))||'image/jpeg';
+  const ext=mime==='application/pdf'?'pdf':mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';
+  id='m'+cyrb53(d).toString(36)+d.length.toString(36)+'.'+ext;
+  idCache.set(d,id);return id;
+}
+const mref=s=>isData(s)?mediaId(s):s;
+const billRef=b=>b.mid||(b.data?mediaId(b.data):'');
+function stripItem(i){
+  return{...i,photos:(i.photos||[]).map(mref),bills:(i.bills||[]).map(b=>({name:b.name,type:b.type,mid:billRef(b)}))};
+}
+function idbOpen(){return new Promise(res=>{
+  try{const rq=indexedDB.open('gold_media_v1',1);
+    rq.onupgradeneeded=()=>rq.result.createObjectStore('m');
+    rq.onsuccess=()=>{idb=rq.result;res(true);};
+    rq.onerror=()=>res(false);rq.onblocked=()=>res(false);
+  }catch(e){res(false);}});}
+const idbPut=(id,d)=>new Promise((res,rej)=>{try{const tx=idb.transaction('m','readwrite');tx.objectStore('m').put(d,id);tx.oncomplete=()=>res(true);tx.onerror=tx.onabort=()=>rej(tx.error||new Error('idb'));}catch(e){rej(e);}});
+const idbAll=()=>new Promise(res=>{const out=[];try{const tx=idb.transaction('m','readonly');const c=tx.objectStore('m').openCursor();
+  c.onsuccess=()=>{const cur=c.result;if(cur){out.push([cur.key,cur.value]);cur.continue();}};
+  tx.oncomplete=()=>res(out);tx.onerror=tx.onabort=()=>res(out);}catch(e){res(out);}});
+function keepMedia(d,id){
+  mem.set(id,d);
+  if(!idbOk||inIdb.has(id))return;
+  inIdb.add(id);
+  idbPut(id,d).catch(()=>{inIdb.delete(id);showToast('⚠ Could not store a photo or bill on this device.');});
+}
+function persistMedia(){
+  portfolio.forEach(i=>{
+    (i.photos||[]).forEach(p=>{if(isData(p))keepMedia(p,mediaId(p));});
+    (i.bills||[]).forEach(b=>{if(b.data){b.mid=b.mid||mediaId(b.data);keepMedia(b.data,b.mid);}});
+  });
+}
+function hydrate(){      // put the real pictures back into items that only hold ids
+  let missing=0;
+  portfolio.forEach(i=>{
+    i.photos=(i.photos||[]).map(p=>{if(isData(p))return p;const d=mem.get(p);if(d)return d;missing++;return p;});
+    (i.bills||[]).forEach(b=>{if(!b.data&&b.mid){const d=mem.get(b.mid);if(d)b.data=d;else missing++;}});
+  });
+  return missing;
+}
+function mediaWanted(){
+  const w=new Set();
+  portfolio.forEach(i=>{
+    (i.photos||[]).forEach(p=>{if(p&&!isData(p)&&!mem.has(p))w.add(p);});
+    (i.bills||[]).forEach(b=>{if(!b.data&&b.mid&&!mem.has(b.mid))w.add(b.mid);});
+  });
+  return [...w];
+}
+async function initMedia(){
+  idbOk=await idbOpen();
+  if(!idbOk)return;
+  try{
+    (await idbAll()).forEach(([k,v])=>{mem.set(k,v);inIdb.add(k);});
+    const puts=[];                                   // older saves kept pictures inside the item: move them to IndexedDB first
+    portfolio.forEach(i=>{
+      (i.photos||[]).forEach(p=>{if(isData(p)){const id=mediaId(p);mem.set(id,p);if(!inIdb.has(id)){inIdb.add(id);puts.push(idbPut(id,p));}}});
+      (i.bills||[]).forEach(b=>{if(b.data){const id=b.mid=b.mid||mediaId(b.data);mem.set(id,b.data);if(!inIdb.has(id)){inIdb.add(id);puts.push(idbPut(id,b.data));}}});
+    });
+    await Promise.all(puts);
+  }catch(e){idbOk=false;return;}
+  hydrate();
+  suppressDirty=true;saveData();suppressDirty=false;   // now rewrite localStorage in the small format
+}
+
 function loadData(){
   try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r).map(normItem);}catch(e){}
   return JSON.parse(JSON.stringify(INITIAL_DATA)).map(normItem);
 }
 function saveData(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));markDirty();return true;}
-  catch(e){showToast('⚠ Browser storage is full — save a backup and remove some photos.');return false;}
+  try{
+    if(idbOk){persistMedia();localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio.map(stripItem)));}
+    else localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));       // IndexedDB unavailable: old behaviour
+    markDirty();return true;}
+  catch(e){showToast('⚠ Browser storage is full — save a backup and remove some photos.');markDirty();return false;}
 }
 function loadRates(){
   const base={24:'',22:'',21:'',18:'',updated:''};
@@ -1387,8 +1477,9 @@ function updateSummary(){
 
 // ── TABLE (shared by Portfolio + Owner detail) ────────────────────────────────
 function photoThumb(item){
-  if(item.photos&&item.photos.length>0)
-    return`<div class="item-photo-thumb" onclick="openViewer([],'${esc(item.name)}',${item.id})"><img src="${item.photos[0]}" alt=""/></div>`;
+  if(item.photos&&item.photos.length>0){
+    if(!isData(item.photos[0]))return`<div class="item-photo-thumb" title="Photo is still downloading"><span class="no-photo">⏳</span></div>`;
+    return`<div class="item-photo-thumb" onclick="openViewer([],'${esc(item.name)}',${item.id})"><img src="${item.photos[0]}" alt=""/></div>`;}
   return`<div class="item-photo-thumb"><span class="no-photo">○</span></div>`;
 }
 
@@ -1783,7 +1874,7 @@ function openOwnerDetail(ownerName,noScroll){
     <div class="loc-weight">${fmtNum(d.weight)} g</div></div></div>`).join('');
 
   galleryPhotos=[];
-  o.items.forEach(item=>(item.photos||[]).forEach(p=>galleryPhotos.push({src:p,label:item.name})));
+  o.items.forEach(item=>(item.photos||[]).filter(isData).forEach(p=>galleryPhotos.push({src:p,label:item.name})));
   $('od-gallery').innerHTML=galleryPhotos.length===0
     ?`<div style="color:var(--ink-soft);font-size:12px;grid-column:1/-1;padding:10px 0">No photos uploaded yet. Add photos when adding new items.</div>`
     :galleryPhotos.map((p,i)=>`<div class="gallery-thumb" onclick="openViewerFromArr(galleryPhotos,${i})"><img src="${p.src}" alt="${esc(p.label)}"/><div class="gallery-thumb-label">${esc(p.label)}</div></div>`).join('');
@@ -1808,7 +1899,8 @@ function openViewerFromArr(photos,startIdx){
 function openViewer(indices,label,itemId){
   const item=portfolio.find(i=>i.id===itemId);
   if(!item||!item.photos||!item.photos.length)return;
-  viewerImages=item.photos.map(src=>({src,label}));
+  viewerImages=item.photos.filter(isData).map(src=>({src,label}));
+  if(!viewerImages.length){showToast('Photos are still downloading from the cloud, try again in a moment.');return;}
   viewerIdx=0;
   showViewerFrame();
   document.getElementById('imgViewer').classList.add('open');
@@ -1894,8 +1986,8 @@ function dropFiles(ev,p,kind){ev.preventDefault();ev.currentTarget.classList.rem
 function renderMedia(p){
   const ph=$(p+'-photo-prev'),bl=$(p+'-bill-prev');
   if(!ph||!bl)return;
-  ph.innerHTML=media[p].photos.map((s,i)=>`<div class="photo-preview-item"><img src="${s}" alt="Photo ${i+1}"/><button class="photo-remove" type="button" onclick="removeMedia('${p}','photos',${i})">✕</button></div>`).join('');
-  bl.innerHTML=media[p].bills.map((b,i)=>`<div class="bill-chip">${b.type==='pdf'?'<span class="bill-ico">PDF</span>':`<img src="${b.data}" alt=""/>`}<span class="bill-name">${esc(b.name)}</span><button type="button" onclick="removeMedia('${p}','bills',${i})" title="Remove">✕</button></div>`).join('');
+  ph.innerHTML=media[p].photos.map((s,i)=>`<div class="photo-preview-item"><img src="${isData(s)?s:''}" alt="Photo ${i+1}"/><button class="photo-remove" type="button" onclick="removeMedia('${p}','photos',${i})">✕</button></div>`).join('');
+  bl.innerHTML=media[p].bills.map((b,i)=>`<div class="bill-chip">${b.type==='pdf'?'<span class="bill-ico">PDF</span>':`<img src="${b.data||''}" alt=""/>`}<span class="bill-name">${esc(b.name)}</span><button type="button" onclick="removeMedia('${p}','bills',${i})" title="Remove">✕</button></div>`).join('');
 }
 function mediaBlock(p){
   const zone=(kind,icon,title,sub,accept)=>`
@@ -1922,8 +2014,8 @@ function openBills(id){
   billsItemId=id;
   $('bills-sub').textContent=item.name+' · '+item.owner+(item.invoice?' · '+item.invoice:'');
   $('bills-list').innerHTML=item.bills.map((b,i)=>`<div class="bill-row">
-    ${b.type==='pdf'?'<div class="bill-thumb pdf">PDF</div>':`<img class="bill-thumb" src="${b.data}" alt=""/>`}
-    <div class="bill-meta"><div class="l1">${esc(b.name)}</div><div class="l2">${b.type==='pdf'?'PDF document':'Image'} · ${Math.round(b.data.length*0.75/1024)} KB</div></div>
+    ${b.type==='pdf'?'<div class="bill-thumb pdf">PDF</div>':`<img class="bill-thumb" src="${b.data||''}" alt=""/>`}
+    <div class="bill-meta"><div class="l1">${esc(b.name)}</div><div class="l2">${b.type==='pdf'?'PDF document':'Image'} · ${b.data?Math.round(b.data.length*0.75/1024)+' KB':'downloading…'}</div></div>
     <button class="btn-mini" type="button" onclick="viewBill(${i})">View</button>
   </div>`).join('');
   $('billsModal').classList.add('open');
@@ -1932,6 +2024,7 @@ function closeBills(){$('billsModal').classList.remove('open');billsItemId=null;
 function viewBill(i){
   const item=portfolio.find(x=>x.id===billsItemId);if(!item)return;
   const b=item.bills[i];
+  if(!b.data){showToast('This bill is still downloading from the cloud — try again in a moment.');return;}
   if(b.type==='pdf'){
     const bin=atob(b.data.split(',')[1]),arr=new Uint8Array(bin.length);
     for(let k=0;k<bin.length;k++)arr[k]=bin.charCodeAt(k);
@@ -2381,7 +2474,7 @@ async function pullRemote(){
   return{exists:true,sha:j.sha,data:JSON.parse(text)};
 }
 async function pushRemote(sha){
-  const payload={app:'gold-portfolio-tracker',version:5,exported:new Date().toISOString(),rates,dupIgnored,items:portfolio};
+  const payload={app:'gold-portfolio-tracker',version:5,exported:new Date().toISOString(),rates,dupIgnored,items:portfolio.map(stripItem)};
   const body={message:'Gold tracker sync '+new Date().toISOString(),content:b64enc(JSON.stringify(payload))};
   if(sha)body.sha=sha;
   const r=await fetch(ghFile(),{method:'PUT',headers:{Authorization:'Bearer '+sync.token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:JSON.stringify(body)});
@@ -2389,6 +2482,48 @@ async function pushRemote(sha){
   if(!r.ok)throw ghErr(r.status,'upload');
   const j=await r.json();
   return{sha:j.content&&j.content.sha};
+}
+const ghMedia=id=>ghBase()+'/contents/media/'+encodeURIComponent(id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function downloadMedia(){
+  const want=mediaWanted();if(!want.length)return 0;
+  let n=0,got=0;const up=new Set(sync.up||[]);
+  for(const id of want){
+    setSyncStatus('busy','Downloading photos & bills '+(++n)+' / '+want.length+'…');
+    const r=await ghGet(ghMedia(id),'application/vnd.github.raw+json');
+    if(r.status===404)continue;                       // the other device has not uploaded it yet — try again next sync
+    if(!r.ok)throw ghErr(r.status,'photo download');
+    const buf=new Uint8Array(await r.arrayBuffer());let s='';
+    for(let k=0;k<buf.length;k+=0x8000)s+=String.fromCharCode.apply(null,buf.subarray(k,k+0x8000));
+    const ext=id.split('.').pop(),mime=ext==='pdf'?'application/pdf':ext==='png'?'image/png':ext==='webp'?'image/webp':'image/jpeg';
+    const d='data:'+mime+';base64,'+btoa(s);
+    idCache.set(d,id);keepMedia(d,id);up.add(id);got++;
+  }
+  sync.up=[...up];saveSyncCfg();
+  if(got){hydrate();renderAll();}
+  return got;
+}
+async function uploadMedia(){
+  const ids=new Set();
+  portfolio.forEach(i=>{(i.photos||[]).forEach(p=>{const m=mref(p);if(m)ids.add(m);});(i.bills||[]).forEach(b=>{const m=billRef(b);if(m)ids.add(m);});});
+  const up=new Set(sync.up||[]);
+  const todo=[...ids].filter(id=>!up.has(id)&&mem.has(id));
+  let n=0,failed=0;
+  for(const id of todo){
+    setSyncStatus('busy','Uploading photos & bills '+(++n)+' / '+todo.length+'…');
+    const d=mem.get(id),content=d.slice(d.indexOf(',')+1);       // already base64
+    let done=false;
+    for(let a=0;a<3&&!done;a++){
+      const r=await fetch(ghMedia(id),{method:'PUT',headers:{Authorization:'Bearer '+sync.token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:JSON.stringify({message:'media '+id,content})});
+      if(r.ok||r.status===422){done=true;up.add(id);}                 // 422 = already stored (same picture)
+      else if(r.status===409){await sleep(800);}
+      else if(r.status===401||r.status===403||r.status===404)throw ghErr(r.status,'photo upload');
+      else break;
+    }
+    if(!done)failed++;
+    sync.up=[...up];saveSyncCfg();
+  }
+  return failed;
 }
 function mergeRemote(rd){
   let changed=false;
@@ -2421,17 +2556,20 @@ async function syncNow(manual){
       if(remote.exists){
         suppressDirty=true;
         const ch=mergeRemote(remote.data);
-        if(ch){saveData();renderAll();}
+        if(ch){hydrate();saveData();renderAll();}
         suppressDirty=false;
         if(ch&&manual)showToast('✓ Synced — latest data from the cloud loaded.');
       }
+      await downloadMedia();                             // pictures other devices added
+      const failed=await uploadMedia();                  // pictures this device added (before the item list that points to them)
       if(!remote.exists||sync.dirty){
         const res=await pushRemote(remote.sha);
         if(res.conflict)continue;                        // someone saved in between → pull again and merge
         sync.dirty=false;sync.sha=res.sha;
       }
       sync.last=Date.now();saveSyncCfg();
-      setSyncStatus('ok','Synced at '+new Date(sync.last).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · '+portfolio.length+' items');
+      const waiting=mediaWanted().length+failed;
+      setSyncStatus('ok','Synced at '+new Date(sync.last).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · '+portfolio.length+' items'+(waiting?' · '+waiting+' photo/bill file(s) still pending':''));
       return true;
     }
     throw new Error('Could not save — the file kept changing. Try again.');
@@ -2453,6 +2591,7 @@ function openSync(){
   $('sy-token').placeholder=sync.token?'(token saved on this device — leave blank to keep)':'github_pat_…';
   $('sy-path').value=sync.path||'gold-data.json';
   $('sy-disconnect').style.display=syncOn()?'inline-block':'none';
+  $('sync-perm').style.display=syncOn()?'block':'none';$('sy-pwd').value='';
   $('syncModal').classList.add('open');
   setSyncStatus(syncOn()?(sync.dirty?'pending':'ok'):'off',syncOn()?(sync.last?'Last synced '+new Date(sync.last).toLocaleString('en-GB'):'Connected'):'');
 }
@@ -2471,6 +2610,56 @@ $('syncModal').addEventListener('click',function(e){if(e.target===this)closeSync
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&syncOn()&&Date.now()-lastSyncTry>20000)syncNow(false);});
 window.addEventListener('online',()=>{if(syncOn())syncNow(false);});
 
+// ── PERMANENT CONNECTION ──────────────────────────────────────────────────────
+// The connection details are encrypted with the app password and saved in a small file (sync-config.json) next to the
+// website. After the file is uploaded once, every browser connects by itself as soon as the app password is entered.
+const CFG_FILE='sync-config.json';
+const fromB64=b=>Uint8Array.from(atob(b),c=>c.charCodeAt(0));
+const toB64=u=>{let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s);};
+async function pwKey(pwd,salt,iter){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pwd),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:iter,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function sealConfig(pwd){
+  const iter=600000,salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const key=await pwKey(pwd,salt,iter);
+  const plain=new TextEncoder().encode(JSON.stringify({owner:sync.owner,repo:sync.repo,token:sync.token,path:sync.path||'gold-data.json'}));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,plain));
+  return JSON.stringify({app:'gold-tracker-sync-config',v:1,iter,salt:toB64(salt),iv:toB64(iv),data:toB64(ct)},null,1);
+}
+async function openConfig(pwd){
+  let j;
+  try{const r=await fetch(CFG_FILE,{cache:'no-store'});if(!r.ok)return null;j=await r.json();if(!j||!j.data)return null;}catch(e){return null;}
+  try{
+    const key=await pwKey(pwd,fromB64(j.salt),j.iter||600000);
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64(j.iv)},key,fromB64(j.data));
+    return JSON.parse(new TextDecoder().decode(pt));
+  }catch(e){return 'bad';}
+}
+async function autoConnect(pwd){
+  if(syncOn())return;
+  const c=await openConfig(pwd);
+  if(!c)return;
+  if(c==='bad'){showToast('The saved cloud connection could not be opened (was the password changed?). Set it up again under ☁ Sync.');return;}
+  sync={...sync,owner:c.owner,repo:c.repo,token:c.token,path:c.path||'gold-data.json'};saveSyncCfg();
+  setSyncStatus('pending','Connecting…');
+  showToast('☁ Connected to your cloud data automatically.');
+  await syncNow(false);
+}
+async function makeConfigFile(){
+  const pwd=$('sy-pwd').value;
+  if(!syncOn()){alert('Connect cloud sync first.');return;}
+  if(!pwd){alert('Enter the password you use to open this page.');return;}
+  if(typeof hashString==='function'&&typeof PASS_HASH!=='undefined'&&(await hashString(pwd))!==PASS_HASH){alert('That is not the password for this page.');return;}
+  const txt=await sealConfig(pwd);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([txt],{type:'application/json'}));a.download=CFG_FILE;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  $('sy-pwd').value='';
+  showToast('File downloaded. Upload sync-config.json to your Gold-Investment repository once (Add file → Upload files).');
+}
+setInterval(()=>{if(!document.hidden&&syncOn()&&!syncBusy&&Date.now()-lastSyncTry>55000)syncNow(false);},60000);   // keep every browser up to date
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 $('adv-filters').innerHTML=advBlock();
 $('f-pricing').innerHTML=pricingBlock('f');
@@ -2483,7 +2672,7 @@ resetAddForm();
 updateSummary();
 renderTable();
 setSyncStatus(sync.dirty?'pending':'ok',sync.last?'Last synced '+new Date(sync.last).toLocaleString('en-GB'):'Connected');
-if(syncOn())setTimeout(()=>syncNow(false),400);
+initMedia().then(()=>{renderAll();if(syncOn())setTimeout(()=>syncNow(false),300);});
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
 </script>
@@ -2520,6 +2709,7 @@ async function checkPassword(){
   const hash=await hashString(pwd);
   if(hash===PASS_HASH){
     sessionStorage.setItem('gpt_unlocked','1');
+    try{autoConnect(pwd).catch(function(){});}catch(e){}
     const ls=document.getElementById('lock-screen');
     ls.style.transition='opacity .4s';ls.style.opacity='0';
     setTimeout(()=>{ls.style.display='none';document.getElementById('app-content').style.display='block';},400);
