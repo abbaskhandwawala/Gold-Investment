@@ -506,6 +506,17 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 .dup-cmp td,.dup-cmp th{white-space:normal;font-size:12.5px;}
 .dup-cmp td{width:38%;}
 
+/* ── CLOUD SYNC ── */
+.sync-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:6px;vertical-align:middle;background:#9aa;box-shadow:0 0 0 1px rgba(255,255,255,.3);}
+.sync-dot.ok{background:#35c46a;}.sync-dot.pending,.sync-dot.busy{background:#f0b429;}.sync-dot.err{background:#e5484d;}.sync-dot.off{background:#8a8a8a;}
+.sync-state{display:flex;align-items:center;gap:8px;background:var(--gold-pale);border:1px solid var(--border-mid);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:13px;}
+.sync-help{margin-bottom:14px;font-size:13px;color:var(--ink-mid);}
+.sync-help summary{cursor:pointer;font-weight:700;color:var(--gold-deep);margin-bottom:6px;}
+.sync-help ol{margin:8px 0 8px 20px;line-height:1.55;}
+.sync-note{font-size:12px;background:#fff4d6;border:1px solid #e0b84a;border-radius:8px;padding:8px 10px;color:#6b4a00;}
+#syncModal .form-group{margin-bottom:10px;}
+#syncModal{z-index:1500;}
+
 body,input,select,textarea,button{font-family:Calibri,Carlito,'Segoe UI',Arial,sans-serif;}
 body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 .tp .v{font-size:18px;font-weight:700;}.tp.hi .v{font-size:22px;}.stat-value{font-size:21px;}.val-main,.gain-main{font-size:14.5px;}.l1{font-size:13px;}.l2{font-size:11.5px;}.cost-lines div{font-size:12px;}
@@ -717,6 +728,10 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
 }
 @media(max-width:700px){.dup-cmp td,.dup-cmp th{font-size:14px;}.dup-cmp th{width:22%;}}
 
+@media(max-width:700px){
+  .sync-state{font-size:15px;}.sync-help{font-size:15px;}
+}
+
 </style>
 </head>
 <body>
@@ -766,6 +781,7 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
     <div class="storage-notice-right">
       <button class="btn-export-json" onclick="exportToFolder()">⬇ <span class="lg">Save to C:\AI\Tracker Gold</span><span class="sm">Save</span></button>
       <button class="btn-import-json" onclick="document.getElementById('import-file-input').click()">⬆ <span class="lg">Load Backup</span><span class="sm">Load</span></button>
+      <button class="btn-export-json" id="sync-btn" type="button" onclick="openSync()">☁ <span class="lg">Cloud sync</span><span class="sm">Sync</span><i class="sync-dot off" id="sync-dot"></i></button>
       <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importFromFile(event)"/>
     </div>
   </div>
@@ -983,6 +999,30 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
 </div>
 
 
+<!-- CLOUD SYNC MODAL -->
+<div class="modal-overlay" id="syncModal">
+  <div class="modal-box" style="width:560px;max-width:96vw;">
+    <div class="modal-head"><h3>☁ Cloud Sync</h3><p>Same data on your PC and phone</p></div>
+    <div class="modal-body" style="max-height:72vh;overflow-y:auto;padding:16px;">
+      <div class="sync-state"><i class="sync-dot off" id="sync-dot2"></i><span id="sync-status">Not connected — data lives only in this browser.</span></div>
+      <details class="sync-help" id="sync-help"><summary>How to set it up (once, about 5 minutes)</summary>
+        <ol>
+          <li>On github.com click <b>＋ → New repository</b>. Name it e.g. <b>gold-data</b>, choose <b>Private</b>, click <b>Create repository</b>.</li>
+          <li>Click your profile picture → <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+          <li>Under <b>Repository access</b> choose <b>Only select repositories</b> and pick <b>gold-data</b>. Under <b>Permissions → Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>. Generate and copy the token.</li>
+          <li>Fill in the three boxes below and press <b>Connect &amp; sync</b>. Repeat on your phone with the same details — your data then downloads automatically.</li>
+        </ol>
+        <p class="sync-note">Your data (including photos and bills) is stored in <b>your own private repository</b>. The token is kept only in this browser and gives access to that one repository only. Anyone who has the token can read the data, so don't share it.</p>
+      </details>
+      <div class="form-group"><label>GitHub username</label><input type="text" id="sy-owner" placeholder="e.g. abbaskhandwawala" autocapitalize="off" autocorrect="off"/></div>
+      <div class="form-group"><label>Private repository name</label><input type="text" id="sy-repo" placeholder="e.g. gold-data" autocapitalize="off" autocorrect="off"/></div>
+      <div class="form-group"><label>Access token</label><input type="password" id="sy-token" placeholder="github_pat_…" autocomplete="off"/></div>
+      <div class="form-group"><label>File name <em style="font-weight:300">(leave as is)</em></label><input type="text" id="sy-path" value="gold-data.json" autocapitalize="off"/></div>
+    </div>
+    <div class="modal-footer"><button class="link-btn" id="sy-disconnect" type="button" onclick="disconnectSync()" style="margin-right:auto;display:none">Disconnect</button><button class="btn-cancel" onclick="closeSync()">Close</button><button class="btn-save" onclick="connectSync()">☁ Connect &amp; sync</button></div>
+  </div>
+</div>
+
 <!-- DUPLICATES MODAL -->
 <div class="modal-overlay" id="dupModal">
   <div class="modal-box" style="width:660px;max-width:96vw;">
@@ -1104,14 +1144,14 @@ const $=id=>document.getElementById(id);
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 // Older saved records lack the diamond / VAT fields — fill them with zeros so nothing changes for them.
-const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i});
+const normItem=i=>({location:'UAE',locationNotes:'',photos:[],bills:[],diamondCarat:0,diamondPpc:0,diamondPrice:0,vatRate:0,vat:0,...i,uid:i.uid||('u'+i.id),updated:i.updated||0});
 
 function loadData(){
   try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r).map(normItem);}catch(e){}
   return JSON.parse(JSON.stringify(INITIAL_DATA)).map(normItem);
 }
 function saveData(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));return true;}
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(portfolio));markDirty();return true;}
   catch(e){showToast('⚠ Browser storage is full — save a backup and remove some photos.');return false;}
 }
 function loadRates(){
@@ -1119,7 +1159,7 @@ function loadRates(){
   try{const r=JSON.parse(localStorage.getItem(RATES_KEY));if(r)return {...base,...r};}catch(e){}
   return base;
 }
-function saveRates(){try{localStorage.setItem(RATES_KEY,JSON.stringify(rates));}catch(e){}}
+function saveRates(){try{localStorage.setItem(RATES_KEY,JSON.stringify(rates));markDirty();}catch(e){}}
 
 let portfolio=loadData();
 let rates=loadRates();
@@ -1259,7 +1299,7 @@ function refreshRatesMeta(){
 }
 function onRateInput(){
   [24,22,21,18].forEach(k=>{const v=parseFloat($('rate-'+k).value);rates[k]=v>0?v:'';});
-  rates.updated=new Date().toISOString().slice(0,10);
+  rates.updated=new Date().toISOString().slice(0,10);rates.at=Date.now();
   saveRates();refreshRatesMeta();renderAll();
 }
 function estimateRates(){
@@ -1537,7 +1577,7 @@ function toggleFilters(btn){
 // level 3 = likely duplicate, 2 = possible duplicate, 1 = note (shares an invoice number)
 const nrm=s=>String(s==null?'':s).trim().toLowerCase().replace(/\s+/g,' ');
 const pairKey=(a,b)=>Math.min(a.id,b.id)+'-'+Math.max(a.id,b.id);
-function saveDupIgnored(){try{localStorage.setItem(DUP_KEY,JSON.stringify(dupIgnored));}catch(e){}}
+function saveDupIgnored(){try{localStorage.setItem(DUP_KEY,JSON.stringify(dupIgnored));markDirty();}catch(e){}}
 function pairKind(a,b){
   const sameOwner=nrm(a.owner)===nrm(b.owner),sameDate=a.date===b.date,sameStore=nrm(a.store)===nrm(b.store);
   const sameType=nrm(a.type)===nrm(b.type)&&nrm(a.name)===nrm(b.name),sameKarat=+a.karat===+b.karat;
@@ -1998,7 +2038,7 @@ function saveItem(){
   const sell=$('f-sell').value;
   const sold=sell!==''&&+sell>0;
   const item=normItem({
-    id:nextId++,name,type:$('f-type').value,
+    id:nextId++,uid:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),updated:Date.now(),name,type:$('f-type').value,
     owner,ownerId:$('f-owner-id').value.trim(),
     date,store,city:$('f-city').value.trim(),
     invoice:$('f-invoice').value.trim(),
@@ -2065,7 +2105,7 @@ function saveEdit(){
   if(sold)loc='Sold';
   else if(loc==='Sold'){alert('No selling price is entered — choose where the item is now, or enter its selling price.');return;}
   portfolio[idx]={
-    ...portfolio[idx],
+    ...portfolio[idx],updated:Date.now(),
     name,type:$('e-type').value,owner,ownerId:$('e-owner-id').value.trim(),
     date:$('e-date').value,store:$('e-store').value.trim(),city:$('e-city').value.trim(),invoice:$('e-invoice').value.trim(),
     karat:+$('e-karat').value,
@@ -2118,7 +2158,7 @@ function confirmSell(){
   const sp=+$('sell-price-input').value;
   if(!sp||sp<=0){alert('Please enter a valid selling price.');return;}
   const idx=portfolio.findIndex(i=>i.id===sellTargetId);if(idx===-1)return;
-  portfolio[idx].sellPrice=sp;
+  portfolio[idx].sellPrice=sp;portfolio[idx].updated=Date.now();
   portfolio[idx].location='Sold';
   saveData();renderAll();closeSellModal();
 }
@@ -2187,6 +2227,135 @@ function exportPDF(){
   doc.save('Gold_Portfolio_'+new Date().toISOString().slice(0,10)+'.pdf');
 }
 
+// ── CLOUD SYNC (optional) ─────────────────────────────────────────────────────
+// Keeps one JSON file in the user's own PRIVATE GitHub repo, so PC and phone see the same data.
+// Items are matched by a unique id (uid); when both devices changed the same item the newer edit wins.
+const SYNC_KEY='gold_sync_v1';
+let sync=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{};}catch(e){return {};}})();
+let syncBusy=false,syncTimer=null,suppressDirty=false,lastSyncTry=0;
+const syncOn=()=>!!(sync.token&&sync.owner&&sync.repo);
+function saveSyncCfg(){try{localStorage.setItem(SYNC_KEY,JSON.stringify(sync));}catch(e){}}
+function markDirty(){
+  if(suppressDirty||!syncOn())return;
+  sync.dirty=true;saveSyncCfg();setSyncStatus('pending','Changes waiting to upload…');
+  clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncNow(false),2500);
+}
+const b64enc=str=>{const by=new TextEncoder().encode(str);let s='';for(let i=0;i<by.length;i+=0x8000)s+=String.fromCharCode.apply(null,by.subarray(i,i+0x8000));return btoa(s);};
+const b64dec=b=>{const s=atob(b.replace(/\s/g,''));return new TextDecoder().decode(Uint8Array.from(s,ch=>ch.charCodeAt(0)));};
+const ghBase=()=>'https://api.github.com/repos/'+encodeURIComponent(sync.owner)+'/'+encodeURIComponent(sync.repo);
+const ghFile=()=>ghBase()+'/contents/'+encodeURIComponent(sync.path||'gold-data.json');
+const ghGet=(url,accept)=>fetch(url,{method:'GET',cache:'no-store',headers:{Authorization:'Bearer '+sync.token,Accept:accept||'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
+function ghErr(status,where){
+  if(status===401)return new Error('GitHub rejected the token — it may be wrong or expired. Create a new one and paste it again.');
+  if(status===403)return new Error('GitHub denied access (check the token has "Contents: Read and write" for this repository) or the rate limit was hit — try again in a few minutes.');
+  if(status===404)return new Error('Repository not found. Check the username and repository name, and that the token was given access to that repository.');
+  return new Error('GitHub error '+status+(where?' ('+where+')':'')+'.');
+}
+async function pullRemote(){
+  const r=await ghGet(ghFile());
+  if(r.status===404){
+    const rr=await ghGet(ghBase());                       // missing file, or missing repo / no access?
+    if(!rr.ok)throw ghErr(rr.status,'repository');
+    return{exists:false};
+  }
+  if(!r.ok)throw ghErr(r.status,'download');
+  const j=await r.json();
+  let text;
+  if(j.content&&j.encoding==='base64')text=b64dec(j.content);
+  else{const r2=await ghGet(ghFile(),'application/vnd.github.raw+json');if(!r2.ok)throw ghErr(r2.status,'download');text=await r2.text();}
+  return{exists:true,sha:j.sha,data:JSON.parse(text)};
+}
+async function pushRemote(sha){
+  const payload={app:'gold-portfolio-tracker',version:5,exported:new Date().toISOString(),rates,dupIgnored,items:portfolio};
+  const body={message:'Gold tracker sync '+new Date().toISOString(),content:b64enc(JSON.stringify(payload))};
+  if(sha)body.sha=sha;
+  const r=await fetch(ghFile(),{method:'PUT',headers:{Authorization:'Bearer '+sync.token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.status===409||r.status===422)return{conflict:true};
+  if(!r.ok)throw ghErr(r.status,'upload');
+  const j=await r.json();
+  return{sha:j.content&&j.content.sha};
+}
+function mergeRemote(rd){
+  let changed=false;
+  const items=(Array.isArray(rd)?rd:(rd.items||[])).map(normItem);
+  items.forEach(ri=>{
+    const idx=portfolio.findIndex(x=>x.uid===ri.uid);
+    if(idx===-1){
+      if(portfolio.some(x=>x.id===ri.id)){ri.id=Math.max(nextId,...portfolio.map(x=>x.id))+1;ri.updated=Date.now();}
+      portfolio.push(ri);changed=true;
+    }else if((ri.updated||0)>(portfolio[idx].updated||0)){
+      portfolio[idx]={...ri,id:portfolio[idx].id};changed=true;
+    }
+  });
+  if(!Array.isArray(rd)){
+    if(rd.rates&&(+rd.rates.at||0)>(+rates.at||0)){rates={24:'',22:'',21:'',18:'',updated:'',...rd.rates};saveRates();initRates();changed=true;}
+    if(Array.isArray(rd.dupIgnored)){const u=[...new Set([...dupIgnored,...rd.dupIgnored])];if(u.length!==dupIgnored.length){dupIgnored=u;saveDupIgnored();changed=true;}}
+  }
+  nextId=portfolio.reduce((mx,i)=>Math.max(mx,i.id),0)+1;
+  return changed;
+}
+async function syncNow(manual){
+  if(!syncOn()){if(manual)openSync();return false;}
+  if(syncBusy)return false;
+  if(!navigator.onLine){setSyncStatus('err','You are offline — will sync when back online.');return;}
+  syncBusy=true;lastSyncTry=Date.now();clearTimeout(syncTimer);
+  setSyncStatus('busy','Syncing…');
+  try{
+    for(let attempt=0;attempt<3;attempt++){
+      const remote=await pullRemote();
+      if(remote.exists){
+        suppressDirty=true;
+        const ch=mergeRemote(remote.data);
+        if(ch){saveData();renderAll();}
+        suppressDirty=false;
+        if(ch&&manual)showToast('✓ Synced — latest data from the cloud loaded.');
+      }
+      if(!remote.exists||sync.dirty){
+        const res=await pushRemote(remote.sha);
+        if(res.conflict)continue;                        // someone saved in between → pull again and merge
+        sync.dirty=false;sync.sha=res.sha;
+      }
+      sync.last=Date.now();saveSyncCfg();
+      setSyncStatus('ok','Synced at '+new Date(sync.last).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · '+portfolio.length+' items');
+      return true;
+    }
+    throw new Error('Could not save — the file kept changing. Try again.');
+  }catch(e){
+    suppressDirty=false;
+    setSyncStatus('err',e.message||String(e));
+    if(manual)showToast('⚠ '+(e.message||'Sync failed'));
+    return false;
+  }finally{syncBusy=false;}
+}
+function setSyncStatus(kind,txt){
+  const dot=$('sync-dot'),dot2=$('sync-dot2'),st=$('sync-status');
+  [dot,dot2].forEach(d=>{if(d)d.className='sync-dot '+(syncOn()?kind:'off');});
+  if(st)st.textContent=syncOn()?txt:'Not connected — data lives only in this browser.';
+  const b=$('sync-btn');if(b)b.title=syncOn()?txt:'Set up cloud sync';
+}
+function openSync(){
+  $('sy-owner').value=sync.owner||'';$('sy-repo').value=sync.repo||'';$('sy-token').value='';
+  $('sy-token').placeholder=sync.token?'(token saved on this device — leave blank to keep)':'github_pat_…';
+  $('sy-path').value=sync.path||'gold-data.json';
+  $('sy-disconnect').style.display=syncOn()?'inline-block':'none';
+  $('syncModal').classList.add('open');
+  setSyncStatus(syncOn()?(sync.dirty?'pending':'ok'):'off',syncOn()?(sync.last?'Last synced '+new Date(sync.last).toLocaleString('en-GB'):'Connected'):'');
+}
+function closeSync(){$('syncModal').classList.remove('open');}
+async function connectSync(){
+  const o=$('sy-owner').value.trim(),r=$('sy-repo').value.trim().replace(/\.git$/,''),t=$('sy-token').value.trim()||sync.token||'',p=$('sy-path').value.trim()||'gold-data.json';
+  if(!o||!r||!t){alert('Please enter the GitHub username, the repository name and the token.');return;}
+  sync={...sync,owner:o,repo:r,token:t,path:p};saveSyncCfg();
+  if(await syncNow(true))closeSync();
+}
+function disconnectSync(){
+  if(!confirm('Disconnect cloud sync on this device? Your data on this device stays; the cloud copy is not deleted.'))return;
+  sync={};saveSyncCfg();clearTimeout(syncTimer);setSyncStatus('off','');closeSync();showToast('Cloud sync disconnected on this device.');
+}
+$('syncModal').addEventListener('click',function(e){if(e.target===this)closeSync();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&syncOn()&&Date.now()-lastSyncTry>20000)syncNow(false);});
+window.addEventListener('online',()=>{if(syncOn())syncNow(false);});
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 $('adv-filters').innerHTML=advBlock();
 $('f-pricing').innerHTML=pricingBlock('f');
@@ -2198,6 +2367,9 @@ calcPurity();
 resetAddForm();
 updateSummary();
 renderTable();
+setSyncStatus(sync.dirty?'pending':'ok',sync.last?'Last synced '+new Date(sync.last).toLocaleString('en-GB'):'Connected');
+if(syncOn())setTimeout(()=>syncNow(false),400);
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
 </script>
 
