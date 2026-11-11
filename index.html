@@ -450,6 +450,62 @@ td.center{text-align:center;}td.num{text-align:right;font-variant-numeric:tabula
 .img-viewer-overlay{z-index:2000;}
 @media(max-width:700px){.media-grid{grid-template-columns:1fr;}}
 
+.pb-row .form-group input.is-auto{background:#f0f7ee;border-color:#8fc79a;color:var(--green-gain);font-weight:700;}
+.pb-preview i{font-style:normal;font-size:.85em;color:var(--green-gain);font-weight:700;}
+.pb-preview .hint-line{font-size:.9em;opacity:.8;}
+
+/* ── ADVANCED FILTERS + SORT ── */
+.filter-toggle{padding:6px 12px;border-radius:8px;border:1.5px solid var(--gold-mid);background:var(--white);color:var(--gold-deep);font-weight:700;font-family:inherit;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.filter-toggle:hover{background:var(--gold-pale);}
+.ft-count{display:none;min-width:18px;height:18px;line-height:18px;border-radius:9px;background:var(--gold-bright);color:#fff;font-size:11px;text-align:center;padding:0 5px;}
+.adv-filters{display:none;background:var(--white);border:1px solid var(--border-mid);border-radius:12px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow-soft);}
+.adv-filters.open{display:block;}
+.adv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 14px;}
+.adv-grid .form-group{min-width:0;}
+.rng{display:flex;align-items:center;gap:6px;}
+.rng input{min-width:0;flex:1;}
+.rng span{color:var(--ink-soft);}
+.adv-actions{justify-content:flex-end;}
+.ptable th.sortable{cursor:pointer;user-select:none;}
+.ptable th.sortable:hover{color:var(--gold-deep);}
+.ptable th.sorted{color:var(--gold-deep);}
+.sort-ar{font-size:9px;margin-left:4px;opacity:.45;}
+.ptable th.sorted .sort-ar{opacity:1;color:var(--gold-bright);}
+@media(max-width:1099px){.adv-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* ── DUPLICATE CHECK ── */
+.dup-banner{display:none;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;border-radius:10px;padding:9px 14px;margin-bottom:12px;font-size:13px;}
+.dup-banner.warn{background:#fff4d6;border:1.5px solid #e0a000;color:#6b4a00;}
+.dup-banner:not(.warn){background:#eef4fb;border:1px solid #c5d8ee;color:#2d4a6e;}
+.dup-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.dup-note{font-size:12px;opacity:.85;}
+.dup-chip{display:inline-block;margin-top:3px;padding:1px 9px;border-radius:10px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid;}
+.dup-chip.lvl3{background:#fde8e8;color:#9b1c1c;border-color:#e5a5a5;}
+.dup-chip.lvl2{background:#fff0c9;color:#7a5200;border-color:#e0b84a;}
+.dup-chip.lvl1{background:#eef4fb;color:#2d4a6e;border-color:#c5d8ee;font-weight:600;}
+.ptable tr.dup-3{background:#fff5f5;}
+.ptable tr.dup-3>td:first-child{box-shadow:inset 4px 0 0 #c0392b;}
+.ptable tr.dup-2{background:#fffaeb;}
+.ptable tr.dup-2>td:first-child{box-shadow:inset 4px 0 0 #e0a000;}
+.dup-pair{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:12px;}
+.dup-pair.lvl3{border-color:#e5a5a5;background:#fffafa;}
+.dup-pair.lvl2{border-color:#e0b84a;background:#fffdf5;}
+.dup-pair-head{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;flex-wrap:wrap;}
+.dup-lvl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 9px;border-radius:10px;white-space:nowrap;}
+.dup-lvl.lvl3{background:#fde8e8;color:#9b1c1c;}.dup-lvl.lvl2{background:#fff0c9;color:#7a5200;}.dup-lvl.lvl1{background:#eef4fb;color:#2d4a6e;}
+.dup-reason{font-size:12px;color:var(--ink-mid);flex:1;min-width:180px;}
+.dup-cmp{width:100%;border-collapse:collapse;font-size:12.5px;}
+.dup-cmp th{text-align:left;font-weight:600;color:var(--ink-soft);width:26%;padding:4px 6px;font-size:11px;}
+.dup-cmp td{padding:4px 8px;border-bottom:1px solid #f0eadc;overflow-wrap:anywhere;}
+.dup-cmp td.diff{background:#fff0c9;font-weight:700;}
+.dup-pair-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+#dupModal{z-index:1500;}
+
+.dup-cmp{table-layout:fixed;}.dup-cmp th{width:24%;}
+.dup-cmp{min-width:0!important;width:100%;table-layout:fixed;}
+.dup-cmp td,.dup-cmp th{white-space:normal;font-size:12.5px;}
+.dup-cmp td{width:38%;}
+
 body,input,select,textarea,button{font-family:Calibri,Carlito,'Segoe UI',Arial,sans-serif;}
 body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 .tp .v{font-size:18px;font-weight:700;}.tp.hi .v{font-size:22px;}.stat-value{font-size:21px;}.val-main,.gain-main{font-size:14.5px;}.l1{font-size:13px;}.l2{font-size:11.5px;}.cost-lines div{font-size:12px;}
@@ -457,7 +513,7 @@ body{font-variant-numeric:lining-nums tabular-nums;font-size:15px;}
 /* ══ MOBILE / TOUCH ═════════════════════════════════════════════ */
 html{-webkit-text-size-adjust:100%;}
 button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit-tap-highlight-color:rgba(212,160,23,.15);}
-.only-m,.fab,.det-btn,.filter-toggle,.sn-short,.sm{display:none;}
+.only-m,.fab,.det-btn,.sn-short,.sm{display:none;}
 
 @media(max-width:700px){
   body{font-size:16px;padding-bottom:84px;}
@@ -516,7 +572,9 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
   .filter-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
   .filter-bar>label{display:none;}
   .filter-bar #filter-search{grid-column:1/4;grid-row:1;min-width:0!important;width:100%;}
-  .filter-bar .filter-toggle{grid-column:4;grid-row:1;display:inline-block;padding:8px 4px;font-size:15px;}
+  .filter-bar .filter-toggle{grid-column:4;grid-row:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:8px 4px;font-size:15px;}
+  .filter-toggle .ft-lbl{display:none;}
+  .filter-toggle::after{content:"Filters";}
   .filter-bar select{display:none;grid-column:span 2;min-width:0;width:100%;}
   .filter-bar.open select{display:block;}
   .filter-bar .record-count{grid-column:1/-1;margin-left:0;}
@@ -636,6 +694,28 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
   .ptable tbody tr{grid-template-columns:repeat(3,1fr);}
   .form-grid{grid-template-columns:repeat(2,1fr);}
 }
+
+@media(max-width:700px){
+  .adv-filters.open{grid-template-columns:1fr;}
+  .adv-grid{grid-template-columns:1fr 1fr!important;gap:10px!important;}
+  .adv-grid .form-group:nth-child(1),.adv-grid .form-group:nth-child(3),.adv-grid .form-group:nth-child(4){grid-column:1/-1;}
+  .rng input{font-size:16px!important;min-height:44px;}
+  .adv-actions{grid-column:1/-1;}
+  .adv-actions .btn-mini{min-height:44px;font-size:15px;}
+  .sort-ar{display:none;}
+}
+
+@media(max-width:700px){
+  .dup-banner{font-size:14px;}
+  .dup-actions{width:100%;}.dup-actions .btn-mini{flex:1;}
+  .dup-chip{font-size:12px;padding:3px 10px;}
+  .ptable tr.dup-3{border-left:5px solid #c0392b;}.ptable tr.dup-2{border-left:5px solid #e0a000;}
+  .ptable tr.dup-3>td:first-child,.ptable tr.dup-2>td:first-child{box-shadow:none;}
+  .dup-pair-actions .btn-mini{flex:1;min-height:44px;font-size:14px;}
+  .dup-cmp{font-size:14px;}
+  #dup-list{max-height:none!important;}
+}
+@media(max-width:700px){.dup-cmp td,.dup-cmp th{font-size:14px;}.dup-cmp th{width:22%;}}
 
 </style>
 </head>
@@ -803,10 +883,12 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
       <select id="filter-location" onchange="renderTable()"><option value="">All Locations</option><option value="UAE">🇦🇪 UAE</option><option value="India">🇮🇳 India</option><option value="UK">🇬🇧 UK</option><option value="USA">🇺🇸 USA</option><option value="Other">🌍 Other</option><option value="Sold">🏷️ Sold</option></select>
       <label>Status:</label>
       <select id="filter-status" onchange="renderTable()"><option value="">All statuses</option><option value="pending">Pending Sale</option><option value="sold">Sold</option></select>
-      <button class="filter-toggle" type="button" onclick="toggleFilters(this)">⚙ Filters</button>
+      <button class="filter-toggle" id="filter-toggle" type="button" onclick="toggleFilters(this)">⚙ <span class="ft-lbl">More filters</span><span class="ft-count" id="ft-count"></span></button>
       <input type="text" id="filter-search" placeholder="🔍 Search…" style="min-width:180px" oninput="renderTable()"/>
       <div class="record-count" id="rec-count">— records</div>
     </div>
+    <div class="adv-filters" id="adv-filters"></div>
+    <div class="dup-banner" id="dup-banner" style="display:none"></div>
     <div class="table-wrap"><div class="table-scroll" id="portfolio-host"></div></div>
     <div class="totals-panel" id="portfolio-totals"></div>
   </div>
@@ -900,6 +982,15 @@ button,select,input,label,.owner-card,.nav-tab{touch-action:manipulation;-webkit
   </div>
 </div>
 
+
+<!-- DUPLICATES MODAL -->
+<div class="modal-overlay" id="dupModal">
+  <div class="modal-box" style="width:660px;max-width:96vw;">
+    <div class="modal-head"><h3>⚠ Duplicate Check</h3><p id="dup-sub">—</p></div>
+    <div class="modal-body" id="dup-list" style="max-height:70vh;overflow-y:auto;padding:14px;"></div>
+    <div class="modal-footer"><button class="link-btn" id="dup-reset" type="button" onclick="resetDup()" style="margin-right:auto">Restore dismissed flags</button><button class="btn-cancel" onclick="closeDup()">Close</button></div>
+  </div>
+</div>
 
 <!-- BILLS MODAL -->
 <div class="modal-overlay" id="billsModal">
@@ -1032,6 +1123,9 @@ function saveRates(){try{localStorage.setItem(RATES_KEY,JSON.stringify(rates));}
 
 let portfolio=loadData();
 let rates=loadRates();
+const DUP_KEY='gold_dup_ignored_v1';
+let dupIgnored=(()=>{try{const r=JSON.parse(localStorage.getItem(DUP_KEY));return Array.isArray(r)?r:[];}catch(e){return [];}})();
+let dupInfo={pairs:[],byId:{}};
 let nextId=portfolio.reduce((m,i)=>Math.max(m,i.id),0)+1;
 let sellTargetId=null;
 let sellSuggest=null;
@@ -1094,7 +1188,7 @@ function calcTotals(items){
 
 // ── SAVE / LOAD BACKUP ────────────────────────────────────────────────────────
 function exportToFolder(){
-  const payload={app:'gold-portfolio-tracker',version:4,exported:new Date().toISOString(),rates,items:portfolio};
+  const payload={app:'gold-portfolio-tracker',version:4,exported:new Date().toISOString(),rates,dupIgnored,items:portfolio};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -1113,6 +1207,7 @@ function importFromFile(e){
       const items=Array.isArray(data)?data:data.items;          // accepts old (array) and new (object) backups
       if(!Array.isArray(items))throw new Error('Invalid format');
       portfolio=items.map(normItem);
+      if(!Array.isArray(data)&&Array.isArray(data.dupIgnored)){dupIgnored=data.dupIgnored;saveDupIgnored();}
       if(!Array.isArray(data)&&data.rates){rates={24:'',22:'',21:'',18:'',updated:'',...data.rates};saveRates();initRates();}
       nextId=portfolio.reduce((m,i)=>Math.max(m,i.id),0)+1;
       saveData();renderAll();
@@ -1183,6 +1278,7 @@ function clearRates(){
 function setGainClass(el,g){el.className='stat-value'+(g===null?'':(g>=0?' gain':' loss'));}
 function updateSummary(){
   const items=portfolio,t=calcTotals(items);
+  computeDup();
   $('s-items').textContent=t.n;
   $('s-weight').textContent=fmtNum(t.weight)+' g';
   $('s-weight-sub').textContent=t.diaCt>0?('+ '+t.diaCt.toFixed(2)+' ct diamonds'):'gold';
@@ -1202,6 +1298,7 @@ function updateSummary(){
   const fo=$('filter-owner'),cur=fo.value;
   fo.innerHTML='<option value="">All Owners</option>'+owners.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('');
   fo.value=cur;
+  refreshTypeFilter();
   $('owner-list').innerHTML=owners.map(o=>`<option value="${esc(o)}">`).join('');
 }
 
@@ -1227,8 +1324,10 @@ function itemRow(item,idx,showOwner){
   let gainCell;
   if(g===null)gainCell=`<span class="status-pending">Pending</span>`;
   else gainCell=`<div class="gain-main ${g>=0?'status-gain':'status-loss'}">${gainTxt(g)}</div><div class="l2">${tc?((g/tc*100).toFixed(1)+'%'):'—'} · ${sold?'realised':'unrealised'}</div>`;
-  return`<tr>
-    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${idx+1}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span><span class="only-m"> · ${fmtNum(item.weight)} g</span></div>${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
+  const dl=(dupInfo.byId[item.id]||{}).level||0;
+  const dchip=dl?`<button class="dup-chip lvl${dl}" type="button" onclick="openDup(${item.id})" title="Click to review">${dl===3?'⚠ Likely duplicate':dl===2?'⚠ Possible duplicate':'ℹ Same invoice no.'}</button>`:'';
+  return`<tr class="${dl>=2?'dup-'+dl:''}">
+    <td class="c-item" data-label="Item"><div class="item-wrap">${photoThumb(item)}<div><div class="l1"><span class="idx">${item.id}.</span>${esc(item.name)}</div><div class="l2">${esc(item.type)} · <span class="badge-karat">${item.karat}K</span><span class="only-m"> · ${fmtNum(item.weight)} g</span></div>${dchip}${(item.bills&&item.bills.length)?`<button class="bill-link" type="button" onclick="openBills(${item.id})">📄 ${item.bills.length} bill${item.bills.length>1?'s':''}</button>`:''}</div></div></td>
     ${showOwner?`<td class="c-owner" data-label="Owner"><span class="badge-owner">${esc(item.owner||'—')}</span>${item.ownerId?`<div class="l2">${esc(item.ownerId)}</div>`:''}</td>`:''}
     <td class="c-d" data-label="Purchase"><div class="l1">${esc(item.date)}</div><div class="l2">${esc(item.store)}${item.city?', '+esc(item.city):''}</div>${item.invoice?`<div class="invoice-code">${esc(item.invoice)}</div>`:''}</td>
     <td class="c-loc" data-label="Location"><span class="badge-location" style="${locStyle}">${flag} ${esc(lk)}</span>${item.locationNotes?`<div class="l2">${esc(item.locationNotes)}</div>`:''}</td>
@@ -1253,7 +1352,12 @@ function buildTable(items,showOwner){
     ?['Item','Owner','Purchase','Location','Gold','Diamond','Cost breakdown (AED)','Current value (AED)','Gain / (Loss)','']
     :['Item','Purchase','Location','Gold','Diamond','Cost breakdown (AED)','Current value (AED)','Gain / (Loss)',''];
   return`<table class="ptable"><colgroup>${widths.map(w=>`<col style="width:${w}%">`).join('')}</colgroup>
-    <thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <thead><tr>${heads.map((h,i)=>{
+      const k=showOwner?['name','owner','date','location','weight','dia','total','value','gain',''][i]:'';
+      if(!k)return`<th>${h}</th>`;
+      const on=sortState.key===k;
+      return`<th class="sortable${on?' sorted':''}" onclick="sortBy('${k}')" title="Click to sort">${h}<span class="sort-ar">${on?(sortState.dir==='asc'?'▲':'▼'):'↕'}</span></th>`;
+    }).join('')}</tr></thead>
     <tbody>${items.map((it,i)=>itemRow(it,i,showOwner)).join('')}</tbody></table>`;
 }
 
@@ -1272,21 +1376,151 @@ function totalsPanel(t,label){
     <div class="tp"><div class="l">Realised (sold)</div><div class="v">${t.soldN?gainTxt(t.realised):'—'}</div><div class="s">Unrealised ${t.openN?gainTxt(t.unrealised):'—'}</div></div>`;
 }
 
+// ── FILTERS & SORTING (every column) ─────────────────────────────────────────
+let sortState={key:'',dir:'asc'};
+const SORT_OPTS=[['','Original order'],['name:asc','Item name A→Z'],['owner:asc','Owner A→Z'],['date:desc','Purchase date (newest)'],['date:asc','Purchase date (oldest)'],
+  ['location:asc','Location A→Z'],['weight:desc','Weight (high→low)'],['weight:asc','Weight (low→high)'],['dia:desc','Diamond carat (high→low)'],
+  ['total:desc','Total cost (high→low)'],['total:asc','Total cost (low→high)'],['value:desc','Current value (high→low)'],['value:asc','Current value (low→high)'],
+  ['gain:desc','Gain (best first)'],['gain:asc','Gain (worst first)']];
+function rangeField(id,label,step){
+  return`<div class="form-group"><label>${label}</label><div class="rng"><input type="number" inputmode="decimal" step="${step||'0.01'}" id="af-${id}-min" placeholder="Min" oninput="renderTable()"/><span>–</span><input type="number" inputmode="decimal" step="${step||'0.01'}" id="af-${id}-max" placeholder="Max" oninput="renderTable()"/></div></div>`;
+}
+function advBlock(){
+  const sel=(id,label,opts)=>`<div class="form-group"><label>${label}</label><select id="af-${id}" onchange="renderTable()">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>`;
+  return`<div class="adv-grid">
+    <div class="form-group"><label>Item name</label><input type="text" id="af-item" placeholder="e.g. Bangles" oninput="renderTable()"/></div>
+    ${sel('type','Item type',[['','All types']])}
+    <div class="form-group"><label>Purchased from / city / invoice</label><input type="text" id="af-source" placeholder="e.g. Al Saif" oninput="renderTable()"/></div>
+    <div class="form-group"><label>Purchase date</label><div class="rng"><input type="date" id="af-date-min" oninput="renderTable()"/><span>–</span><input type="date" id="af-date-max" oninput="renderTable()"/></div></div>
+    ${rangeField('weight','Gold weight (g)')}
+    ${rangeField('priceg','Gold price (AED/g)')}
+    ${sel('dia','Diamond',[['','Any'],['with','With diamond'],['without','No diamond']])}
+    ${rangeField('carat','Diamond carat (ct)','0.001')}
+    ${rangeField('diaprice','Diamond price (AED)')}
+    ${rangeField('making','Making charges (AED)')}
+    ${rangeField('vat','VAT (AED)')}
+    ${rangeField('total','Total cost (AED)')}
+    ${rangeField('value','Current value (AED)')}
+    ${sel('gain','Gain / loss',[['','Any'],['gain','Gain only'],['loss','Loss only'],['none','Not valued yet']])}
+    ${rangeField('gainamt','Gain / loss amount (AED)')}
+    ${sel('bills','Bills attached',[['','Any'],['with','With bills'],['without','Without bills']])}
+    ${sel('photos','Photos attached',[['','Any'],['with','With photos'],['without','Without photos']])}
+    ${sel('dup','Duplicate check',[['','Any'],['flag','Likely + possible duplicates'],['likely','Likely duplicates only'],['note','Same-invoice notes']])}
+    <div class="form-group"><label>Sort by</label><select id="af-sort" onchange="onSortSelect(this.value)">${SORT_OPTS.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>
+    <div class="form-group adv-actions"><button class="btn-mini" type="button" onclick="clearFilters()">✕ Clear all filters</button></div>
+  </div>`;
+}
+const rv=id=>{const v=parseFloat($(id).value);return isFinite(v)?v:null;};
+const inRange=(x,id)=>{const lo=rv('af-'+id+'-min'),hi=rv('af-'+id+'-max');
+  if(lo===null&&hi===null)return true;
+  if(x===null||x===undefined)return false;
+  return (lo===null||x>=lo-0.005)&&(hi===null||x<=hi+0.005);};
+function sortVal(it,k){
+  switch(k){
+    case'name':return String(it.name).toLowerCase();
+    case'owner':return String(it.owner).toLowerCase();
+    case'date':return it.date||'';
+    case'location':return locOf(it).toLowerCase();
+    case'weight':return +it.weight||0;
+    case'dia':return +it.diamondCarat||0;
+    case'total':return totalCost(it);
+    case'value':return currentValue(it);
+    case'gain':return gainOf(it);
+  }
+  return 0;
+}
+function applySort(rows){
+  if($('af-dup').value&&!sortState.key){            // keep matching entries next to each other
+    const gk=it=>Math.min(it.id,...((dupInfo.byId[it.id]||{}).partners||[]));
+    return [...rows].sort((x,y)=>gk(x)-gk(y)||x.id-y.id);
+  }
+  if(!sortState.key)return rows;
+  const k=sortState.key,d=sortState.dir==='asc'?1:-1;
+  return [...rows].sort((x,y)=>{
+    const a=sortVal(x,k),b=sortVal(y,k);
+    if(a===null&&b===null)return 0;
+    if(a===null)return 1;if(b===null)return -1;      // un-valued items always last
+    return (a<b?-1:a>b?1:0)*d;
+  });
+}
+function sortBy(k){
+  if(sortState.key===k)sortState.dir=sortState.dir==='asc'?'desc':'asc';
+  else sortState={key:k,dir:['name','owner','location'].includes(k)?'asc':'desc'};
+  syncSortSelect();renderTable();
+}
+function onSortSelect(v){
+  if(!v)sortState={key:'',dir:'asc'};
+  else{const [k,d]=v.split(':');sortState={key:k,dir:d};}
+  renderTable();
+}
+function syncSortSelect(){
+  const sel=$('af-sort');if(!sel)return;
+  const v=sortState.key?sortState.key+':'+sortState.dir:'';
+  sel.value=[...sel.options].some(o=>o.value===v)?v:'';
+}
+function refreshTypeFilter(){
+  const sel=$('af-type');if(!sel)return;
+  const cur=sel.value,types=[...new Set(portfolio.map(i=>i.type).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">All types</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  sel.value=types.includes(cur)?cur:'';
+}
+function activeFilterCount(){
+  let n=0;
+  ['filter-owner','filter-karat','filter-location','filter-status','filter-search'].forEach(id=>{if($(id).value)n++;});
+  document.querySelectorAll('#adv-filters input,#adv-filters select').forEach(el=>{if(el.id!=='af-sort'&&el.value)n++;});
+  return n;
+}
+function clearFilters(){
+  ['filter-owner','filter-karat','filter-location','filter-status','filter-search'].forEach(id=>$(id).value='');
+  document.querySelectorAll('#adv-filters input,#adv-filters select').forEach(el=>el.value='');
+  sortState={key:'',dir:'asc'};
+  renderTable();
+}
 function renderTable(){
   const ownerF=$('filter-owner').value,karatF=$('filter-karat').value,statusF=$('filter-status').value,locF=$('filter-location').value;
-  const searchF=$('filter-search').value.toLowerCase();
-  const rows=portfolio.filter(item=>{
+  const searchF=$('filter-search').value.toLowerCase().trim();
+  const itemF=$('af-item').value.toLowerCase().trim(),typeF=$('af-type').value,srcF=$('af-source').value.toLowerCase().trim();
+  const dupF=$('af-dup').value,diaF=$('af-dia').value,gainF=$('af-gain').value,billsF=$('af-bills').value,photosF=$('af-photos').value;
+  const dMin=$('af-date-min').value,dMax=$('af-date-max').value;
+  let rows=portfolio.filter(item=>{
     if(ownerF&&item.owner!==ownerF)return false;
     if(karatF&&String(item.karat)!==karatF)return false;
     if(statusF==='pending'&&isSold(item))return false;
     if(statusF==='sold'&&!isSold(item))return false;
     if(locF&&locOf(item)!==locF)return false;
-    if(searchF&&![item.name,item.type,item.store,item.invoice,item.owner,item.city,locOf(item)].join(' ').toLowerCase().includes(searchF))return false;
-    return true;
+    if(searchF&&![item.name,item.type,item.store,item.invoice,item.owner,item.ownerId,item.city,locOf(item),item.locationNotes].join(' ').toLowerCase().includes(searchF))return false;
+    if(itemF&&![item.name,item.type].join(' ').toLowerCase().includes(itemF))return false;
+    if(typeF&&item.type!==typeF)return false;
+    if(srcF&&![item.store,item.city,item.invoice].join(' ').toLowerCase().includes(srcF))return false;
+    if(dMin&&(item.date||'')<dMin)return false;
+    if(dMax&&(item.date||'')>dMax)return false;
+    const hasDia=(+item.diamondCarat>0||+item.diamondPrice>0);
+    if(diaF==='with'&&!hasDia)return false;
+    if(diaF==='without'&&hasDia)return false;
+    const cv=currentValue(item),g=gainOf(item);
+    if(gainF==='gain'&&!(g!==null&&g>=0))return false;
+    if(gainF==='loss'&&!(g!==null&&g<0))return false;
+    if(gainF==='none'&&g!==null)return false;
+    const dl=(dupInfo.byId[item.id]||{}).level||0;
+    if(dupF==='flag'&&dl<2)return false;
+    if(dupF==='likely'&&dl<3)return false;
+    if(dupF==='note'&&dl!==1)return false;
+    const nb=(item.bills||[]).length,np=(item.photos||[]).length;
+    if(billsF==='with'&&!nb)return false;
+    if(billsF==='without'&&nb)return false;
+    if(photosF==='with'&&!np)return false;
+    if(photosF==='without'&&np)return false;
+    return inRange(+item.weight||0,'weight')&&inRange(+item.priceG||0,'priceg')&&inRange(+item.diamondCarat||0,'carat')
+      &&inRange(diamondCost(item),'diaprice')&&inRange(+item.making||0,'making')&&inRange(+item.vat||0,'vat')
+      &&inRange(totalCost(item),'total')&&inRange(cv,'value')&&inRange(g,'gainamt');
   });
-  $('rec-count').textContent=rows.length+' record'+(rows.length!==1?'s':'');
+  rows=applySort(rows);
+  const n=activeFilterCount();
+  $('rec-count').textContent=rows.length+' of '+portfolio.length+' record'+(portfolio.length!==1?'s':'')+(n?' · '+n+' filter'+(n>1?'s':'')+' on':'');
+  const ftc=$('ft-count');if(ftc){ftc.textContent=n?n:'';ftc.style.display=n?'inline-block':'none';}
+  renderDupBanner();
   $('portfolio-host').innerHTML=buildTable(rows,true);
-  $('portfolio-totals').innerHTML=totalsPanel(calcTotals(rows),'Items');
+  $('portfolio-totals').innerHTML=totalsPanel(calcTotals(rows),n?'Filtered items':'Items');
 }
 
 function toggleDetails(btn){
@@ -1295,6 +1529,93 @@ function toggleDetails(btn){
 }
 function toggleFilters(btn){
   const bar=btn.closest('.filter-bar');bar.classList.toggle('open');
+  $('adv-filters').classList.toggle('open',bar.classList.contains('open'));
+  const l=btn.querySelector('.ft-lbl');if(l)l.textContent=bar.classList.contains('open')?'Hide filters':'More filters';
+}
+
+// ── DUPLICATE CHECK ───────────────────────────────────────────────────────────
+// level 3 = likely duplicate, 2 = possible duplicate, 1 = note (shares an invoice number)
+const nrm=s=>String(s==null?'':s).trim().toLowerCase().replace(/\s+/g,' ');
+const pairKey=(a,b)=>Math.min(a.id,b.id)+'-'+Math.max(a.id,b.id);
+function saveDupIgnored(){try{localStorage.setItem(DUP_KEY,JSON.stringify(dupIgnored));}catch(e){}}
+function pairKind(a,b){
+  const sameOwner=nrm(a.owner)===nrm(b.owner),sameDate=a.date===b.date,sameStore=nrm(a.store)===nrm(b.store);
+  const sameType=nrm(a.type)===nrm(b.type)&&nrm(a.name)===nrm(b.name),sameKarat=+a.karat===+b.karat;
+  const wd=Math.abs((+a.weight||0)-(+b.weight||0)),wrel=wd/Math.max(+a.weight||0,+b.weight||0,0.001);
+  const ia=nrm(a.invoice),ib=nrm(b.invoice),sameInv=!!ia&&ia===ib,diffInv=!!ia&&!!ib&&ia!==ib;
+  const costClose=Math.abs(totalCost(a)-totalCost(b))<=1;
+  if(sameOwner&&sameDate&&sameStore&&sameType&&sameKarat&&wd<=0.01&&!diffInv&&costClose)
+    return{level:3,reason:'Same item, owner, date, store, karat, weight and cost'+(sameInv?' and invoice number':'')+'.'};
+  if(sameDate&&sameStore&&sameKarat&&wd<=0.01)
+    return{level:2,reason:'Same purchase date, store, karat and weight'+(diffInv?', but different invoice numbers (may be two separate pieces)':'')+'.'};
+  if(sameInv&&sameKarat&&sameType&&wrel<=0.01)
+    return{level:2,reason:'Same invoice number, item and karat with almost identical weight ('+fmtNum(a.weight)+' g vs '+fmtNum(b.weight)+' g).'};
+  if(sameInv&&sameStore&&costClose)
+    return{level:2,reason:'Same invoice number, store and total cost.'};
+  if(sameOwner&&sameStore&&sameType&&sameKarat&&wd<=0.01&&costClose&&!sameDate)
+    return{level:2,reason:'Same item, weight, cost and store, but different purchase dates (typo in the date?).'};
+  if(sameInv)
+    return{level:1,reason:'Shares invoice no. '+a.invoice+' (different piece or weight — probably fine, a quick check is enough).'};
+  return null;
+}
+function computeDup(){
+  const pairs=[],byId={};
+  for(let i=0;i<portfolio.length;i++)for(let j=i+1;j<portfolio.length;j++){
+    const a=portfolio[i],b=portfolio[j],k=pairKind(a,b);
+    if(!k||dupIgnored.includes(pairKey(a,b)))continue;
+    pairs.push({a,b,level:k.level,reason:k.reason,key:pairKey(a,b)});
+    [[a,b],[b,a]].forEach(([x,y])=>{
+      const e=byId[x.id]||(byId[x.id]={level:0,partners:[]});
+      e.level=Math.max(e.level,k.level);e.partners.push(y.id);
+    });
+  }
+  pairs.sort((p,q)=>q.level-p.level||p.a.id-q.a.id);
+  dupInfo={pairs,byId};
+}
+function renderDupBanner(){
+  const el=$('dup-banner');if(!el)return;
+  const n3=dupInfo.pairs.filter(p=>p.level===3).length,n2=dupInfo.pairs.filter(p=>p.level===2).length,n1=dupInfo.pairs.filter(p=>p.level===1).length;
+  if(!n3&&!n2){el.className='dup-banner';el.innerHTML=n1?`<span class="dup-note">ℹ ${n1} entr${n1>1?'ies share':'y shares'} an invoice number with another entry. <button class="link-btn" type="button" onclick="openDupAll()">Review</button></span>`:'';el.style.display=n1?'flex':'none';return;}
+  el.className='dup-banner warn';el.style.display='flex';
+  el.innerHTML=`<span>⚠ <b>${[n3?n3+' likely':'',n2?n2+' possible':''].filter(Boolean).join(' and ')}</b> duplicate pair${n3+n2>1?'s':''} found — flagged rows are highlighted below.${n1?` <span class="dup-note">(+${n1} same-invoice note${n1>1?'s':''})</span>`:''}</span>
+    <span class="dup-actions"><button class="btn-mini" type="button" onclick="openDupAll()">Review</button><button class="btn-mini plain" type="button" onclick="showOnlyFlagged()">Show only flagged</button></span>`;
+}
+function showOnlyFlagged(){
+  clearFilters();$('af-dup').value='flag';
+  const adv=$('adv-filters');if(!adv.classList.contains('open'))toggleFilters($('filter-toggle'));
+  renderTable();
+}
+function dupCard(it){return it?`#${it.id} ${esc(it.name)}`:'';}
+function dupCompare(a,b){
+  const rows=[['Entry',x=>'#'+x.id],['Item',x=>nrm(x.name)===nrm(x.type)?x.name:x.name+' ('+x.type+')'],['Owner',x=>x.owner],['Date',x=>x.date],['Store',x=>x.store+(x.city?', '+x.city:'')],
+    ['Invoice',x=>x.invoice||'—'],['Karat',x=>x.karat+'K'],['Weight',x=>fmtNum(x.weight)+' g'],['Total cost',x=>fmtNum(totalCost(x))]];
+  return`<table class="dup-cmp"><tbody>${rows.map(([l,f])=>{const va=String(f(a)),vb=String(f(b)),diff=l!=='Entry'&&nrm(va)!==nrm(vb);
+    return`<tr><th>${l}</th><td class="${diff?'diff':''}">${esc(va)}</td><td class="${diff?'diff':''}">${esc(vb)}</td></tr>`;}).join('')}</tbody></table>`;
+}
+function renderDupList(pairs,title){
+  $('dup-sub').textContent=title;
+  $('dup-list').innerHTML=pairs.length?pairs.map(p=>`<div class="dup-pair lvl${p.level}">
+    <div class="dup-pair-head"><span class="dup-lvl lvl${p.level}">${p.level===3?'Likely duplicate':p.level===2?'Possible duplicate':'Note'}</span><span class="dup-reason">${esc(p.reason)}</span></div>
+    ${dupCompare(p.a,p.b)}
+    <div class="dup-pair-actions">
+      <button class="btn-mini" type="button" onclick="dismissDup('${p.key}')">✓ Not a duplicate</button>
+      <button class="btn-mini plain" type="button" onclick="dupEdit(${p.a.id})">✏ Edit #${p.a.id}</button>
+      <button class="btn-mini plain" type="button" onclick="dupEdit(${p.b.id})">✏ Edit #${p.b.id}</button>
+    </div></div>`).join(''):'<div class="empty-state">No duplicates to review. 🎉</div>';
+  $('dup-reset').style.display=dupIgnored.length?'inline-block':'none';
+}
+let dupView={mode:'all',id:null};
+function openDup(id){dupView={mode:'one',id};const it=portfolio.find(x=>x.id===id);
+  renderDupList(dupInfo.pairs.filter(p=>p.a.id===id||p.b.id===id),'Entries that look like #'+id+(it?' '+it.name:''));$('dupModal').classList.add('open');}
+function openDupAll(){dupView={mode:'all',id:null};renderDupList(dupInfo.pairs,dupInfo.pairs.length+' pair'+(dupInfo.pairs.length!==1?'s':'')+' to review');$('dupModal').classList.add('open');}
+function closeDup(){$('dupModal').classList.remove('open');}
+function refreshDup(){dupView.mode==='one'?openDup(dupView.id):openDupAll();}
+function dismissDup(key){if(!dupIgnored.includes(key))dupIgnored.push(key);saveDupIgnored();renderAll();refreshDup();showToast('Marked as not a duplicate.');}
+function resetDup(){dupIgnored=[];saveDupIgnored();renderAll();refreshDup();showToast('Dismissed duplicate flags restored.');}
+function dupEdit(id){closeDup();openEditModal(id);}
+// Used when adding a new item: warns before saving something that looks like an existing entry.
+function dupAgainst(item){
+  return portfolio.map(o=>({o,k:pairKind(item,o)})).filter(x=>x.k&&x.k.level>=2&&!dupIgnored.includes(pairKey(item,x.o)));
 }
 
 // ── OWNER DASHBOARD ───────────────────────────────────────────────────────────
@@ -1553,14 +1874,14 @@ function pricingBlock(p){
     <div class="pb-row c3">
       ${fld(p,'dia-carat','Total Carat (ct)','dia-carat',{step:'0.001',ph:'0.000'})}
       ${fld(p,'dia-ppc','Price per Carat (AED)','dia-ppc')}
-      ${fld(p,'dia-price','Diamond Price (AED)','dia-total',{cls:'dual',hint:'Carat × price/ct — or enter the total'})}
+      ${fld(p,'dia-price','Diamond Price (AED)','dia-total',{cls:'dual',hint:'Carat × price/ct, typed, or filled from the Total'})}
     </div>
     <div class="pb-tag">Making Charges, VAT &amp; Total</div>
     <div class="pb-row c4">
-      ${fld(p,'making','Making Charges (AED)','making',{cls:'dual',hint:'Enter manually, or fill the Total'})}
+      ${fld(p,'making','Making Charges (AED)','making',{cls:'dual',hint:'Type it, or enter the Total and it fills in'})}
       ${fld(p,'vat-rate','VAT Rate (%)','vat-rate',{step:'0.1',ph:'5'})}
       ${fld(p,'vat','VAT Amount (AED)','vat',{cls:'dual',hint:'Auto from rate · editable'})}
-      ${fld(p,'total-cost','Total Cost (AED)','total',{cls:'dual',hint:'Enter total → making auto-fills'})}
+      ${fld(p,'total-cost','Total Cost (AED)','total',{cls:'dual',hint:'Type the Total → pending fields fill in'})}
     </div>
     <div class="pb-preview" id="${p}-preview"></div>
   </div>`;
@@ -1572,8 +1893,13 @@ const nv=(p,id)=>{const v=parseFloat($p(p,id).value);return isFinite(v)?v:0;};
 const hasv=(p,id)=>$p(p,id).value!=='';
 const setv=(p,id,v,d)=>{$p(p,id).value=(v===null||v===undefined||!isFinite(v))?'':(+v).toFixed(d===undefined?2:d);};
 
-// trigger = which field the user just edited; the others are recalculated from it.
+// Pricing logic.  trigger = the field the user just edited.
+// Once a Total is typed it is "locked": whichever of Making / Diamond has NOT been typed by the user
+// is calculated from it (Total - VAT - Gold - the other).  Every field stays editable; overwriting
+// the last free field releases the lock and the Total follows the fields again.
+const pm={f:{making:false,dia:false,total:false},e:{making:false,dia:false,total:false}};
 function calcPricing(p,trigger){
+  const st=pm[p];
   const G=r2(nv(p,'weight')*nv(p,'price-g'));
   const ct=nv(p,'dia-carat');
 
@@ -1582,29 +1908,40 @@ function calcPricing(p,trigger){
   if(trigger==='dia-total'){
     D=r2(nv(p,'dia-price'));
     if(ct>0&&D>0)setv(p,'dia-ppc',D/ct);
+    st.dia=hasv(p,'dia-price');
   }else if(trigger==='dia-carat'||trigger==='dia-ppc'){
     const ppc=nv(p,'dia-ppc');
-    if(ct>0&&ppc>0){D=r2(ct*ppc);setv(p,'dia-price',D);}
+    if(ct>0&&ppc>0){D=r2(ct*ppc);setv(p,'dia-price',D);st.dia=true;}
     else if(trigger==='dia-carat'&&ct>0&&nv(p,'dia-price')>0){D=r2(nv(p,'dia-price'));setv(p,'dia-ppc',D/ct);}
-    else D=r2(nv(p,'dia-price'));
+    else{D=r2(nv(p,'dia-price'));if(!(D>0))st.dia=false;}
   }else D=r2(nv(p,'dia-price'));
 
-  // VAT: follows the rate unless the amount was typed by hand
+  if(trigger==='making')st.making=hasv(p,'making');
+  if(trigger==='total')st.total=hasv(p,'total-cost');
   if(trigger==='vat-rate')vatManual[p]=false;
   if(trigger==='vat')vatManual[p]=hasv(p,'vat');
   const rate=nv(p,'vat-rate')/100;
 
-  let M,V,T;
-  if(trigger==='total'&&hasv(p,'total-cost')){
-    // total typed → making charges = total − VAT − gold − diamond
+  let M=r2(nv(p,'making')),V,T,autoM=false,autoD=false;
+  if(st.total&&hasv(p,'total-cost')){
     T=r2(nv(p,'total-cost'));
-    if(vatManual[p]){V=r2(nv(p,'vat'));}
-    else{V=r2(T/(1+rate)*rate);setv(p,'vat',V);}
-    M=r2(T-V-G-D);
-    setv(p,'making',M);
+    const edited=trigger==='making'||trigger==='dia-total'||trigger==='dia-carat'||trigger==='dia-ppc';
+    if(st.making&&st.dia&&edited)st.total=false;           // user overwrote the last free field → Total follows again
+  }
+  if(st.total&&hasv(p,'total-cost')){
+    V=vatManual[p]?r2(nv(p,'vat')):r2(T/(1+rate)*rate);
+    if(!vatManual[p])setv(p,'vat',V);
+    const R=r2(T-V-G);                                       // what Making + Diamond must add up to
+    if(st.making&&!st.dia){                                  // Making typed → Diamond is the pending one
+      D=r2(R-M);autoD=true;
+      setv(p,'dia-price',D);
+      if(ct>0&&D>0)setv(p,'dia-ppc',D/ct);
+    }else{                                                   // Diamond typed (or neither) → Making is pending
+      M=r2(R-D);autoM=true;st.making=false;
+      setv(p,'making',M);
+    }
   }else{
-    // otherwise total = gold + diamond + making + VAT
-    M=r2(nv(p,'making'));
+    st.total=false;
     const S=r2(G+D+M);
     V=vatManual[p]?r2(nv(p,'vat')):r2(S*rate);
     if(!vatManual[p])setv(p,'vat',S!==0?V:null);
@@ -1612,12 +1949,17 @@ function calcPricing(p,trigger){
     if(trigger!=='total')setv(p,'total-cost',(S!==0||V!==0)?T:null);
   }
   setv(p,'gold-cost',G>0?G:null);
+  $p(p,'making').classList.toggle('is-auto',autoM);
+  $p(p,'dia-price').classList.toggle('is-auto',autoD);
+  $p(p,'total-cost').classList.toggle('is-auto',false);
 
   const prev=$p(p,'preview');
   if(G+D>0||T>0){
     prev.style.display='block';
-    prev.innerHTML=`Gold <b>${fmtNum(G)}</b> + Diamond <b>${fmtNum(D)}</b> + Making <b>${fmtNum(M)}</b>${G>0?` (${(M/G*100).toFixed(1)}% of gold)`:''} + VAT <b>${fmtNum(V)}</b> = Total <b>AED ${fmtNum(T)}</b>`
-      +(M<0?'<br><span class="warn">Making charges are negative — check the total, gold price or diamond price.</span>':'');
+    prev.innerHTML=`Gold <b>${fmtNum(G)}</b> + Diamond <b>${fmtNum(D)}</b>${autoD?' <i>(auto)</i>':''} + Making <b>${fmtNum(M)}</b>${autoM?' <i>(auto)</i>':''}${G>0?` (${(M/G*100).toFixed(1)}% of gold)`:''} + VAT <b>${fmtNum(V)}</b> = Total <b>AED ${fmtNum(T)}</b>`
+      +(st.total?'<br><span class="hint-line">Total is fixed — the free field adjusts. Type in a field to override it.</span>':'')
+      +(M<0?'<br><span class="warn">Making charges are negative — check the total, gold price or diamond price.</span>':'')
+      +(D<0?'<br><span class="warn">Diamond price is negative — the total is too low for the gold and making entered.</span>':'');
   }else prev.style.display='none';
 }
 function readPricing(p){
@@ -1631,7 +1973,7 @@ function resetAddForm(){
   ['f-name','f-owner','f-owner-id','f-store','f-invoice','f-location-notes','f-sell',
    'f-weight','f-price-g','f-gold-cost','f-dia-carat','f-dia-ppc','f-dia-price','f-making','f-vat','f-total-cost'].forEach(id=>$(id).value='');
   $('f-vat-rate').value=VAT_DEFAULT;
-  vatManual.f=false;
+  vatManual.f=false;pm.f={making:false,dia:false,total:false};
   $('f-preview').style.display='none';
   media.f={photos:[],bills:[]};renderMedia('f');
 }
@@ -1652,6 +1994,7 @@ function saveItem(){
   const name=$('f-name').value.trim(),owner=$('f-owner').value.trim(),date=$('f-date').value,store=$('f-store').value.trim();
   const pr=readPricing('f');
   if(!name||!owner||!date||!store||!pr.weight||!pr.priceG){alert('Please fill all required fields (*)');return;}
+  if(pr.diamondPrice<0){alert('Diamond price is negative — please check the total, gold or making charges.');return;}
   const sell=$('f-sell').value;
   const sold=sell!==''&&+sell>0;
   const item=normItem({
@@ -1666,6 +2009,8 @@ function saveItem(){
     photos:[...media.f.photos],bills:[...media.f.bills],
     sellPrice:sold?+sell:null,
   });
+  const hits=dupAgainst(item);
+  if(hits.length&&!confirm('This looks like a duplicate of an existing entry:\n\n'+hits.slice(0,3).map(h=>'• #'+h.o.id+' '+h.o.name+' ('+h.o.owner+', '+h.o.date+', '+fmtNum(h.o.weight)+' g) — '+h.k.reason).join('\n')+'\n\nSave it anyway?')){nextId--;return;}
   portfolio.push(item);
   if(!saveData()){/* toast already shown; keep item in memory for this session */}
   resetAddForm();
@@ -1702,8 +2047,9 @@ function openEditModal(id){
   $p('e','vat-rate').value=+item.vatRate||0;
   $p('e','vat').value=+item.vat>0?item.vat:'';
   const S=goldCost(item)+diamondCost(item)+(+item.making||0);
+  pm.e={making:false,dia:+item.diamondPrice>0,total:false};
   vatManual.e=Math.abs((+item.vat||0)-r2(S*(+item.vatRate||0)/100))>0.01;
-  calcPricing('e','making');
+  calcPricing('e','init');
   $('editModal').classList.add('open');
 }
 function saveEdit(){
@@ -1712,6 +2058,7 @@ function saveEdit(){
   const idx=portfolio.findIndex(i=>i.id===editTargetId);if(idx===-1)return;
   const pr=readPricing('e');
   if(!pr.weight||!pr.priceG){alert('Gold weight and gold price are required.');return;}
+  if(pr.diamondPrice<0){alert('Diamond price is negative — please check the total, gold or making charges.');return;}
   const sell=$('e-sell').value;
   const sold=sell!==''&&+sell>0;
   let loc=$('e-location').value;
@@ -1841,6 +2188,7 @@ function exportPDF(){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+$('adv-filters').innerHTML=advBlock();
 $('f-pricing').innerHTML=pricingBlock('f');
 $('f-media').innerHTML=mediaBlock('f');
 $('e-media').innerHTML=mediaBlock('e');
